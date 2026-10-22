@@ -1,0 +1,59 @@
+The language spoken in this video is **Mandarin Chinese**. 
+
+Here is the exact transcription of the speech, followed by the English translation:
+
+---
+
+### Chinese Transcription (原文转录)
+
+**00:00**  
+OK，然后现在做的交易就是一些全市场的交易了。比如说有些黄金，然后大饼，然后包括一些美股上的一些品种，对吧？比如说标准普尔500的这些期货，然后纳斯达克指数期货。你看，这这里面的一些，对吧？
+
+**00:14**  
+然后可能就是用的这些方法可能大家并不是很了解，对吧？这是一个订单流的一个方法。就说我是通过这个深层数据分析，然后去做交易。
+
+**00:23**  
+这是……嗯……就是怎么讲呢，其实就在交易里面，其实它是有很多不确定性的，对吧？
+
+**00:29**  
+就是说我如果去判断市场的方向，我永远是通过历史数据去预测未来的方向，所以这东西它是有个概率的，对吧？但是交易里面是有一些确定性的。你比如说我做的这笔纳指的这笔交易，对不对？
+
+**00:41**  
+就是它的这个逻辑其实非常简单，就整个它是一个……它是基于市场微观结构的一个交易，对吧？你看这个是浮盈170——浮盈170美刀啊。然后做了一个突破的，做了一个突破的一个交易啊。然后你可以看到这边其实是有一些单子在托着，所以说它还是有概率就是会继续，会继续延续一下这个趋势，然后或者是回踩一下这边。
+
+**01:05**  
+所以这个就是我们平时在做的一些，平时我们在做的一些事情吧。然后可能有一些散户他们没有接触过这种东西，但是它并不是什么……就是它并没有什么特别难的。后面我们在杭州这边也会开一些线下课程。
+
+**01:20**  
+就是……就是一些短线交易的一个培训吧。因为我不希望就是说，可能华人的性格就是说，他自己有、他自己懂的一些东西他不愿去告诉别人。但实际上这个东西在国内可能没有什么人做，但在海外其实有非常多的交易者都、都、都、都是在做一些剥头皮啊，在做一些这、在做一些这些东西。
+
+**01:41**  
+所以我希望就是说我能把国内的这个交易的氛围也给带上去，对吧？然后就是把自己的这些知识去做一些分享，对吧？因为我其实蛮看好国内的这些市场的，对吧？可能未来的一段时间国内会有越来越多的全职交易员。然后国内的股市、然后商品期货可能也会有越来越大的这个市场，对吧？就参与者会越来越多，然后整个市场的市值也会越来越大。对，这就是我想做的……
+
+---
+
+### English Translation
+
+**00:00**  
+OK, so the trading we're doing right now spans across entire global markets. For example, there's gold, then Bitcoin ("big pancake"), and also some assets in the US stock market, right? For instance, S&P 500 futures, and Nasdaq index futures. You see, some of these right here, right?
+
+**00:14**  
+And perhaps people aren't very familiar with the methods being used here, right? This is an order flow method. That is to say, I execute trades through deep market data analysis.
+
+**00:23**  
+This is... um... how should I put it? In trading, there is actually a lot of uncertainty, right?
+
+**00:29**  
+When I try to judge market direction, I am always using historical data to forecast future direction, so this is fundamentally a matter of probability, right? But within trading, there are certain elements of certainty. Take this Nasdaq trade I took, for example, right?
+
+**00:41**  
+The logic behind it is actually very simple. Overall, it's a trade based on market microstructure, right? Look here, this is showing an unrealized profit of 170—floating profit of $170. It was a breakout trade. And as you can see over here, there are resting orders holding/propping it up, which means there's a good probability that it will continue, continue to sustain this trend, or pull back/retest this level here.
+
+**01:05**  
+So this is what we usually do—what we typically work on. Some retail traders might not have been exposed to this kind of thing, but it's not something... it's not actually that difficult. Down the road, we will also host some in-person courses here in Hangzhou.
+
+**01:20**  
+That will be... training on short-term trading. Because I don't want to see—well, the typical trait among Chinese traders is often that if someone knows something or has an edge, they are reluctant to share it with others. But in reality, while maybe not many people do this domestically [in mainland China], overseas there are tons of traders who are all doing scalping and trading this way.
+
+**01:41**  
+So I hope to elevate the trading atmosphere here domestically, right? And share some of this knowledge. Because I'm actually quite bullish on the domestic markets here, right? In the coming period, there might be more and more full-time traders in China. And the domestic stock market, along with commodity futures, will likely grow into much larger markets, right? There will be more and more participants, and the total market cap will continue to grow. Yes, this is what I want to do...

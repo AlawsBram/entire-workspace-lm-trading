@@ -1,0 +1,430 @@
+[
+ {
+  "name": "__cf_ob",
+  "value": "%7B%22cb%22%3A%7B%22cC%22%3A0%2C%22xC%22%3A0%2C%22pC%22%3A0%2C%22sC%22%3A4%2C%22cL%22%3A%5B%5D%7D%2C%22f%22%3A%7B%22t%22%3A%5B%7B%22e%22%3A1%2C%22el%22%3A%22input%5Btext%5D%23market-order-amount-%22%2C%22ts%22%3A3805.6999999999534%7D%2C%7B%22e%22%3A0%2C%22el%22%3A%22input%5Btext%5D%23market-order-amount-%22%2C%22ts%22%3A4410.399999999907%7D%5D%7D%2C%22k%22%3A%7B%22t%22%3A%5B%5D%7D%2C%22n%22%3A%7B%22t%22%3A%5B%7B%22p%22%3A%22%2Fevent%2Fbtc-updown-5m-1790432700%22%2C%22t%22%3A%22fd4eb59ff1448cf42c06044601eb0871%22%2C%22nT%22%3A%22navigate%22%2C%22r%22%3A%22%22%2C%22ts%22%3A2063%2C%22dw%22%3A25106%7D%5D%7D%2C%22ptr%22%3A%7B%22pt%22%3A0%2C%22l%22%3A%5B%5D%2C%22tr%22%3Afalse%7D%2C%22v%22%3A%7B%22vH%22%3A0%2C%22vV%22%3A25247.09999999986%2C%22vC%22%3A0%2C%22fO%22%3A0%2C%22fI%22%3A0%7D%2C%22_to%22%3A1790432830224.5%2C%22_ti%22%3A%22f9db4ad6-7411-49d8-a68d-bdb71f511e4b%22%2C%22_tsrc%22%3A%22new%22%7D",
+  "domain": "polymarket.com",
+  "path": "/cdn-cgi/challenge-platform",
+  "expires": -1,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "None",
+  "partitionKey": "https://polymarket.com",
+  "_crHasCrossSiteAncestor": false
+ },
+ {
+  "name": "X-AB",
+  "value": "fdd34b6cca4442abb1dd924e72de3cbe",
+  "domain": "sc-static.net",
+  "path": "/scevent.min.js",
+  "expires": 1790519240.649208,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "None"
+ },
+ {
+  "name": "pm_geo",
+  "value": "%7B%22geolocation%22%3A%22%7B%5C%22country%5C%22%3A%5C%22US%5C%22%2C%5C%22countryRegion%5C%22%3A%5C%22OR%5C%22%2C%5C%22city%5C%22%3A%5C%22The%20Dalles%5C%22%7D%22%2C%22restricted%22%3A%22true%22%7D",
+  "domain": "polymarket.com",
+  "path": "/",
+  "expires": -1,
+  "httpOnly": false,
+  "secure": false,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "pm_eid",
+  "value": "160b4752-1d48-4070-87aa-126c20836e10",
+  "domain": "polymarket.com",
+  "path": "/",
+  "expires": 1824992830.342007,
+  "httpOnly": false,
+  "secure": false,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "pm_attr_first",
+  "value": "%257B%2522landing_page%2522%253A%2522%252Fevent%252Fbtc-updown-5m-1790432700%2522%252C%2522ts%2522%253A1790432830333%257D",
+  "domain": "polymarket.com",
+  "path": "/",
+  "expires": 1824992830.34203,
+  "httpOnly": false,
+  "secure": false,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "cf_clearance",
+  "value": "oL.WJpCt9.57tV5K.GvqamSw7Ij7W0FNEgGDO44aRIg-1790432832-1.2.1.1-FBLZhGLLNqgLH3mIjnfHtnSqRrQ7kxa2cT5t7VFGVtgXxMZp149T5bTAIxvsq9sAD1spEI3WhsYpWOZyU5ivHyuMhy5wFSLAOvPupWCvwBFIXsgJqLrTAFv6DkbqqomOPIILD1zd75cTFJQVJmxRJUN.PWbgsMvUeloMNGFIMtGmVbs6nIlzW2JKZ3FJvXtlZNwYa5U7ff1f4flwsZZ3q6JztYjGf0GJwD6NlR9DBqLaZTOizOMn5Tos0b1weRpCgI9Bbi.vw7YNXRHB8oguZCzxg.4K4CIAsbJ5A0HEZwteilevF_a6J5Hoe.D9CkrCxt0xSmfpdZozPYL3FQufOot0xJH.2RS8MN4d8HX01ZQiAuop4b98LSmqgfZ3kTf9bU5BYw4C0wCvJ.XLK5vrGmyMS6MMPhAq.fQV.25LZxtmoJeEtQAERnqU5VnM1XuXFo2XYh1ALJJLsLF__e3q7bc6tJSGpoPvkjKKDyAAfbar8qiw.VSD64E56NfOIBgaY3Pu__OYwBy0emHHY3NcJpLr9_FZ4PigW6Ufbr35S02PX_5uiDOI82HrI6IBmudfE25y_ggEPbapy6Cg3VzAQoH6Ab0c9b98DCVX5QzugNXUCDYn0RTtEdVbV1tbvrd_bNtIz0kgMhhJMyeSfY1xqkhf6USEn0V5a4Kn8AeCskRFNQVtp0y4vI2jZbFLBlL0vHXM9TMv8H.zb9EfyQceGL2eAb16aFLjeL1oy8Qjq02o82PFKmrlAEPZR88o7ZU6",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1821968832.25283,
+  "httpOnly": true,
+  "secure": true,
+  "sameSite": "None",
+  "partitionKey": "https://polymarket.com",
+  "_crHasCrossSiteAncestor": false
+ },
+ {
+  "name": "__cf_bm",
+  "value": "YjNX79a7kpKRVl0N5tN75BC7Vbh7TAf0A01hzk.kuN8-1790432832.2614262-1.0.1.1-n.Yo323t7iO_SiD9KtwEdDW.wbFRlEWe6mmEIa9_.GfCkmusmXM2cbjecPU3PI8cEk5ouoG8bofG2rGWUfGLb2KND4iamC3TGzk2xJ5s1VTlnjPk6sTXnVZHTZGjsE3m",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1790434632.252916,
+  "httpOnly": true,
+  "secure": true,
+  "sameSite": "None"
+ },
+ {
+  "name": "ajs_anonymous_id",
+  "value": "89cc16d7-c678-43b5-a074-ed394bf9b3c5",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1821968839,
+  "httpOnly": false,
+  "secure": false,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "dd_cookie_test_6eb4b502-93dd-42cb-9428-8c6428c0566c",
+  "value": "test",
+  "domain": "auth.magic.link",
+  "path": "/",
+  "expires": 1790432895.728,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "None",
+  "partitionKey": "https://polymarket.com",
+  "_crHasCrossSiteAncestor": true
+ },
+ {
+  "name": "_dd_s_v2",
+  "value": "aid=45935262-fa7e-4b18-bc46-6b60c7074ae1&id=7368d527-14ac-438e-89cb-9897399533d6&created=1790432836021&expire=1790433736021&c=1",
+  "domain": "auth.magic.link",
+  "path": "/",
+  "expires": 1821968836.021,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "None",
+  "partitionKey": "https://polymarket.com",
+  "_crHasCrossSiteAncestor": true
+ },
+ {
+  "name": "_gcl_au",
+  "value": "1.1.18310529.1790432836",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1798208836,
+  "httpOnly": false,
+  "secure": false,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "_ga_LLH3PPH2FV",
+  "value": "GS2.1.s1790432836$o1$g0$t1790432836$j60$l0$h0",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1824992837.01113,
+  "httpOnly": false,
+  "secure": false,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "_ga",
+  "value": "GA1.1.1182800820.1790432837",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1824992837.011731,
+  "httpOnly": false,
+  "secure": false,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "IDE",
+  "value": "AHWqTUniRCUtxoMD-orKck28cnHPDD1LVn17r3eSr29nHkTYpoOAU0OmIFyhmflf",
+  "domain": ".doubleclick.net",
+  "path": "/",
+  "expires": 1824992837.25516,
+  "httpOnly": true,
+  "secure": true,
+  "sameSite": "None"
+ },
+ {
+  "name": "_twpid",
+  "value": "tw.1790432837279.66366427964183944",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1824128847.368384,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "Strict"
+ },
+ {
+  "name": "guest_id_marketing",
+  "value": "v1%3A179043283763757593",
+  "domain": ".twitter.com",
+  "path": "/",
+  "expires": 1824992837.636371,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "None"
+ },
+ {
+  "name": "guest_id_ads",
+  "value": "v1%3A179043283763757593",
+  "domain": ".twitter.com",
+  "path": "/",
+  "expires": 1824992837.636432,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "None"
+ },
+ {
+  "name": "personalization_id",
+  "value": "\"v1_UknvWemRWq6B+lmcD1af1w==\"",
+  "domain": ".twitter.com",
+  "path": "/",
+  "expires": 1824992837.636451,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "None"
+ },
+ {
+  "name": "guest_id",
+  "value": "v1%3A179043283763757593",
+  "domain": ".twitter.com",
+  "path": "/",
+  "expires": 1824992837.636463,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "None"
+ },
+ {
+  "name": "__cf_bm",
+  "value": "Kyqkx3EgKH6b54LlLsTDsvocRepkL.TdlzimNkEL38s-1790432837.6270874-1.0.1.1-loICA5U9PMdVlHxDr2k877J1G4cHwirZtPyu6P8rOYgMprn5RX3rpadZzewPuHITD9bxN6P3ZdqmhsTHlUMC1l3IdkYtcJ7xz26ngQ7VrJoDZ172vuM_AKCVzOqCwlpc",
+  "domain": ".twitter.com",
+  "path": "/",
+  "expires": 1790434637.636477,
+  "httpOnly": true,
+  "secure": true,
+  "sameSite": "None"
+ },
+ {
+  "name": "muc_ads",
+  "value": "334b83c8-31d3-4abc-96df-bd7b6f37ec7d",
+  "domain": ".t.co",
+  "path": "/",
+  "expires": 1824992837.63899,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "None"
+ },
+ {
+  "name": "__cf_bm",
+  "value": "DL7eWaIQ2RJKZYuE1yYGGg.vFcla3_XiIz0trt2pJEc-1790432837.6323416-1.0.1.1-bRuqj0kPveRKykOWgvgGg2KbnfPkE.SI5wZ9UORnI4QD23jUPWMDO3HrxBIY5nrqBb.PyKgDp9un1xLOuwxBx5re4K2YiG7yeMWUsApfAM7_1abgbxO17i8G5xG4uCuw",
+  "domain": ".t.co",
+  "path": "/",
+  "expires": 1790434637.639116,
+  "httpOnly": true,
+  "secure": true,
+  "sameSite": "None"
+ },
+ {
+  "name": "htjs_anonymous_id",
+  "value": "160b4752-1d48-4070-87aa-126c20836e10",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1821968839,
+  "httpOnly": false,
+  "secure": false,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "htjs_sesh",
+  "value": "{%22id%22:1790432839881%2C%22expiresAt%22:1790434639881%2C%22timeout%22:1800000%2C%22sessionStart%22:true%2C%22autoTrack%22:true}",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1821968839,
+  "httpOnly": false,
+  "secure": false,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "AMP_MKTG_4572e28e5c",
+  "value": "JTdCJTdE",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1821968840,
+  "httpOnly": false,
+  "secure": false,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "AMP_4572e28e5c",
+  "value": "JTdCJTIyZGV2aWNlSWQlMjIlM0ElMjJlMDUwODkxNC00YjUyLTQwZTgtOGNiZC0wYzhjMTU1OGE5YjQlMjIlMkMlMjJzZXNzaW9uSWQlMjIlM0ExNzkwNDMyODQwMTk2JTJDJTIyb3B0T3V0JTIyJTNBZmFsc2UlMkMlMjJsYXN0RXZlbnRUaW1lJTIyJTNBMTc5MDQzMjg0MDQxMSUyQyUyMmxhc3RFdmVudElkJTIyJTNBMiUyQyUyMnBhZ2VDb3VudGVyJTIyJTNBMSUyQyUyMmNvb2tpZURvbWFpbiUyMiUzQSUyMi5wb2x5bWFya2V0LmNvbSUyMiU3RA==",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1821968840,
+  "httpOnly": false,
+  "secure": false,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "_rdt_uuid",
+  "value": "1790432840645.b6750da1-f87a-43c5-8f1a-68448d44ae03",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1798208840,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "Strict"
+ },
+ {
+  "name": "_scid",
+  "value": "quHOqrlW00VGTBW7DKnmQH32ijKUoSGo",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1824560840,
+  "httpOnly": false,
+  "secure": false,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "_scid_r",
+  "value": "quHOqrlW00VGTBW7DKnmQH32ijKUoSGo",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1824560840,
+  "httpOnly": false,
+  "secure": false,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "_fbp",
+  "value": "fb.1.1790432840577.306709553496989421",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1798208841,
+  "httpOnly": false,
+  "secure": false,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "TapAd_TS",
+  "value": "1790432840996",
+  "domain": ".tapad.com",
+  "path": "/",
+  "expires": 1795616840.981507,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "None"
+ },
+ {
+  "name": "TapAd_DID",
+  "value": "a85050d3-dfbd-4adb-94c4-eb39b42d43d7",
+  "domain": ".tapad.com",
+  "path": "/",
+  "expires": 1795616840.981588,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "None"
+ },
+ {
+  "name": "TapAd_3WAY_SYNCS",
+  "value": "",
+  "domain": ".tapad.com",
+  "path": "/",
+  "expires": 1795616840.981632,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "None"
+ },
+ {
+  "name": "sc_at",
+  "value": "v2|H4sIAAAAAAAA/03GwRGAMAgEwIqY4fAiwW7AhCpSvF/3tTTHXG0SMVJI3FLKV2Llrq7O8nFAfeChvGwS51f9AMy+ROZAAAAA",
+  "domain": ".snapchat.com",
+  "path": "/",
+  "expires": 1824128841.031364,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "None"
+ },
+ {
+  "name": "_sctr",
+  "value": "1%7C1790380800000",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1824560841,
+  "httpOnly": false,
+  "secure": false,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "fr",
+  "value": "0d5IOonJOT2vSfY1w..Bqt9ZJ...1.0.Bqt9ZJ.AWerq7nMrCDjLP8nbWMRd3oSdMw",
+  "domain": ".facebook.com",
+  "path": "/",
+  "expires": 1798208841.808953,
+  "httpOnly": true,
+  "secure": true,
+  "sameSite": "None"
+ },
+ {
+  "name": "intercom-id-zryw7npl",
+  "value": "e5d4d6ea-1f56-4aaa-8b07-6b4577fdfd89",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1813762842,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "intercom-session-zryw7npl",
+  "value": "",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1791037642,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "intercom-device-id-zryw7npl",
+  "value": "e3bf866b-b265-4a09-9b9f-65ae5a91f98c",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1813762842,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "_tt_enable_cookie",
+  "value": "1",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1824128844,
+  "httpOnly": false,
+  "secure": false,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "_ttp",
+  "value": "01M3F1T752BTEZ9B6X48MGJ3VH_.tt.1.1790432845065",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1824128845,
+  "httpOnly": false,
+  "secure": false,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "_twsid",
+  "value": "1790432837279-974623869.1.1790432847366",
+  "domain": ".polymarket.com",
+  "path": "/",
+  "expires": 1824128847.366854,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "Strict"
+ }
+]

@@ -1,0 +1,78 @@
+[12:31:24Z] truth_recorder starting -> /home/user/truth_lab/truth_data (rounds: ['5m', '15m'])
+[12:31:25Z] RTDS connected
+[12:35:00Z] 5m 1791981300: open refs snapped twap=82828.42
+[12:36:33Z] alive 300s twap=82756.6
+[12:40:00Z] 5m 1791981300: round ended — finalizer spawned
+[12:40:00Z] 5m 1791981600: open refs snapped twap=82747.95
+[12:40:56Z] 5m 1791981300: CHAIN TRUTH Down lag=57s
+[12:42:05Z] alive 600s twap=82623.0
+[12:43:03Z] 5m 1791981300: gamma FINAL Down lag=183s
+[12:43:04Z] VERDICT 5m 1791981300: chain=Down gamma=Down(lag 183.1s) pr=Down(match=True) arbiter=Down(match=True) house=OK
+[12:45:00Z] 5m 1791981600: round ended — finalizer spawned
+[12:45:00Z] 5m 1791981900: open refs snapped twap=82678.24
+[12:45:00Z] 15m 1791981900: open refs snapped twap=82678.24
+[12:45:56Z] 5m 1791981600: CHAIN TRUTH Down lag=57s
+[12:47:33Z] 5m 1791981600: gamma FINAL Down lag=153s
+[12:47:34Z] VERDICT 5m 1791981600: chain=Down gamma=Down(lag 153.0s) pr=Up(match=False) arbiter=Down(match=True) house=OK
+[12:47:56Z] alive 900s twap=82753.6
+[12:49:08Z] truth_recorder starting -> /home/user/truth_lab/truth_data (rounds: ['5m', '15m'])
+[12:49:09Z] RTDS connected
+[10:13:09Z] truth_recorder starting -> /home/user/truth_lab/truth_data (rounds: ['5m', '15m'])
+[10:13:09Z] FATAL: pip install websockets
+[10:13:09Z] WARN binance tick: HTTP Error 451: 
+[10:13:14Z] WARN binance tick: HTTP Error 451: 
+[10:13:19Z] WARN binance tick: HTTP Error 451: 
+[10:13:24Z] WARN binance tick: HTTP Error 451: 
+[10:13:29Z] WARN binance tick: HTTP Error 451: 
+[10:13:34Z] WARN binance tick: HTTP Error 451: 
+[10:13:39Z] WARN binance tick: HTTP Error 451: 
+[10:13:44Z] WARN binance tick: HTTP Error 451: 
+[10:13:49Z] WARN binance tick: HTTP Error 451: 
+[10:13:54Z] WARN binance tick: HTTP Error 451: 
+[10:13:59Z] WARN binance tick: HTTP Error 451: 
+[10:14:04Z] WARN binance tick: HTTP Error 451: 
+[10:14:09Z] WARN binance tick: HTTP Error 451: 
+[10:14:18Z] truth_recorder starting -> /home/user/truth_lab/truth_data (rounds: ['5m', '15m'])
+[10:14:19Z] DAILY boundary 1791993600: open ref snapped 81700.06
+[10:14:20Z] RTDS connected
+[10:15:00Z] 5m 1792059300: open refs snapped twap=80996.20
+[10:15:00Z] 15m 1792059300: open refs snapped twap=80996.20
+[10:20:00Z] 5m 1792059600: open refs snapped twap=81091.12
+[10:20:00Z] 5m 1792059300: round ended — finalizer spawned
+[10:20:36Z] alive 300s twap=81064.9
+[10:21:27Z] 5m 1792059300: CHAIN TRUTH Up lag=87s
+[10:24:11Z] 5m 1792059300: gamma FINAL Up lag=251s
+[10:24:12Z] VERDICT 5m 1792059300: chain=Up gamma=Up(lag 251.1s) pr=Up(match=True) arbiter=Up(match=True) house=OK
+[10:25:00Z] 5m 1792059600: round ended — finalizer spawned
+[10:25:00Z] 5m 1792059900: open refs snapped twap=80892.86
+[10:26:05Z] 5m 1792059600: gamma FINAL Down lag=66s
+[10:26:27Z] 5m 1792059600: CHAIN TRUTH Down lag=88s
+[10:26:41Z] VERDICT 5m 1792059600: chain=Down gamma=Down(lag 65.9s) pr=Down(match=True) arbiter=Down(match=True) house=OK
+[10:27:03Z] alive 600s twap=80904.9
+[10:30:00Z] 5m 1792059900: round ended — finalizer spawned
+[10:30:00Z] 15m 1792059300: round ended — finalizer spawned
+[10:30:00Z] 5m 1792060200: open refs snapped twap=80899.26
+[10:30:00Z] 15m 1792060200: open refs snapped twap=80899.26
+[10:31:29Z] 5m 1792059900: CHAIN TRUTH Up lag=89s
+[10:31:29Z] 15m 1792059300: CHAIN TRUTH Down lag=89s
+[10:33:27Z] alive 900s twap=81033.8
+[10:33:34Z] 15m 1792059300: gamma FINAL Down lag=215s
+[10:33:35Z] VERDICT 15m 1792059300: chain=Down gamma=Down(lag 214.9s) pr=None(match=) arbiter=Down(match=True) house=OK
+[10:34:46Z] 5m 1792059900: gamma FINAL Up lag=286s
+[10:34:47Z] VERDICT 5m 1792059900: chain=Up gamma=Up(lag 286.1s) pr=Up(match=True) arbiter=Up(match=True) house=OK
+[10:35:00Z] 5m 1792060200: round ended — finalizer spawned
+[10:35:00Z] 5m 1792060500: open refs snapped twap=81041.65
+[10:35:57Z] 5m 1792060200: CHAIN TRUTH Up lag=58s
+[10:36:36Z] 5m 1792060200: gamma FINAL Up lag=96s
+[10:36:41Z] VERDICT 5m 1792060200: chain=Up gamma=Up(lag 96.0s) pr=Up(match=True) arbiter=Up(match=True) house=OK
+[10:39:59Z] alive 1200s twap=81052.3
+[10:40:00Z] 5m 1792060500: round ended — finalizer spawned
+[10:40:00Z] 5m 1792060800: open refs snapped twap=81053.11
+[10:40:53Z] 5m 1792060500: CHAIN TRUTH Up lag=53s
+[10:45:00Z] 5m 1792061100: open refs snapped twap=80824.14
+[10:45:00Z] 15m 1792061100: open refs snapped twap=80824.14
+[10:45:00Z] 5m 1792060800: round ended — finalizer spawned
+[10:45:00Z] 15m 1792060200: round ended — finalizer spawned
+[12:01:31Z] truth_recorder starting -> /home/user/truth_lab/truth_data (rounds: ['5m', '15m'])
+[12:01:31Z] DAILY boundary 1791993600: open ref snapped 81700.06
+[12:01:32Z] RTDS connected

@@ -1,0 +1,265 @@
+import type { EvmProvider } from "./types";
+import { WALLET_REQUEST_TIMEOUT_MS } from "./constants";
+import { isWalletConnectResetError } from "./wallet";
+
+export function toPaddedHex(value: bigint) {
+  return value.toString(16).padStart(64, "0");
+}
+
+export function toPaddedAddress(address: string) {
+  return String(address || "")
+    .toLowerCase()
+    .replace(/^0x/, "")
+    .padStart(64, "0");
+}
+
+export function buildAllowanceCalldata(owner: string, spender: string) {
+  return `0xdd62ed3e${toPaddedAddress(owner)}${toPaddedAddress(spender)}`;
+}
+
+export function buildApproveCalldata(spender: string, amount: bigint) {
+  return `0x095ea7b3${toPaddedAddress(spender)}${toPaddedHex(amount)}`;
+}
+
+export function buildBalanceOfCalldata(owner: string) {
+  return `0x70a08231${toPaddedAddress(owner)}`;
+}
+
+export async function requestWalletWithTimeout<T>(
+  provider: EvmProvider,
+  args: { method: string; params?: unknown[] },
+  actionLabel = "钱包操作",
+  timeoutMs = WALLET_REQUEST_TIMEOUT_MS,
+): Promise<T> {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return (await Promise.race([
+      provider.request(args),
+      new Promise<never>((_, reject) => {
+        timeoutId = setTimeout(() => {
+          reject(
+            new Error(
+              `${actionLabel}长时间无响应，请确认钱包弹窗是否被拦截；如使用 Binance Web3 Wallet，请回到钱包确认或重新连接后再试。`,
+            ),
+          );
+        }, timeoutMs);
+      }),
+    ])) as T;
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId);
+  }
+}
+
+export function formatTokenUnits(amount: bigint, decimals: number) {
+  const safeDecimals =
+    Number.isFinite(decimals) && decimals >= 0 ? Math.floor(decimals) : 6;
+  const base = 10n ** BigInt(safeDecimals);
+  const whole = amount / base;
+  const fraction = amount % base;
+  if (fraction === 0n) return whole.toString();
+  const rawFraction = fraction.toString().padStart(safeDecimals, "0");
+  const trimmed = rawFraction.replace(/0+$/, "");
+  return `${whole.toString()}.${trimmed}`;
+}
+
+export type NormalizedPaymentError = {
+  message: string;
+  pending: boolean;
+  userRejected: boolean;
+};
+
+export function looksLikeHtmlDocument(value: string) {
+  const text = String(value || "").trim().toLowerCase();
+  return (
+    text.startsWith("<!doctype html") ||
+    text.startsWith("<html") ||
+    /<title>[^<]*(50\d|cloudflare|polyweather\.top)/i.test(String(value || ""))
+  );
+}
+
+function containsCjk(value: string) {
+  return /[\u3400-\u9fff]/.test(value);
+}
+
+function safePaymentServiceUnavailableMessage(fallback: string) {
+  return containsCjk(fallback)
+    ? "支付服务暂时不可用，请稍后重试；如果已经付款，请保存 Tx Hash 联系管理员。"
+    : "Payment service is temporarily unavailable. Please retry shortly; if you already paid, keep the Tx Hash and contact support.";
+}
+
+export async function readPaymentApiErrorMessage(
+  response: Response,
+  fallback = "Request failed",
+  limit = 300,
+) {
+  const raw = await response.text();
+  const trimmed = String(raw || "").trim();
+  if (!trimmed) return fallback;
+  let message = "";
+  try {
+    const parsed = JSON.parse(trimmed) as {
+      error?: unknown;
+      detail?: unknown;
+      message?: unknown;
+    };
+    const parsedMessage = [parsed.error, parsed.detail, parsed.message].find(
+      (item) => typeof item === "string" && item.trim(),
+    );
+    if (typeof parsedMessage === "string") message = parsedMessage.trim();
+  } catch {
+    message = trimmed;
+  }
+  const candidate = message || trimmed;
+  if (looksLikeHtmlDocument(candidate)) {
+    return safePaymentServiceUnavailableMessage(fallback);
+  }
+  return candidate.slice(0, limit);
+}
+
+export function normalizePaymentError(error: unknown): NormalizedPaymentError {
+  const source = error as any;
+  const code = Number(
+    source?.code ??
+      source?.error?.code ??
+      source?.data?.code ??
+      source?.cause?.code ??
+      NaN,
+  );
+  const messageCandidates = [
+    source?.shortMessage,
+    source?.message,
+    source?.reason,
+    source?.data?.message,
+    source?.cause?.message,
+    source?.error?.message,
+    error instanceof Error ? error.message : "",
+    typeof error === "string" ? error : "",
+  ];
+  const rawMessage = messageCandidates
+    .find(
+      (item) =>
+        typeof item === "string" &&
+        item.trim() &&
+        item.trim().toLowerCase() !== "[object object]",
+    )
+    ?.trim();
+  const lower = String(rawMessage || "").toLowerCase();
+
+  if (
+    lower.includes("confirm pending") ||
+    lower.includes("payment pending timeout")
+  ) {
+    return {
+      message: "链上交易已提交，正在确认中，请稍后刷新查看状态。",
+      pending: true,
+      userRejected: false,
+    };
+  }
+
+  if (isWalletConnectResetError(error)) {
+    return {
+      message:
+        "WalletConnect 连接已重置，请重新扫码连接；若仍失败，请先在钱包里断开旧连接后再试。",
+      pending: false,
+      userRejected: false,
+    };
+  }
+
+  const userRejected =
+    code === 4001 ||
+    /user rejected|user denied|rejected request|cancelled|canceled|拒绝|取消|签名请求已拒绝/.test(
+      lower,
+    );
+  if (userRejected) {
+    return {
+      message: "你已取消钱包操作。单号已保留，可直接重试支付，无需重建订单。",
+      pending: false,
+      userRejected: true,
+    };
+  }
+
+  const chainMismatch =
+    code === 4902 ||
+    /wrong network|unsupported chain|switch chain|chain.*mismatch|invalid chain|chain id|network.*mismatch|请切换.*网络|add.*chain/i.test(
+      lower,
+    ) ||
+    /chain/i.test(lower) && /mismatch|wrong|unsupported|switch|invalid/i.test(lower);
+  if (chainMismatch) {
+    return {
+      message: "网络不匹配：请在钱包中切换到 Polygon 网络后重试。如未添加 Polygon，请先添加。",
+      pending: false,
+      userRejected: false,
+    };
+  }
+
+  const insufficientTokenBalance =
+    /insufficient.*balance|exceeds balance|exceeds.*allowance|transfer amount exceeds|erc20.*insufficient|not enough.*usdc|usdc.*insufficient|余额不足/i.test(
+      lower,
+    ) && !/gas|pol|matic|network fee|手续费/.test(lower);
+  if (insufficientTokenBalance) {
+    return {
+      message: "支付代币余额不足：USDC 余额不足以支付本次订单，请充值后重试。单号已保留。",
+      pending: false,
+      userRejected: false,
+    };
+  }
+
+  const insufficientGas =
+    (code === -32000 &&
+      /insufficient funds/.test(lower) &&
+      /(gas|fee|native|pol|matic)/.test(lower)) ||
+    /not enough pol|insufficient (pol|matic)|insufficient funds for gas|network fee|网络费|手续费/.test(
+      lower,
+    );
+  if (insufficientGas) {
+    return {
+      message: "钱包 POL 不足，无法支付链上手续费，请先充值少量 POL 后重试。",
+      pending: false,
+      userRejected: false,
+    };
+  }
+
+  const rpcError =
+    /timeout|timed out|network error|fetch failed|connection.*failed|could not detect network|rpc error|disconnected|offline/i.test(
+      lower,
+    );
+  if (rpcError) {
+    return {
+      message: "网络连接超时或 RPC 异常，请检查网络/WalletConnect 连接后重试。",
+      pending: false,
+      userRejected: false,
+    };
+  }
+
+  const allowanceError = /allowance|approve/i.test(lower) && /fail|error|revert/i.test(lower);
+  if (allowanceError) {
+    return {
+      message: "授权失败：请在钱包中确认授权交易，或尝试重新授权。",
+      pending: false,
+      userRejected: false,
+    };
+  }
+
+  if (rawMessage) {
+    return {
+      message: rawMessage,
+      pending: false,
+      userRejected: false,
+    };
+  }
+
+  try {
+    return {
+      message: JSON.stringify(error),
+      pending: false,
+      userRejected: false,
+    };
+  } catch {
+    return {
+      message: "发生未知错误，请稍后重试。",
+      pending: false,
+      userRejected: false,
+    };
+  }
+}
+

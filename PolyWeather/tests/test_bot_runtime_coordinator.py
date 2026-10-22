@@ -1,0 +1,30 @@
+from src.bot.runtime_coordinator import RuntimeStatus, StartupCoordinator, render_runtime_status_html
+
+
+class DummyBot:
+    pass
+
+
+def test_startup_coordinator_respects_disable_flags(monkeypatch):
+    coordinator = StartupCoordinator(bot=DummyBot(), config={})
+    runtime = coordinator.start_all()
+    loop_map = runtime.loop_map()
+
+    assert "growth_milestone_reward" in loop_map
+    assert "payment_event" in loop_map
+    assert "payment_confirm" in loop_map
+    assert "weekly_reward" not in loop_map
+    assert "airport_high_freq_push" not in loop_map
+    assert "daily_weather_report" not in loop_map
+    assert "polygon_wallet_watch" not in loop_map
+
+
+def test_render_runtime_status_html_contains_key_fields():
+    runtime = RuntimeStatus(
+        started_at="2026-03-12 00:00:00 UTC",
+        loops=[],
+    )
+    html = render_runtime_status_html(runtime)
+
+    assert "Bot 启动诊断" in html
+    assert "后台循环" in html

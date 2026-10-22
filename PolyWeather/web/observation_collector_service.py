@@ -1,0 +1,645 @@
+"""Independent high-frequency observation collector for the web runtime."""
+
+from __future__ import annotations
+
+import os
+import threading
+import time
+from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass
+from typing import Any, Callable, Iterable, List, Optional, Sequence, Tuple
+
+from loguru import logger
+
+from src.data_collection.city_registry import CITY_REGISTRY
+from src.data_collection.hko_obs_sources import HKO_STATIONS
+from src.database.db_manager import DBManager
+from src.database.runtime_state import ObservationCollectorStatusRepository
+from web.services.analysis_utils import parse_utc_datetime
+from web.services.canonical_engine import (
+    build_realtime_event_from_canonical,
+    refresh_canonical_temperature_from_latest,
+)
+from web.services.canonical_temperature import build_canonical_temperature
+from web.services.observation_freshness import build_observation_freshness
+from web.services.observation_source_adapters import (
+    ObservationRecord,
+    collect_observation_source,
+)
+from web.realtime_event_store_factory import create_realtime_event_store
+
+
+def _env_bool(name: str, default: bool) -> bool:
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    return raw.strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _env_int(name: str, default: int) -> int:
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    try:
+        return int(raw)
+    except Exception:
+        return default
+
+
+def _normalized_cities(cities: Iterable[str]) -> Tuple[str, ...]:
+    return tuple(sorted({str(city or "").strip().lower() for city in cities if str(city or "").strip()}))
+
+
+@dataclass(frozen=True)
+class ObservationSourceProfile:
+    source: str
+    cities: Tuple[str, ...]
+    interval_sec: int
+
+
+class ObservationCollector:
+    def __init__(
+        self,
+        *,
+        weather: Any,
+        profiles: Sequence[ObservationSourceProfile],
+        cache_refresher: Optional[Callable[[str], Any]] = None,
+        status_recorder: Optional[ObservationCollectorStatusRepository] = None,
+        observation_store: Optional[Any] = None,
+        realtime_event_store: Optional[Any] = None,
+        realtime_broadcaster: Optional[Callable[[dict[str, Any]], Any]] = None,
+        async_cache_refresh: Optional[bool] = None,
+        cache_refresh_workers: Optional[int] = None,
+    ) -> None:
+        self.weather = weather
+        self.profiles = list(profiles)
+        self.cache_refresher = cache_refresher
+        self.status_recorder = status_recorder
+        self.observation_store = observation_store
+        self.realtime_event_store = realtime_event_store
+        self.realtime_broadcaster = realtime_broadcaster
+        self._last_run_ts: dict[tuple[str, str], float] = {}
+        self._lock = threading.Lock()
+        self._cache_refresh_lock = threading.Lock()
+        self._cache_refresh_inflight: set[str] = set()
+        self._cache_refresh_async = (
+            _env_bool("POLYWEATHER_OBSERVATION_COLLECTOR_CACHE_REFRESH_ASYNC", True)
+            if async_cache_refresh is None
+            else bool(async_cache_refresh)
+        )
+        worker_count = max(
+            1,
+            min(
+                4,
+                int(
+                    cache_refresh_workers
+                    if cache_refresh_workers is not None
+                    else _env_int("POLYWEATHER_OBSERVATION_COLLECTOR_CACHE_REFRESH_WORKERS", 2)
+                ),
+            ),
+        )
+        self._cache_refresh_executor: Optional[ThreadPoolExecutor] = (
+            ThreadPoolExecutor(max_workers=worker_count)
+            if callable(cache_refresher) and self._cache_refresh_async
+            else None
+        )
+
+    def run_due_once(self, *, now_ts: Optional[float] = None) -> int:
+        now = float(time.time() if now_ts is None else now_ts)
+        due: List[tuple[ObservationSourceProfile, str, Optional[int]]] = []
+        with self._lock:
+            for profile in self.profiles:
+                interval = max(1, int(profile.interval_sec or 60))
+                for city in profile.cities:
+                    key = (profile.source, city)
+                    last_ts = float(self._last_run_ts.get(key) or 0.0)
+                    if now - last_ts >= interval:
+                        self._last_run_ts[key] = now
+                        due.append((profile, city, None))
+
+        due.extend(self._claim_due_refresh_requests(now))
+
+        completed = 0
+        for profile, city, request_id in due:
+            started_wall = time.time()
+            started_ts = now if now_ts is not None else started_wall
+            ok = False
+            error: Optional[str] = None
+            try:
+                ok = self._collect_city_source(profile.source, city)
+                if ok:
+                    completed += 1
+                    self._refresh_city_cache(city)
+                else:
+                    error = "no_results"
+            except Exception as exc:
+                error = str(exc) or exc.__class__.__name__
+                self._store_raw_observation_status(
+                    source=profile.source,
+                    city=city,
+                    status=self._failure_status_from_exception(exc),
+                    error=error,
+                )
+                logger.warning(
+                    "observation collector source failed source={} city={}: {}",
+                    profile.source,
+                    city,
+                    exc,
+                )
+            finally:
+                completed_ts = started_ts + max(0.0, time.time() - started_wall)
+                self._record_source_status(
+                    profile=profile,
+                    city=city,
+                    due_ts=now,
+                    started_ts=started_ts,
+                    completed_ts=completed_ts,
+                    ok=ok,
+                    error=error,
+                )
+                self._mark_refresh_request_done(request_id, ok=ok, error=error)
+        return completed
+
+    def _claim_due_refresh_requests(self, now: float) -> List[tuple[ObservationSourceProfile, str, Optional[int]]]:
+        store = self.observation_store
+        claimer = getattr(store, "claim_observation_refresh_requests", None)
+        if not callable(claimer):
+            return []
+        try:
+            requests = claimer(limit=50, owner="observation_collector", now_ts=now)
+        except Exception as exc:
+            logger.debug("observation refresh request claim skipped: {}", exc)
+            return []
+        due: List[tuple[ObservationSourceProfile, str, Optional[int]]] = []
+        for request in requests or []:
+            if not isinstance(request, dict):
+                continue
+            city = str(request.get("city") or "").strip().lower()
+            requested_source = str(request.get("source") or "").strip().lower()
+            request_id = int(request.get("id") or 0) or None
+            matched = False
+            rate_limited = False
+            for profile in self.profiles:
+                profile_source = str(profile.source or "").strip().lower()
+                if requested_source and requested_source != profile_source:
+                    continue
+                if city not in set(profile.cities):
+                    continue
+                key = (profile.source, city)
+                interval = max(1, int(profile.interval_sec or 60))
+                with self._lock:
+                    last_ts = float(self._last_run_ts.get(key) or 0.0)
+                    if last_ts and now - last_ts < interval:
+                        rate_limited = True
+                        continue
+                    self._last_run_ts[key] = now
+                due.append((profile, city, request_id))
+                matched = True
+            if not matched:
+                reason = "rate_limited" if rate_limited else "no_matching_profile"
+                self._mark_refresh_request_done(request_id, ok=False, error=reason)
+        return due
+
+    def _mark_refresh_request_done(
+        self,
+        request_id: Optional[int],
+        *,
+        ok: bool,
+        error: Optional[str],
+    ) -> None:
+        if not request_id:
+            return
+        store = self.observation_store
+        marker = getattr(store, "mark_observation_refresh_request_done", None)
+        if not callable(marker):
+            return
+        try:
+            marker(
+                request_id,
+                status="done" if ok else "failed",
+                error="" if ok else str(error or "collection_failed"),
+            )
+        except Exception as exc:
+            logger.debug("observation refresh request completion skipped id={}: {}", request_id, exc)
+
+    def _record_source_status(
+        self,
+        *,
+        profile: ObservationSourceProfile,
+        city: str,
+        due_ts: float,
+        started_ts: float,
+        completed_ts: float,
+        ok: bool,
+        error: Optional[str],
+    ) -> None:
+        if not self.status_recorder:
+            return
+        try:
+            self.status_recorder.record_result(
+                source=profile.source,
+                city=city,
+                interval_sec=profile.interval_sec,
+                due_ts=due_ts,
+                started_ts=started_ts,
+                completed_ts=completed_ts,
+                ok=ok,
+                error=error,
+            )
+        except Exception as exc:
+            logger.warning(
+                "observation collector status write failed source={} city={}: {}",
+                profile.source,
+                city,
+                exc,
+            )
+
+    def _collect_city_source(self, source: str, city: str) -> bool:
+        normalized_source = str(source or "").strip().lower()
+        normalized_city = str(city or "").strip().lower()
+        if not normalized_source or not normalized_city:
+            return False
+        use_fahrenheit = bool(self.weather._uses_fahrenheit(normalized_city))
+        result = collect_observation_source(
+            self.weather,
+            normalized_source,
+            normalized_city,
+            use_fahrenheit=use_fahrenheit,
+        )
+        if result.status == "unsupported":
+            logger.debug("observation collector skipped unknown source={}", normalized_source)
+            return False
+        if result.status != "ok":
+            self._store_raw_observation_status(
+                source=result.source or normalized_source,
+                city=result.city or normalized_city,
+                status=result.status,
+                error=result.error,
+            )
+            return False
+        wrote = self._store_raw_observations(result.records)
+        if wrote <= 0:
+            self._store_raw_observation_status(
+                source=result.source or normalized_source,
+                city=result.city or normalized_city,
+                status="parse_error",
+                error="source response had no usable temperature",
+            )
+            return False
+        return True
+
+    @staticmethod
+    def _failure_status_from_exception(exc: Exception) -> str:
+        text = f"{exc.__class__.__name__} {exc}".lower()
+        if "timeout" in text or "timed out" in text:
+            return "timeout"
+        if "401" in text or "403" in text or "auth" in text or "unauthor" in text:
+            return "auth_error"
+        return "error"
+
+    def _store_canonical_temperature_from_observation(
+        self,
+        *,
+        record: ObservationRecord,
+        fetched_at: str,
+    ) -> None:
+        setter = getattr(self.observation_store, "set_canonical_temperature", None)
+        if not callable(setter):
+            return
+        freshness = build_observation_freshness(
+            source_code=record.source,
+            source_label=record.source_label,
+            observed_at=record.observed_at or None,
+            observed_at_local=record.observed_at_local or None,
+            ingested_at=fetched_at,
+            now_utc=parse_utc_datetime(fetched_at),
+        )
+        payload = {
+            "name": record.city,
+            "temp_symbol": "°F" if record.value_unit.startswith("f") else "°C",
+            "updated_at": fetched_at,
+            "current": {
+                "temp": record.value,
+                "source_code": record.source,
+                "source_label": record.source_label,
+                "settlement_source": record.source,
+                "settlement_source_label": record.source_label,
+                "station_code": record.station_code,
+                "station_name": record.station_name,
+                "observed_at": record.observed_at or None,
+                "observed_at_local": record.observed_at_local or None,
+                "obs_time": record.observed_at_local or record.observed_at,
+                "freshness": freshness,
+                "observation_status": "live",
+            },
+        }
+        canonical = build_canonical_temperature(record.city, payload, fetched_at=fetched_at)
+        if not canonical:
+            return
+        try:
+            setter(record.city, canonical)
+            self._append_realtime_event(canonical)
+        except Exception as exc:
+            logger.debug(
+                "canonical temperature write skipped source={} city={}: {}",
+                record.source,
+                record.city,
+                exc,
+            )
+
+    def _append_realtime_event(self, canonical: dict[str, Any]) -> None:
+        store = self.realtime_event_store
+        appender = getattr(store, "append_event", None)
+        if not callable(appender):
+            return
+        event = build_realtime_event_from_canonical(canonical)
+        if not event:
+            return
+        try:
+            stored_event = appender(event)
+        except Exception as exc:
+            logger.debug("realtime event append skipped city={}: {}", canonical.get("city"), exc)
+            return
+        broadcaster = self.realtime_broadcaster
+        if callable(broadcaster) and not bool(getattr(store, "uses_external_live_fanout", False)):
+            try:
+                broadcaster(stored_event)
+            except Exception as exc:
+                logger.debug("realtime event broadcast skipped city={}: {}", canonical.get("city"), exc)
+
+    def _store_raw_observation_status(
+        self,
+        *,
+        source: str,
+        city: str,
+        status: str,
+        error: str = "",
+    ) -> None:
+        store = self.observation_store
+        writer = getattr(store, "append_raw_observation", None)
+        if not callable(writer):
+            return
+        fetched_at = time.strftime("%Y-%m-%dT%H:%M:%S+00:00", time.gmtime())
+        try:
+            writer(
+                source=source,
+                city=city,
+                fetched_at=fetched_at,
+                status=status,
+                payload={
+                    "source": source,
+                    "city": city,
+                    "status": status,
+                    "error": str(error or "").strip(),
+                },
+            )
+        except Exception as exc:
+            logger.debug(
+                "raw observation status write skipped source={} city={}: {}",
+                source,
+                city,
+                exc,
+            )
+
+    @staticmethod
+    def _raw_payload_for_record(record: ObservationRecord) -> dict[str, Any]:
+        payload = dict(record.payload)
+        return payload
+
+    @staticmethod
+    def _float_or_none(value: Any) -> Optional[float]:
+        try:
+            if value is None or value == "":
+                return None
+            return float(value)
+        except (TypeError, ValueError):
+            return None
+
+    @staticmethod
+    def _int_or_none(value: Any) -> Optional[int]:
+        try:
+            if value is None or value == "":
+                return None
+            return int(float(value))
+        except (TypeError, ValueError):
+            return None
+
+
+    def _store_raw_observations(self, records: Sequence[ObservationRecord]) -> int:
+        store = self.observation_store
+        writer = getattr(store, "append_raw_observation", None)
+        if not callable(writer):
+            return len(records)
+        fetched_at = time.strftime("%Y-%m-%dT%H:%M:%S+00:00", time.gmtime())
+        wrote = 0
+        written_records: list[ObservationRecord] = []
+        for record in records:
+            try:
+                payload = self._raw_payload_for_record(record)
+                writer(
+                    source=record.source,
+                    city=record.city,
+                    value=record.value,
+                    observed_at=record.observed_at,
+                    fetched_at=fetched_at,
+                    station_code=record.station_code,
+                    station_name=record.station_name,
+                    runway=record.runway,
+                    value_unit=record.value_unit,
+                    status="ok",
+                    payload=payload,
+                )
+                written_records.append(record)
+                wrote += 1
+            except Exception as exc:
+                logger.debug(
+                    "raw observation store write skipped source={} city={}: {}",
+                    record.source,
+                    record.city,
+                    exc,
+                )
+        if wrote:
+            refreshed_cities: set[str] = set()
+            for city in {record.city for record in written_records}:
+                try:
+                    canonical = refresh_canonical_temperature_from_latest(self.observation_store, city)
+                except Exception as exc:
+                    logger.debug("canonical refresh skipped city={}: {}", city, exc)
+                    continue
+                if canonical:
+                    refreshed_cities.add(city)
+                    self._append_realtime_event(canonical)
+            for record in written_records:
+                if record.city not in refreshed_cities:
+                    self._store_canonical_temperature_from_observation(
+                        record=record,
+                        fetched_at=fetched_at,
+                    )
+            logger.debug("raw observations stored count={}", wrote)
+        return wrote
+
+    def _refresh_city_cache(self, city: str) -> None:
+        if not callable(self.cache_refresher):
+            return
+        normalized_city = str(city or "").strip().lower()
+        if not normalized_city:
+            return
+        if self._cache_refresh_executor is None:
+            self._refresh_city_cache_inline(normalized_city)
+            return
+        with self._cache_refresh_lock:
+            if normalized_city in self._cache_refresh_inflight:
+                return
+            self._cache_refresh_inflight.add(normalized_city)
+        try:
+            self._cache_refresh_executor.submit(self._refresh_city_cache_task, normalized_city)
+        except Exception as exc:
+            with self._cache_refresh_lock:
+                self._cache_refresh_inflight.discard(normalized_city)
+            logger.warning(
+                "observation collector cache refresh queue failed city={}: {}",
+                normalized_city,
+                exc,
+            )
+
+    def _refresh_city_cache_task(self, city: str) -> None:
+        try:
+            self._refresh_city_cache_inline(city)
+        finally:
+            with self._cache_refresh_lock:
+                self._cache_refresh_inflight.discard(city)
+
+    def _refresh_city_cache_inline(self, city: str) -> None:
+        try:
+            self.cache_refresher(city)
+        except Exception as exc:
+            logger.warning("observation collector cache refresh failed city={}: {}", city, exc)
+
+    def close(self) -> None:
+        if self._cache_refresh_executor is not None:
+            self._cache_refresh_executor.shutdown(wait=False)
+
+
+def build_observation_source_profiles() -> List[ObservationSourceProfile]:
+    us_madis_cities = [
+        city
+        for city, meta in CITY_REGISTRY.items()
+        if str((meta or {}).get("icao") or "").strip().upper().startswith("K")
+    ]
+    metar_cities = [
+        city
+        for city, meta in CITY_REGISTRY.items()
+        if str((meta or {}).get("icao") or "").strip()
+    ]
+    return [
+        ObservationSourceProfile(
+            source="madis_hfmetar",
+            cities=_normalized_cities(us_madis_cities),
+            interval_sec=max(60, _env_int("POLYWEATHER_OBSERVATION_COLLECTOR_MADIS_SEC", 300)),
+        ),
+        ObservationSourceProfile(
+            source="cowin_obs",
+            cities=("hong kong",),
+            interval_sec=max(30, _env_int("POLYWEATHER_OBSERVATION_COLLECTOR_COWIN_SEC", 60)),
+        ),
+        ObservationSourceProfile(
+            source="hko_obs",
+            cities=_normalized_cities(HKO_STATIONS.keys()),
+            interval_sec=max(60, _env_int("POLYWEATHER_OBSERVATION_COLLECTOR_HKO_SEC", 600)),
+        ),
+        ObservationSourceProfile(
+            source="jma_amedas",
+            cities=("tokyo",),
+            interval_sec=max(300, _env_int("POLYWEATHER_OBSERVATION_COLLECTOR_JMA_SEC", 600)),
+        ),
+        ObservationSourceProfile(
+            source="singapore_mss",
+            cities=("singapore",),
+            interval_sec=max(30, _env_int("POLYWEATHER_OBSERVATION_COLLECTOR_MSS_SEC", 60)),
+        ),
+        ObservationSourceProfile(
+            source="fmi",
+            cities=("helsinki",),
+            interval_sec=max(300, _env_int("POLYWEATHER_OBSERVATION_COLLECTOR_FMI_SEC", 600)),
+        ),
+        ObservationSourceProfile(
+            source="knmi",
+            cities=("amsterdam",),
+            interval_sec=max(300, _env_int("POLYWEATHER_OBSERVATION_COLLECTOR_KNMI_SEC", 600)),
+        ),
+        ObservationSourceProfile(
+            source="ims",
+            cities=("tel aviv",),
+            interval_sec=max(300, _env_int("POLYWEATHER_OBSERVATION_COLLECTOR_IMS_SEC", 600)),
+        ),
+        ObservationSourceProfile(
+            source="aeroweb",
+            cities=("paris",),
+            interval_sec=max(600, _env_int("POLYWEATHER_OBSERVATION_COLLECTOR_AEROWEB_SEC", 900)),
+        ),
+        ObservationSourceProfile(
+            source="metar",
+            cities=_normalized_cities(metar_cities),
+            interval_sec=max(600, _env_int("POLYWEATHER_OBSERVATION_COLLECTOR_METAR_SEC", 1800)),
+        ),
+    ]
+
+
+_COLLECTOR_THREAD: Optional[threading.Thread] = None
+_COLLECTOR_LOCK = threading.Lock()
+
+
+def start_observation_collector_loop(
+    *,
+    weather: Any,
+    cache_refresher: Optional[Callable[[str], Any]] = None,
+    profiles: Optional[Sequence[ObservationSourceProfile]] = None,
+    status_recorder: Optional[ObservationCollectorStatusRepository] = None,
+    observation_store: Optional[Any] = None,
+    realtime_event_store: Optional[Any] = None,
+    realtime_broadcaster: Optional[Callable[[dict[str, Any]], Any]] = None,
+) -> Optional[threading.Thread]:
+    if not _env_bool("POLYWEATHER_OBSERVATION_COLLECTOR_ENABLED", True):
+        return None
+    tick_sec = max(5, _env_int("POLYWEATHER_OBSERVATION_COLLECTOR_TICK_SEC", 30))
+    initial_delay_sec = max(
+        0,
+        _env_int("POLYWEATHER_OBSERVATION_COLLECTOR_INITIAL_DELAY_SEC", 5),
+    )
+    selected_profiles = list(profiles or build_observation_source_profiles())
+    collector = ObservationCollector(
+        weather=weather,
+        profiles=selected_profiles,
+        cache_refresher=cache_refresher,
+        status_recorder=status_recorder or ObservationCollectorStatusRepository(),
+        observation_store=observation_store or DBManager(),
+        realtime_event_store=realtime_event_store or create_realtime_event_store(),
+        realtime_broadcaster=realtime_broadcaster,
+    )
+
+    global _COLLECTOR_THREAD
+    with _COLLECTOR_LOCK:
+        if _COLLECTOR_THREAD is not None and _COLLECTOR_THREAD.is_alive():
+            return _COLLECTOR_THREAD
+
+        def _runner() -> None:
+            logger.info(
+                "observation collector started profiles={} tick_sec={}",
+                len(selected_profiles),
+                tick_sec,
+            )
+            if initial_delay_sec:
+                time.sleep(initial_delay_sec)
+            while True:
+                started = time.time()
+                collector.run_due_once(now_ts=started)
+                elapsed = time.time() - started
+                time.sleep(max(1.0, tick_sec - elapsed))
+
+        _COLLECTOR_THREAD = threading.Thread(
+            target=_runner,
+            name="observation-collector",
+            daemon=True,
+        )
+        _COLLECTOR_THREAD.start()
+        return _COLLECTOR_THREAD

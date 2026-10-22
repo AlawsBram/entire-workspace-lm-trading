@@ -1,0 +1,664 @@
+from datetime import datetime, timezone, timedelta
+import time
+
+from src.data_collection.nws_open_meteo_sources import (
+    OPEN_METEO_MULTI_MODEL_ORDER,
+    _parse_open_meteo_multi_model_daily,
+)
+from src.data_collection.forecast_source_bundle import ensure_multi_model_hourly_payload
+import src.data_collection.open_meteo_cache as open_meteo_cache_module
+import src.data_collection.weather_sources as weather_sources_module
+from src.data_collection.weather_sources import WeatherDataCollector
+from src.database.runtime_state import (
+    OpenMeteoCacheRepository,
+    OpenMeteoRateLimitRepository,
+    RuntimeStateDB,
+)
+
+
+def test_multi_model_parser_exposes_open_recommended_models():
+    daily = {
+        "time": ["2026-04-17", "2026-04-18"],
+        "temperature_2m_max_ecmwf_ifs025": [20.1, 21.1],
+        "temperature_2m_max_ecmwf_aifs025_single": [20.2, 21.2],
+        "temperature_2m_max_icon_eu": [20.3, 21.3],
+        "temperature_2m_max_icon_d2": [20.4, None],
+        "temperature_2m_max_gem_global": [19.8, 20.8],
+        "temperature_2m_max_gem_regional": [21.0, 22.0],
+        "temperature_2m_max_gem_hrdps_continental": [21.5, None],
+    }
+
+    dates, forecasts, metadata, model_keys = _parse_open_meteo_multi_model_daily(daily)
+
+    assert dates == ["2026-04-17", "2026-04-18"]
+    assert forecasts["2026-04-17"]["ECMWF"] == 20.1
+    assert forecasts["2026-04-17"]["ECMWF AIFS"] == 20.2
+    assert forecasts["2026-04-17"]["ICON-EU"] == 20.3
+    assert forecasts["2026-04-17"]["ICON-D2"] == 20.4
+    assert forecasts["2026-04-17"]["GDPS"] == 19.8
+    assert forecasts["2026-04-17"]["RDPS"] == 21.0
+    assert forecasts["2026-04-17"]["HRDPS"] == 21.5
+    assert "ICON-D2" not in forecasts["2026-04-18"]
+    assert metadata["ECMWF AIFS"]["provider"] == "ECMWF"
+    assert metadata["HRDPS"]["resolution_km"] == 2.5
+    assert model_keys["RDPS"] == "gem_regional"
+
+
+def test_multi_model_parser_exposes_north_america_open_meteo_models():
+    daily = {
+        "time": ["2026-06-05", "2026-06-06"],
+        "temperature_2m_max_gfs_global": [92.1, 91.4],
+        "temperature_2m_max_ncep_hrrr_conus": [92.3, None],
+        "temperature_2m_max_ncep_nbm_conus": [87.2, 88.7],
+        "temperature_2m_max_ncep_nam_conus": [87.9, 91.7],
+        "temperature_2m_max_ncep_gfs_graphcast025": [84.4, 86.1],
+        "temperature_2m_max_ncep_aigfs025": [85.9, 88.3],
+    }
+
+    dates, forecasts, metadata, model_keys = _parse_open_meteo_multi_model_daily(daily)
+
+    assert dates == ["2026-06-05", "2026-06-06"]
+    assert forecasts["2026-06-05"]["GFS Global"] == 92.1
+    assert forecasts["2026-06-05"]["HRRR"] == 92.3
+    assert forecasts["2026-06-05"]["NBM"] == 87.2
+    assert forecasts["2026-06-05"]["NAM"] == 87.9
+    assert forecasts["2026-06-05"]["GFS GraphCast"] == 84.4
+    assert forecasts["2026-06-05"]["AI-GFS"] == 85.9
+    assert "HRRR" not in forecasts["2026-06-06"]
+    assert metadata["HRRR"]["provider"] == "NOAA"
+    assert metadata["NBM"]["tier"] == "regional_north_america"
+    assert model_keys["AI-GFS"] == "ncep_aigfs025"
+
+
+def test_multi_model_order_includes_legacy_and_new_sources():
+    assert "ecmwf_ifs025" in OPEN_METEO_MULTI_MODEL_ORDER
+    assert "ecmwf_aifs025_single" in OPEN_METEO_MULTI_MODEL_ORDER
+    assert "gfs_seamless" in OPEN_METEO_MULTI_MODEL_ORDER
+    assert "icon_seamless" in OPEN_METEO_MULTI_MODEL_ORDER
+    assert "icon_eu" in OPEN_METEO_MULTI_MODEL_ORDER
+    assert "icon_d2" in OPEN_METEO_MULTI_MODEL_ORDER
+    assert "gem_seamless" in OPEN_METEO_MULTI_MODEL_ORDER
+    assert "gem_global" in OPEN_METEO_MULTI_MODEL_ORDER
+    assert "gem_regional" in OPEN_METEO_MULTI_MODEL_ORDER
+    assert "gem_hrdps_continental" in OPEN_METEO_MULTI_MODEL_ORDER
+    assert "gfs_global" in OPEN_METEO_MULTI_MODEL_ORDER
+    assert "ncep_hrrr_conus" in OPEN_METEO_MULTI_MODEL_ORDER
+    assert "ncep_nbm_conus" in OPEN_METEO_MULTI_MODEL_ORDER
+    assert "ncep_nam_conus" in OPEN_METEO_MULTI_MODEL_ORDER
+    assert "ncep_gfs_graphcast025" in OPEN_METEO_MULTI_MODEL_ORDER
+    assert "ncep_aigfs025" in OPEN_METEO_MULTI_MODEL_ORDER
+    assert "jma_seamless" in OPEN_METEO_MULTI_MODEL_ORDER
+
+
+def test_multi_model_default_cache_version_refreshes_noaa_model_set(monkeypatch):
+    monkeypatch.delenv("OPEN_METEO_MULTI_MODEL_CACHE_VERSION", raising=False)
+
+    collector = WeatherDataCollector({})
+
+    assert collector.multi_model_cache_version == "v5"
+
+
+def test_madis_patch_uses_city_display_unit_for_us(monkeypatch):
+    collector = WeatherDataCollector({})
+    emitted = []
+    stored = []
+
+    monkeypatch.setattr(
+        collector,
+        "fetch_madis_hfmetar",
+        lambda: [
+            {
+                "icao": "KHOU",
+                "temp_c": 19.4,
+                "obs_time": "2026-05-27T17:00:00+00:00",
+                "wind_kt": 8.0,
+            }
+        ],
+    )
+    monkeypatch.setattr(
+        collector,
+        "_emit_temperature_patch_if_changed",
+        lambda city, temp, obs_time=None, **kwargs: emitted.append(
+            {
+                "city": city,
+                "temp": temp,
+                "obs_time": obs_time,
+                **kwargs,
+            }
+        ),
+    )
+
+    class FakeDBManager:
+        def append_airport_obs(self, **kwargs):
+            stored.append(kwargs)
+
+    monkeypatch.setattr(
+        "src.data_collection.weather_sources.DBManager",
+        lambda: FakeDBManager(),
+    )
+
+    results = {}
+    collector._attach_madis_hfmetar_data(
+        results,
+        "houston",
+        use_fahrenheit=True,
+    )
+
+    assert results["madis_hfmetar_current"]["temp"] == 66.9
+    assert results["madis_hfmetar_current"]["temp_c"] == 19.4
+    assert emitted[0]["temp"] == 66.9
+    assert emitted[0]["extra"]["temp_c"] == 19.4
+    assert emitted[0]["extra"]["unit"] == "fahrenheit"
+    assert stored[0]["temp_c"] == 19.4
+
+
+def test_fetch_all_sources_prioritizes_multi_model_before_forecast(monkeypatch, tmp_path):
+    monkeypatch.setenv("OPEN_METEO_DISK_CACHE_PATH", str(tmp_path / "om-cache.json"))
+    collector = WeatherDataCollector({})
+    calls = []
+
+    monkeypatch.setattr(collector, "_log_temperature_unit", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_settlement_sources", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_supports_aviationweather", lambda city: False)
+    monkeypatch.setattr(collector, "_attach_israel_ims_data", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_madis_hfmetar_data", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_singapore_mss_data", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_cowin_official_nearby", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_japan_official_nearby", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_fmi_official_nearby", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_knmi_official_nearby", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_hko_obs_official_nearby", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_global_nearby_cluster", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "fetch_ensemble", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "fetch_nws", lambda *args, **kwargs: None)
+
+    def fake_multi_model(*args, **kwargs):
+        calls.append("multi_model")
+        return {"forecasts": {"ECMWF": 24.0, "GFS": 25.0}}
+
+    def fake_open_meteo(*args, **kwargs):
+        calls.append("open_meteo")
+        return {"utc_offset": 10800, "daily": {"temperature_2m_max": [24]}}
+
+    monkeypatch.setattr(collector, "fetch_multi_model", fake_multi_model)
+    monkeypatch.setattr(collector, "fetch_from_open_meteo", fake_open_meteo)
+
+    result = collector.fetch_all_sources(
+        "ankara",
+        lat=40.1281,
+        lon=32.9951,
+        include_ensemble=False,
+        include_nearby=False,
+        include_taf=False,
+    )
+
+    assert calls[:2] == ["multi_model", "open_meteo"]
+    assert result["multi_model"]["forecasts"]["ECMWF"] == 24.0
+
+
+def test_fetch_all_sources_delegates_non_hf_forecast_bundle(monkeypatch, tmp_path):
+    monkeypatch.setenv("OPEN_METEO_DISK_CACHE_PATH", str(tmp_path / "om-cache.json"))
+    collector = WeatherDataCollector({})
+    calls = []
+
+    monkeypatch.setattr(collector, "_log_temperature_unit", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_evict_city_caches", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_settlement_sources", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_supports_aviationweather", lambda city: False)
+    monkeypatch.setattr(collector, "_attach_cowin_official_nearby", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_madis_hfmetar_data", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_singapore_mss_data", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_israel_ims_data", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_saudi_ncm_data", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_paris_aeroweb_data", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_hko_obs_official_nearby", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_japan_official_nearby", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_fmi_official_nearby", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_knmi_official_nearby", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_cowin_official_nearby", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_hko_obs_official_nearby", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_global_nearby_cluster", lambda *args, **kwargs: None)
+
+    def fake_forecast_bundle(collector_arg, **kwargs):
+        calls.append({"collector": collector_arg, **kwargs})
+        return {
+            "open-meteo": {
+                "utc_offset": 10800,
+                "daily": {"temperature_2m_max": [24.0]},
+            },
+            "multi_model": {"forecasts": {"ECMWF": 24.5}},
+        }
+
+    monkeypatch.setattr(
+        weather_sources_module,
+        "fetch_open_meteo_forecast_bundle",
+        fake_forecast_bundle,
+    )
+
+    result = collector.fetch_all_sources(
+        "ankara",
+        lat=40.1281,
+        lon=32.9951,
+        force_refresh_observations_only=True,
+        include_ensemble=False,
+        include_nearby=False,
+        include_taf=False,
+    )
+
+    assert calls == [
+        {
+            "collector": collector,
+            "city": "ankara",
+            "lat": 40.1281,
+            "lon": 32.9951,
+            "use_fahrenheit": False,
+            "include_multi_model": True,
+            "cache_only": True,
+        }
+    ]
+    assert result["open-meteo"]["utc_offset"] == 10800
+    assert result["multi_model"]["forecasts"]["ECMWF"] == 24.5
+
+
+def test_open_meteo_cache_only_reads_multi_model_without_forecast_cache():
+    from src.data_collection.forecast_source_bundle import fetch_open_meteo_forecast_bundle
+
+    today = datetime.now(timezone.utc).date().isoformat()
+
+    class DummyLock:
+        def __enter__(self):
+            return None
+
+        def __exit__(self, *_args):
+            return False
+
+    class FakeCollector:
+        multi_model_cache_version = "v5"
+        _open_meteo_cache = {}
+        _open_meteo_cache_lock = DummyLock()
+        _multi_model_cache_lock = DummyLock()
+        _multi_model_cache = {
+            "48.9694:2.4414:paris:c:v5": {
+                "data": {
+                    "hourly_times": [f"{today}T15:00"],
+                    "hourly_forecasts": {"ECMWF": [24.5]},
+                    "forecasts": {"ECMWF": 27.0},
+                }
+            }
+        }
+
+        def _maybe_reload_open_meteo_disk_cache(self):
+            return None
+
+    result = fetch_open_meteo_forecast_bundle(
+        FakeCollector(),
+        city="paris",
+        lat=48.9694,
+        lon=2.4414,
+        use_fahrenheit=False,
+        include_multi_model=True,
+        cache_only=True,
+    )
+
+    assert result["multi_model"]["hourly_forecasts"]["ECMWF"] == [24.5]
+
+
+def test_ensure_multi_model_hourly_payload_fetches_missing_hourly_outside_analysis_layer():
+    calls = []
+
+    class FakeCollector:
+        def fetch_multi_model(self, lat, lon, *, city, use_fahrenheit):
+            calls.append(
+                {
+                    "lat": lat,
+                    "lon": lon,
+                    "city": city,
+                    "use_fahrenheit": use_fahrenheit,
+                }
+            )
+            return {
+                "hourly_times": ["2026-06-14T10:00"],
+                "hourly_forecasts": {"ECMWF": [24.1]},
+                "forecasts": {"ECMWF": 26.0},
+            }
+
+    result = ensure_multi_model_hourly_payload(
+        FakeCollector(),
+        {"forecasts": {"GFS": 25.0}},
+        city="ankara",
+        lat=40.1281,
+        lon=32.9951,
+        use_fahrenheit=False,
+    )
+
+    assert calls == [
+        {
+            "lat": 40.1281,
+            "lon": 32.9951,
+            "city": "ankara",
+            "use_fahrenheit": False,
+        }
+    ]
+    assert result["forecasts"] == {"ECMWF": 26.0}
+    assert result["hourly_times"] == ["2026-06-14T10:00"]
+    assert result["hourly_forecasts"]["ECMWF"] == [24.1]
+
+
+def test_ensure_multi_model_hourly_payload_reuses_existing_hourly():
+    class FakeCollector:
+        def fetch_multi_model(self, *_args, **_kwargs):
+            raise AssertionError("existing hourly payload should not fetch again")
+
+    result = ensure_multi_model_hourly_payload(
+        FakeCollector(),
+        {
+            "forecasts": {"GFS": 25.0},
+            "hourly_times": ["2026-06-14T10:00"],
+            "hourly_forecasts": {"GFS": [24.0]},
+        },
+        city="ankara",
+        lat=40.1281,
+        lon=32.9951,
+        use_fahrenheit=False,
+    )
+
+    assert result["forecasts"]["GFS"] == 25.0
+    assert result["hourly_forecasts"]["GFS"] == [24.0]
+
+
+def test_force_refresh_preserves_open_meteo_model_caches_by_default(monkeypatch, tmp_path):
+    monkeypatch.setenv("OPEN_METEO_DISK_CACHE_PATH", str(tmp_path / "om-cache.json"))
+    collector = WeatherDataCollector({})
+    captured = {}
+
+    def fake_evict(*args, **kwargs):
+        captured["keep_model_caches"] = kwargs.get("keep_model_caches")
+
+    monkeypatch.setattr(collector, "_evict_city_caches", fake_evict)
+    monkeypatch.setattr(collector, "_log_temperature_unit", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_settlement_sources", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_supports_aviationweather", lambda city: False)
+    monkeypatch.setattr(collector, "fetch_multi_model", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "fetch_from_open_meteo", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_nws_and_models", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_israel_ims_data", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_madis_hfmetar_data", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_singapore_mss_data", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_cowin_official_nearby", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_japan_official_nearby", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_fmi_official_nearby", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_knmi_official_nearby", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_hko_obs_official_nearby", lambda *args, **kwargs: None)
+    monkeypatch.setattr(collector, "_attach_global_nearby_cluster", lambda *args, **kwargs: None)
+
+    collector.fetch_all_sources(
+        "ankara",
+        lat=40.1281,
+        lon=32.9951,
+        force_refresh=True,
+        include_ensemble=False,
+        include_nearby=False,
+        include_taf=False,
+    )
+
+    assert captured["keep_model_caches"] is True
+
+
+def test_persisted_open_meteo_cooldown_skips_outbound_request(monkeypatch, tmp_path):
+    monkeypatch.setenv("POLYWEATHER_STATE_STORAGE_MODE", "sqlite")
+    monkeypatch.setenv("POLYWEATHER_DB_PATH", str(tmp_path / "polyweather.db"))
+    monkeypatch.setenv("OPEN_METEO_DISK_CACHE_PATH", str(tmp_path / "om-cache.json"))
+    db = RuntimeStateDB(str(tmp_path / "polyweather.db"))
+    cache_repo = OpenMeteoCacheRepository(db)
+    rate_repo = OpenMeteoRateLimitRepository(db)
+    monkeypatch.setattr(open_meteo_cache_module, "_open_meteo_cache_repo", cache_repo)
+    monkeypatch.setattr(open_meteo_cache_module, "_open_meteo_rate_limit_repo", rate_repo)
+
+    collector = WeatherDataCollector({})
+    cache_key = (
+        f"{round(float(40.1281), 4)}:{round(float(32.9951), 4)}:ankara:"
+        f"c:{collector.multi_model_cache_version}"
+    )
+    cache_repo.replace_payload(
+        {
+            "multi_model": {
+                cache_key: {
+                    "t": 9999999998.0,
+                    "data": {"forecasts": {"ECMWF": 26.0}},
+                }
+            }
+        },
+        max_age=86400,
+    )
+    collector._load_open_meteo_disk_cache()
+    rate_repo.set_until(9999999999.0, reason="test_429")
+
+    def fail_http(*args, **kwargs):
+        raise AssertionError("Open-Meteo HTTP request should be skipped during persisted cooldown")
+
+    monkeypatch.setattr(collector, "_http_get", fail_http)
+
+    result = collector.fetch_multi_model(40.1281, 32.9951, city="ankara")
+
+    assert result is not None  # cooldown returns cached data
+
+
+def test_fetch_multi_model_ignores_cache_when_dates_are_stale(monkeypatch, tmp_path):
+    monkeypatch.setenv("OPEN_METEO_DISK_CACHE_PATH", str(tmp_path / "om-cache.json"))
+    collector = WeatherDataCollector({})
+    today = datetime.now(timezone.utc).date()
+    old_dates = [
+        (today - timedelta(days=11)).isoformat(),
+        (today - timedelta(days=10)).isoformat(),
+    ]
+    fresh_dates = [today.isoformat(), (today + timedelta(days=1)).isoformat()]
+    cache_key = (
+        f"{round(float(48.9694), 4)}:{round(float(2.4414), 4)}:paris:"
+        f"c:{collector.multi_model_cache_version}"
+    )
+    collector._multi_model_cache[cache_key] = {
+        "t": time.time(),
+        "data": {
+            "dates": old_dates,
+            "daily_forecasts": {old_dates[0]: {"ECMWF": 24.0}},
+            "forecasts": {"ECMWF": 24.0},
+            "hourly_times": [f"{old_dates[0]}T15:00"],
+            "hourly_forecasts": {"ECMWF": [23.0]},
+        },
+    }
+    calls = []
+
+    class FakeResponse:
+        def raise_for_status(self):
+            return None
+
+        def json(self):
+            return {
+                "daily": {
+                    "time": fresh_dates,
+                    "temperature_2m_max_ecmwf_ifs025": [39.2, 33.0],
+                    "temperature_2m_max_gfs_seamless": [38.6, 32.5],
+                },
+                "hourly": {
+                    "time": [f"{fresh_dates[0]}T15:00", f"{fresh_dates[0]}T16:00"],
+                    "temperature_2m_ecmwf_ifs025": [38.8, 39.2],
+                    "temperature_2m_gfs_seamless": [38.0, 38.6],
+                },
+            }
+
+    monkeypatch.setattr(collector, "_wait_open_meteo_slot", lambda *_args, **_kwargs: None)
+    monkeypatch.setattr(
+        collector,
+        "_http_get",
+        lambda *args, **kwargs: calls.append((args, kwargs)) or FakeResponse(),
+    )
+
+    result = collector.fetch_multi_model(48.9694, 2.4414, city="paris")
+
+    assert len(calls) == 1
+    assert result["dates"][:2] == fresh_dates
+    assert result["forecasts"]["ECMWF"] == 39.2
+    assert result["forecasts"]["GFS"] == 38.6
+
+
+def test_fetch_open_meteo_ignores_cache_when_dates_are_stale(monkeypatch, tmp_path):
+    monkeypatch.setenv("OPEN_METEO_DISK_CACHE_PATH", str(tmp_path / "om-cache.json"))
+    collector = WeatherDataCollector({})
+    today = datetime.now(timezone.utc).date()
+    old_dates = [
+        (today - timedelta(days=11)).isoformat(),
+        (today - timedelta(days=10)).isoformat(),
+    ]
+    fresh_dates = [today.isoformat(), (today + timedelta(days=1)).isoformat()]
+    cache_key = f"{round(float(48.9694), 4)}:{round(float(2.4414), 4)}:14:c"
+    collector._open_meteo_cache[cache_key] = {
+        "t": time.time(),
+        "data": {
+            "source": "open-meteo",
+            "daily": {
+                "time": old_dates,
+                "temperature_2m_max": [24.5, 26.6],
+            },
+            "hourly": {"time": [f"{old_dates[0]}T15:00"], "temperature_2m": [24.0]},
+        },
+    }
+    calls = []
+
+    class FakeResponse:
+        def raise_for_status(self):
+            return None
+
+        def json(self):
+            return {
+                "current_weather": {"temperature": 32.0},
+                "utc_offset_seconds": 7200,
+                "timezone": "Europe/Paris",
+                "daily": {
+                    "time": fresh_dates,
+                    "temperature_2m_max": [39.2, 33.0],
+                    "sunrise": [f"{fresh_dates[0]}T05:30", f"{fresh_dates[1]}T05:31"],
+                    "sunset": [f"{fresh_dates[0]}T21:55", f"{fresh_dates[1]}T21:55"],
+                    "sunshine_duration": [36000, 33000],
+                },
+                "hourly": {
+                    "time": [f"{fresh_dates[0]}T15:00", f"{fresh_dates[0]}T16:00"],
+                    "temperature_2m": [38.8, 39.2],
+                },
+            }
+
+    monkeypatch.setattr(collector, "_wait_open_meteo_slot", lambda *_args, **_kwargs: None)
+    monkeypatch.setattr(
+        collector,
+        "_http_get",
+        lambda *args, **kwargs: calls.append((args, kwargs)) or FakeResponse(),
+    )
+
+    result = collector.fetch_from_open_meteo(48.9694, 2.4414)
+
+    assert len(calls) == 1
+    assert result["daily"]["time"][:2] == fresh_dates
+    assert result["daily"]["temperature_2m_max"][0] == 39.2
+
+
+def test_multi_model_hourly_parser():
+    from src.data_collection.nws_open_meteo_sources import _parse_open_meteo_multi_model_hourly
+
+    hourly = {
+        "time": ["2026-05-21T00:00", "2026-05-21T01:00"],
+        "temperature_2m_ecmwf_ifs025": [15.2, 15.0],
+        "temperature_2m_gfs_seamless": [14.8, None],
+        "temperature_2m_icon_d2": [None, None],  # completely empty, should be ignored
+    }
+
+    times, forecasts = _parse_open_meteo_multi_model_hourly(hourly)
+
+    assert times == ["2026-05-21T00:00", "2026-05-21T01:00"]
+    assert forecasts["ECMWF"] == [15.2, 15.0]
+    assert forecasts["GFS"] == [14.8, None]
+    assert "ICON-D2" not in forecasts
+
+
+def test_merge_multi_model_result_with_cache_hourly():
+    from src.data_collection.nws_open_meteo_sources import _merge_multi_model_result_with_cache
+
+    cached = {
+        "forecasts": {"ECMWF": 20.0, "GFS": 19.5, "ICON-EU": 19.8},
+        "daily_forecasts": {
+            "2026-05-21": {"ECMWF": 20.0, "GFS": 19.5, "ICON-EU": 19.8}
+        },
+        "hourly_times": ["2026-05-21T00:00", "2026-05-21T01:00"],
+        "hourly_forecasts": {
+            "ECMWF": [15.2, 15.0],
+            "GFS": [14.8, 14.5],
+            "ICON-EU": [15.0, 14.8],
+        },
+    }
+
+    fresh = {
+        "forecasts": {"ECMWF": 20.2},  # Only ECMWF returned (e.g. subset refresh)
+        "daily_forecasts": {
+            "2026-05-21": {"ECMWF": 20.2}
+        },
+        "hourly_times": ["2026-05-21T01:00", "2026-05-21T02:00"],  # time shifts forward
+        "hourly_forecasts": {
+            "ECMWF": [15.1, 15.3],
+        },
+    }
+
+    merged = _merge_multi_model_result_with_cache(cached, fresh)
+
+    # Standard checks
+    assert merged["forecasts"]["ECMWF"] == 20.2
+    assert merged["forecasts"]["GFS"] == 19.5
+    assert merged["forecasts"]["ICON-EU"] == 19.8
+
+    # Hourly merge and alignment checks
+    assert merged["hourly_times"] == ["2026-05-21T01:00", "2026-05-21T02:00"]
+    # At T01:00, fresh has ECMWF=15.1, cached has GFS=14.5, ICON-EU=14.8
+    assert merged["hourly_forecasts"]["ECMWF"] == [15.1, 15.3]
+    assert merged["hourly_forecasts"]["GFS"] == [14.5, None]
+    assert merged["hourly_forecasts"]["ICON-EU"] == [14.8, None]
+
+
+def test_merge_multi_model_result_drops_missing_short_range_hourly_from_cache():
+    from src.data_collection.nws_open_meteo_sources import _merge_multi_model_result_with_cache
+
+    cached = {
+        "forecasts": {"ECMWF": 28.0, "AROME HD": 27.0},
+        "daily_forecasts": {
+            "2026-06-16": {"ECMWF": 28.0, "AROME HD": 27.0}
+        },
+        "hourly_times": [
+            "2026-06-16T00:00",
+            "2026-06-16T01:00",
+            "2026-06-16T02:00",
+            "2026-06-16T03:00",
+            "2026-06-16T04:00",
+            "2026-06-16T05:00",
+        ],
+        "hourly_forecasts": {
+            "ECMWF": [21.0, 21.5, 22.0, 22.5, 23.0, 23.5],
+            "AROME HD": [25.0, 24.5, 24.0, 23.5, 23.0, 22.5],
+        },
+    }
+    fresh = {
+        "forecasts": {"ECMWF": 28.2},
+        "daily_forecasts": {"2026-06-16": {"ECMWF": 28.2}},
+        "hourly_times": [
+            "2026-06-16T00:00",
+            "2026-06-16T01:00",
+            "2026-06-16T02:00",
+            "2026-06-16T03:00",
+            "2026-06-16T04:00",
+            "2026-06-16T05:00",
+            "2026-06-16T06:00",
+        ],
+        "hourly_forecasts": {
+            "ECMWF": [21.2, 21.7, 22.2, 22.7, 23.2, 23.7, 24.0],
+        },
+    }
+
+    merged = _merge_multi_model_result_with_cache(cached, fresh)
+
+    assert merged["hourly_forecasts"]["ECMWF"] == [21.2, 21.7, 22.2, 22.7, 23.2, 23.7, 24.0]
+    assert "AROME HD" not in merged["hourly_forecasts"]

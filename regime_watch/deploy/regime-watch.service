@@ -1,0 +1,18 @@
+[Unit]
+Description=Polymarket regime-change sentinel (fees/ticks/delay/rewards/docs diff watcher)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/regime_watch
+ExecStart=/opt/regime_watch/run_watcher.sh
+Restart=always
+RestartSec=30
+# optional Telegram alerts — fill in or leave commented (log-only mode works fine)
+#Environment=TELEGRAM_BOT_TOKEN=...
+#Environment=TELEGRAM_CHAT_ID=...
+Environment=RW_INTERVAL=600
+
+[Install]
+WantedBy=multi-user.target

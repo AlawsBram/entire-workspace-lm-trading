@@ -1,0 +1,14 @@
+[Unit]
+Description=Polymarket truth-feed divergence recorder (measurement only, no keys)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/truth_lab
+ExecStart=/opt/truth_lab/run_recorder.sh
+Restart=always
+RestartSec=15
+
+[Install]
+WantedBy=multi-user.target

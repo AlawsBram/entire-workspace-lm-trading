@@ -1,0 +1,2666 @@
+[
+ {
+  "city": "amsterdam",
+  "day": "2026-10-21",
+  "q": "n Amsterdam be 7\u00b0C or below on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 531.45,
+  "edge": -0.021
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-21",
+  "q": "erature in Amsterdam be 8\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 531.45,
+  "edge": -0.021
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-21",
+  "q": "erature in Amsterdam be 9\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 516.49,
+  "edge": -0.021
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-21",
+  "q": "rature in Amsterdam be 10\u00b0C on October 21?",
+  "prob": 0.003,
+  "ask": 0.001,
+  "ask_sz": 132.5,
+  "edge": -0.018
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-21",
+  "q": "rature in Amsterdam be 11\u00b0C on October 21?",
+  "prob": 0.079,
+  "ask": 0.012,
+  "ask_sz": 9.15,
+  "edge": 0.047
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-21",
+  "q": "rature in Amsterdam be 12\u00b0C on October 21?",
+  "prob": 0.399,
+  "ask": 0.001,
+  "ask_sz": 774.54,
+  "edge": 0.378
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-21",
+  "q": "rature in Amsterdam be 13\u00b0C on October 21?",
+  "prob": 0.422,
+  "ask": 0.997,
+  "ask_sz": 35.74,
+  "edge": -0.595
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-21",
+  "q": "rature in Amsterdam be 14\u00b0C on October 21?",
+  "prob": 0.093,
+  "ask": 0.071,
+  "ask_sz": 39.99,
+  "edge": 0.002
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-21",
+  "q": "rature in Amsterdam be 15\u00b0C on October 21?",
+  "prob": 0.004,
+  "ask": 0.003,
+  "ask_sz": 99.98,
+  "edge": -0.019
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-21",
+  "q": "rature in Amsterdam be 16\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.006,
+  "ask_sz": 43.17,
+  "edge": -0.026
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-21",
+  "q": "Amsterdam be 17\u00b0C or higher on October 21?",
+  "prob": 0.0,
+  "ask": 0.002,
+  "ask_sz": 28.17,
+  "edge": -0.022
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-22",
+  "q": "n Amsterdam be 8\u00b0C or below on October 22?",
+  "prob": 0.0,
+  "ask": 0.01,
+  "ask_sz": 33.11,
+  "edge": -0.03
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-22",
+  "q": "erature in Amsterdam be 9\u00b0C on October 22?",
+  "prob": 0.004,
+  "ask": 0.001,
+  "ask_sz": 227.7,
+  "edge": -0.017
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-22",
+  "q": "rature in Amsterdam be 10\u00b0C on October 22?",
+  "prob": 0.051,
+  "ask": 0.009,
+  "ask_sz": 10.04,
+  "edge": 0.022
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-22",
+  "q": "rature in Amsterdam be 11\u00b0C on October 22?",
+  "prob": 0.225,
+  "ask": 0.005,
+  "ask_sz": 219.98,
+  "edge": 0.2
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-22",
+  "q": "rature in Amsterdam be 12\u00b0C on October 22?",
+  "prob": 0.386,
+  "ask": 0.056,
+  "ask_sz": 10.0,
+  "edge": 0.31
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-22",
+  "q": "rature in Amsterdam be 13\u00b0C on October 22?",
+  "prob": 0.259,
+  "ask": 0.51,
+  "ask_sz": 176.42,
+  "edge": -0.271
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-22",
+  "q": "rature in Amsterdam be 14\u00b0C on October 22?",
+  "prob": 0.068,
+  "ask": 0.47,
+  "ask_sz": 176.42,
+  "edge": -0.422
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-22",
+  "q": "rature in Amsterdam be 15\u00b0C on October 22?",
+  "prob": 0.007,
+  "ask": 0.009,
+  "ask_sz": 65.04,
+  "edge": -0.022
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-22",
+  "q": "rature in Amsterdam be 16\u00b0C on October 22?",
+  "prob": 0.0,
+  "ask": 0.003,
+  "ask_sz": 10.0,
+  "edge": -0.023
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-22",
+  "q": "rature in Amsterdam be 17\u00b0C on October 22?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 258.71,
+  "edge": -0.021
+ },
+ {
+  "city": "amsterdam",
+  "day": "2026-10-22",
+  "q": "Amsterdam be 18\u00b0C or higher on October 22?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 296.14,
+  "edge": -0.021
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-21",
+  "q": " Hong Kong be 28\u00b0C or below on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 11244.18,
+  "edge": -0.021
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-21",
+  "q": "rature in Hong Kong be 29\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 11017.72,
+  "edge": -0.021
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-21",
+  "q": "rature in Hong Kong be 30\u00b0C on October 21?",
+  "prob": 0.003,
+  "ask": 0.001,
+  "ask_sz": 10356.62,
+  "edge": -0.018
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-21",
+  "q": "rature in Hong Kong be 31\u00b0C on October 21?",
+  "prob": 0.034,
+  "ask": 0.001,
+  "ask_sz": 4801.72,
+  "edge": 0.013
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-21",
+  "q": "rature in Hong Kong be 33\u00b0C on October 21?",
+  "prob": 0.36,
+  "ask": 0.001,
+  "ask_sz": 10407.86,
+  "edge": 0.339
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-21",
+  "q": "rature in Hong Kong be 34\u00b0C on October 21?",
+  "prob": 0.306,
+  "ask": 0.001,
+  "ask_sz": 10241.43,
+  "edge": 0.285
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-21",
+  "q": "rature in Hong Kong be 35\u00b0C on October 21?",
+  "prob": 0.107,
+  "ask": 0.001,
+  "ask_sz": 10294.05,
+  "edge": 0.086
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-21",
+  "q": "rature in Hong Kong be 36\u00b0C on October 21?",
+  "prob": 0.015,
+  "ask": 0.001,
+  "ask_sz": 11118.79,
+  "edge": -0.006
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-21",
+  "q": "rature in Hong Kong be 37\u00b0C on October 21?",
+  "prob": 0.001,
+  "ask": 0.001,
+  "ask_sz": 11226.21,
+  "edge": -0.02
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-21",
+  "q": "Hong Kong be 38\u00b0C or higher on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 11318.34,
+  "edge": -0.021
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-22",
+  "q": " Hong Kong be 26\u00b0C or below on October 22?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 5129.47,
+  "edge": -0.021
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-22",
+  "q": "rature in Hong Kong be 27\u00b0C on October 22?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 5092.18,
+  "edge": -0.021
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-22",
+  "q": "rature in Hong Kong be 28\u00b0C on October 22?",
+  "prob": 0.0,
+  "ask": 0.005,
+  "ask_sz": 153.05,
+  "edge": -0.025
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-22",
+  "q": "rature in Hong Kong be 29\u00b0C on October 22?",
+  "prob": 0.006,
+  "ask": 0.048,
+  "ask_sz": 8.75,
+  "edge": -0.062
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-22",
+  "q": "rature in Hong Kong be 30\u00b0C on October 22?",
+  "prob": 0.045,
+  "ask": 0.27,
+  "ask_sz": 20.03,
+  "edge": -0.245
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-22",
+  "q": "rature in Hong Kong be 31\u00b0C on October 22?",
+  "prob": 0.167,
+  "ask": 0.53,
+  "ask_sz": 154.47,
+  "edge": -0.383
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-22",
+  "q": "rature in Hong Kong be 32\u00b0C on October 22?",
+  "prob": 0.311,
+  "ask": 0.2,
+  "ask_sz": 90.03,
+  "edge": 0.091
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-22",
+  "q": "rature in Hong Kong be 33\u00b0C on October 22?",
+  "prob": 0.293,
+  "ask": 0.021,
+  "ask_sz": 18.04,
+  "edge": 0.252
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-22",
+  "q": "rature in Hong Kong be 34\u00b0C on October 22?",
+  "prob": 0.14,
+  "ask": 0.002,
+  "ask_sz": 41.36,
+  "edge": 0.118
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-22",
+  "q": "rature in Hong Kong be 35\u00b0C on October 22?",
+  "prob": 0.034,
+  "ask": 0.001,
+  "ask_sz": 266.68,
+  "edge": 0.013
+ },
+ {
+  "city": "hong-kong",
+  "day": "2026-10-22",
+  "q": "Hong Kong be 36\u00b0C or higher on October 22?",
+  "prob": 0.004,
+  "ask": 0.001,
+  "ask_sz": 516.66,
+  "edge": -0.017
+ },
+ {
+  "city": "london",
+  "day": "2026-10-21",
+  "q": "e in London be 9\u00b0C or below on October 21?",
+  "prob": 0.004,
+  "ask": 0.001,
+  "ask_sz": 510.64,
+  "edge": -0.017
+ },
+ {
+  "city": "london",
+  "day": "2026-10-21",
+  "q": "mperature in London be 10\u00b0C on October 21?",
+  "prob": 0.056,
+  "ask": 0.001,
+  "ask_sz": 224.58,
+  "edge": 0.035
+ },
+ {
+  "city": "london",
+  "day": "2026-10-21",
+  "q": "mperature in London be 11\u00b0C on October 21?",
+  "prob": 0.266,
+  "ask": 0.007,
+  "ask_sz": 34.94,
+  "edge": 0.239
+ },
+ {
+  "city": "london",
+  "day": "2026-10-21",
+  "q": "mperature in London be 12\u00b0C on October 21?",
+  "prob": 0.417,
+  "ask": 0.009,
+  "ask_sz": 5.0,
+  "edge": 0.388
+ },
+ {
+  "city": "london",
+  "day": "2026-10-21",
+  "q": "mperature in London be 13\u00b0C on October 21?",
+  "prob": 0.218,
+  "ask": 0.996,
+  "ask_sz": 10.33,
+  "edge": -0.798
+ },
+ {
+  "city": "london",
+  "day": "2026-10-21",
+  "q": "mperature in London be 14\u00b0C on October 21?",
+  "prob": 0.038,
+  "ask": 0.008,
+  "ask_sz": 10.0,
+  "edge": 0.01
+ },
+ {
+  "city": "london",
+  "day": "2026-10-21",
+  "q": "mperature in London be 15\u00b0C on October 21?",
+  "prob": 0.002,
+  "ask": 0.002,
+  "ask_sz": 160.61,
+  "edge": -0.02
+ },
+ {
+  "city": "london",
+  "day": "2026-10-21",
+  "q": "mperature in London be 16\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 401.78,
+  "edge": -0.021
+ },
+ {
+  "city": "london",
+  "day": "2026-10-21",
+  "q": "mperature in London be 17\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 582.16,
+  "edge": -0.021
+ },
+ {
+  "city": "london",
+  "day": "2026-10-21",
+  "q": "mperature in London be 18\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 693.25,
+  "edge": -0.021
+ },
+ {
+  "city": "london",
+  "day": "2026-10-21",
+  "q": "in London be 19\u00b0C or higher on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 613.25,
+  "edge": -0.021
+ },
+ {
+  "city": "london",
+  "day": "2026-10-22",
+  "q": " in London be 10\u00b0C or below on October 22?",
+  "prob": 0.001,
+  "ask": 0.001,
+  "ask_sz": 275.59,
+  "edge": -0.02
+ },
+ {
+  "city": "london",
+  "day": "2026-10-22",
+  "q": "mperature in London be 11\u00b0C on October 22?",
+  "prob": 0.011,
+  "ask": 0.001,
+  "ask_sz": 363.88,
+  "edge": -0.01
+ },
+ {
+  "city": "london",
+  "day": "2026-10-22",
+  "q": "mperature in London be 12\u00b0C on October 22?",
+  "prob": 0.073,
+  "ask": 0.006,
+  "ask_sz": 55.04,
+  "edge": 0.047
+ },
+ {
+  "city": "london",
+  "day": "2026-10-22",
+  "q": "mperature in London be 13\u00b0C on October 22?",
+  "prob": 0.226,
+  "ask": 0.02,
+  "ask_sz": 70.13,
+  "edge": 0.186
+ },
+ {
+  "city": "london",
+  "day": "2026-10-22",
+  "q": "mperature in London be 14\u00b0C on October 22?",
+  "prob": 0.339,
+  "ask": 0.26,
+  "ask_sz": 152.8,
+  "edge": 0.059
+ },
+ {
+  "city": "london",
+  "day": "2026-10-22",
+  "q": "mperature in London be 15\u00b0C on October 22?",
+  "prob": 0.246,
+  "ask": 0.66,
+  "ask_sz": 152.78,
+  "edge": -0.434
+ },
+ {
+  "city": "london",
+  "day": "2026-10-22",
+  "q": "mperature in London be 16\u00b0C on October 22?",
+  "prob": 0.087,
+  "ask": 0.11,
+  "ask_sz": 5.0,
+  "edge": -0.043
+ },
+ {
+  "city": "london",
+  "day": "2026-10-22",
+  "q": "mperature in London be 17\u00b0C on October 22?",
+  "prob": 0.015,
+  "ask": 0.009,
+  "ask_sz": 32.8,
+  "edge": -0.014
+ },
+ {
+  "city": "london",
+  "day": "2026-10-22",
+  "q": "mperature in London be 18\u00b0C on October 22?",
+  "prob": 0.001,
+  "ask": 0.008,
+  "ask_sz": 87.12,
+  "edge": -0.027
+ },
+ {
+  "city": "london",
+  "day": "2026-10-22",
+  "q": "mperature in London be 19\u00b0C on October 22?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 443.88,
+  "edge": -0.021
+ },
+ {
+  "city": "london",
+  "day": "2026-10-22",
+  "q": "in London be 20\u00b0C or higher on October 22?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 508.9,
+  "edge": -0.021
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-21",
+  "q": " in Madrid be 14\u00b0C or below on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 20.0,
+  "edge": -0.021
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-21",
+  "q": "mperature in Madrid be 15\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 36.68,
+  "edge": -0.021
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-21",
+  "q": "mperature in Madrid be 16\u00b0C on October 21?",
+  "prob": 0.001,
+  "ask": 0.001,
+  "ask_sz": 187.25,
+  "edge": -0.02
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-21",
+  "q": "mperature in Madrid be 17\u00b0C on October 21?",
+  "prob": 0.022,
+  "ask": 0.001,
+  "ask_sz": 259.39,
+  "edge": 0.001
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-21",
+  "q": "mperature in Madrid be 18\u00b0C on October 21?",
+  "prob": 0.14,
+  "ask": 0.019,
+  "ask_sz": 10.0,
+  "edge": 0.101
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-21",
+  "q": "mperature in Madrid be 19\u00b0C on October 21?",
+  "prob": 0.348,
+  "ask": 0.99,
+  "ask_sz": 33.71,
+  "edge": -0.662
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-21",
+  "q": "mperature in Madrid be 20\u00b0C on October 21?",
+  "prob": 0.339,
+  "ask": 0.039,
+  "ask_sz": 10.0,
+  "edge": 0.28
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-21",
+  "q": "mperature in Madrid be 21\u00b0C on October 21?",
+  "prob": 0.13,
+  "ask": 0.002,
+  "ask_sz": 83.27,
+  "edge": 0.108
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-21",
+  "q": "mperature in Madrid be 22\u00b0C on October 21?",
+  "prob": 0.019,
+  "ask": 0.003,
+  "ask_sz": 35.0,
+  "edge": -0.004
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-21",
+  "q": "mperature in Madrid be 23\u00b0C on October 21?",
+  "prob": 0.001,
+  "ask": 0.001,
+  "ask_sz": 168.3,
+  "edge": -0.02
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-21",
+  "q": "in Madrid be 24\u00b0C or higher on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 350.34,
+  "edge": -0.021
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-22",
+  "q": " in Madrid be 13\u00b0C or below on October 22?",
+  "prob": 0.0,
+  "ask": 0.01,
+  "ask_sz": 162.11,
+  "edge": -0.03
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-22",
+  "q": "mperature in Madrid be 14\u00b0C on October 22?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 62.2,
+  "edge": -0.021
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-22",
+  "q": "mperature in Madrid be 15\u00b0C on October 22?",
+  "prob": 0.002,
+  "ask": 0.009,
+  "ask_sz": 79.64,
+  "edge": -0.027
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-22",
+  "q": "mperature in Madrid be 16\u00b0C on October 22?",
+  "prob": 0.019,
+  "ask": 0.009,
+  "ask_sz": 63.53,
+  "edge": -0.01
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-22",
+  "q": "mperature in Madrid be 17\u00b0C on October 22?",
+  "prob": 0.088,
+  "ask": 0.004,
+  "ask_sz": 40.0,
+  "edge": 0.064
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-22",
+  "q": "mperature in Madrid be 18\u00b0C on October 22?",
+  "prob": 0.223,
+  "ask": 0.11,
+  "ask_sz": 189.94,
+  "edge": 0.093
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-22",
+  "q": "mperature in Madrid be 19\u00b0C on October 22?",
+  "prob": 0.309,
+  "ask": 0.51,
+  "ask_sz": 145.0,
+  "edge": -0.221
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-22",
+  "q": "mperature in Madrid be 20\u00b0C on October 22?",
+  "prob": 0.235,
+  "ask": 0.45,
+  "ask_sz": 92.77,
+  "edge": -0.235
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-22",
+  "q": "mperature in Madrid be 21\u00b0C on October 22?",
+  "prob": 0.098,
+  "ask": 0.009,
+  "ask_sz": 59.28,
+  "edge": 0.069
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-22",
+  "q": "mperature in Madrid be 22\u00b0C on October 22?",
+  "prob": 0.022,
+  "ask": 0.002,
+  "ask_sz": 25.83,
+  "edge": 0.0
+ },
+ {
+  "city": "madrid",
+  "day": "2026-10-22",
+  "q": "in Madrid be 23\u00b0C or higher on October 22?",
+  "prob": 0.003,
+  "ask": 0.001,
+  "ask_sz": 148.51,
+  "edge": -0.018
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-21",
+  "q": "e in Munich be 6\u00b0C or below on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 559.75,
+  "edge": -0.021
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-21",
+  "q": "emperature in Munich be 7\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 327.69,
+  "edge": -0.021
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-21",
+  "q": "emperature in Munich be 8\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 63.25,
+  "edge": -0.021
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-21",
+  "q": "emperature in Munich be 9\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.004,
+  "ask_sz": 427.01,
+  "edge": -0.024
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-21",
+  "q": "mperature in Munich be 10\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.004,
+  "ask_sz": 333.15,
+  "edge": -0.024
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-21",
+  "q": "mperature in Munich be 11\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.989,
+  "ask_sz": 122.79,
+  "edge": -1.009
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-21",
+  "q": "mperature in Munich be 12\u00b0C on October 21?",
+  "prob": 0.005,
+  "ask": 0.025,
+  "ask_sz": 10.0,
+  "edge": -0.04
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-21",
+  "q": "mperature in Munich be 13\u00b0C on October 21?",
+  "prob": 0.108,
+  "ask": 0.025,
+  "ask_sz": 10.0,
+  "edge": 0.063
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-21",
+  "q": "mperature in Munich be 14\u00b0C on October 21?",
+  "prob": 0.45,
+  "ask": 0.003,
+  "ask_sz": 32.18,
+  "edge": 0.427
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-21",
+  "q": "mperature in Munich be 15\u00b0C on October 21?",
+  "prob": 0.374,
+  "ask": 0.002,
+  "ask_sz": 177.25,
+  "edge": 0.352
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-21",
+  "q": "in Munich be 16\u00b0C or higher on October 21?",
+  "prob": 0.061,
+  "ask": 0.001,
+  "ask_sz": 454.48,
+  "edge": 0.04
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-22",
+  "q": "e in Munich be 6\u00b0C or below on October 22?",
+  "prob": 0.0,
+  "ask": 0.009,
+  "ask_sz": 51.11,
+  "edge": -0.029
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-22",
+  "q": "emperature in Munich be 7\u00b0C on October 22?",
+  "prob": 0.0,
+  "ask": 0.003,
+  "ask_sz": 56.91,
+  "edge": -0.023
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-22",
+  "q": "emperature in Munich be 8\u00b0C on October 22?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 114.23,
+  "edge": -0.021
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-22",
+  "q": "emperature in Munich be 9\u00b0C on October 22?",
+  "prob": 0.0,
+  "ask": 0.009,
+  "ask_sz": 65.0,
+  "edge": -0.029
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-22",
+  "q": "mperature in Munich be 10\u00b0C on October 22?",
+  "prob": 0.0,
+  "ask": 0.003,
+  "ask_sz": 99.98,
+  "edge": -0.023
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-22",
+  "q": "mperature in Munich be 11\u00b0C on October 22?",
+  "prob": 0.004,
+  "ask": 0.02,
+  "ask_sz": 37.68,
+  "edge": -0.036
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-22",
+  "q": "mperature in Munich be 12\u00b0C on October 22?",
+  "prob": 0.05,
+  "ask": 0.12,
+  "ask_sz": 66.14,
+  "edge": -0.09
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-22",
+  "q": "mperature in Munich be 13\u00b0C on October 22?",
+  "prob": 0.236,
+  "ask": 0.63,
+  "ask_sz": 15.0,
+  "edge": -0.414
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-22",
+  "q": "mperature in Munich be 14\u00b0C on October 22?",
+  "prob": 0.401,
+  "ask": 0.291,
+  "ask_sz": 11.1,
+  "edge": 0.09
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-22",
+  "q": "mperature in Munich be 15\u00b0C on October 22?",
+  "prob": 0.248,
+  "ask": 0.009,
+  "ask_sz": 52.0,
+  "edge": 0.219
+ },
+ {
+  "city": "munich",
+  "day": "2026-10-22",
+  "q": "in Munich be 16\u00b0C or higher on October 22?",
+  "prob": 0.056,
+  "ask": 0.003,
+  "ask_sz": 83.92,
+  "edge": 0.033
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-21",
+  "q": "re in Paris be 7\u00b0C or below on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 769.76,
+  "edge": -0.021
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-21",
+  "q": "temperature in Paris be 8\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 300.29,
+  "edge": -0.021
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-21",
+  "q": "temperature in Paris be 9\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 660.31,
+  "edge": -0.021
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-21",
+  "q": "emperature in Paris be 10\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 664.7,
+  "edge": -0.021
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-21",
+  "q": "emperature in Paris be 11\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 146.86,
+  "edge": -0.021
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-21",
+  "q": "emperature in Paris be 12\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 401.52,
+  "edge": -0.021
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-21",
+  "q": "emperature in Paris be 13\u00b0C on October 21?",
+  "prob": 0.019,
+  "ask": 0.007,
+  "ask_sz": 20.0,
+  "edge": -0.008
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-21",
+  "q": "emperature in Paris be 14\u00b0C on October 21?",
+  "prob": 0.322,
+  "ask": 0.022,
+  "ask_sz": 50.84,
+  "edge": 0.28
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-21",
+  "q": "emperature in Paris be 15\u00b0C on October 21?",
+  "prob": 0.554,
+  "ask": 0.993,
+  "ask_sz": 51.98,
+  "edge": -0.459
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-21",
+  "q": "emperature in Paris be 16\u00b0C on October 21?",
+  "prob": 0.102,
+  "ask": 0.046,
+  "ask_sz": 8.0,
+  "edge": 0.036
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-21",
+  "q": " in Paris be 17\u00b0C or higher on October 21?",
+  "prob": 0.002,
+  "ask": 0.004,
+  "ask_sz": 40.04,
+  "edge": -0.022
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-22",
+  "q": "e in Paris be 10\u00b0C or below on October 22?",
+  "prob": 0.0,
+  "ask": 0.011,
+  "ask_sz": 24.99,
+  "edge": -0.031
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-22",
+  "q": "emperature in Paris be 11\u00b0C on October 22?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 406.87,
+  "edge": -0.021
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-22",
+  "q": "emperature in Paris be 12\u00b0C on October 22?",
+  "prob": 0.002,
+  "ask": 0.002,
+  "ask_sz": 29.0,
+  "edge": -0.02
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-22",
+  "q": "emperature in Paris be 13\u00b0C on October 22?",
+  "prob": 0.02,
+  "ask": 0.004,
+  "ask_sz": 147.62,
+  "edge": -0.004
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-22",
+  "q": "emperature in Paris be 14\u00b0C on October 22?",
+  "prob": 0.109,
+  "ask": 0.116,
+  "ask_sz": 5.0,
+  "edge": -0.027
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-22",
+  "q": "emperature in Paris be 15\u00b0C on October 22?",
+  "prob": 0.277,
+  "ask": 0.39,
+  "ask_sz": 105.0,
+  "edge": -0.133
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-22",
+  "q": "emperature in Paris be 16\u00b0C on October 22?",
+  "prob": 0.336,
+  "ask": 0.45,
+  "ask_sz": 20.0,
+  "edge": -0.134
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-22",
+  "q": "emperature in Paris be 17\u00b0C on October 22?",
+  "prob": 0.195,
+  "ask": 0.1,
+  "ask_sz": 6.0,
+  "edge": 0.075
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-22",
+  "q": "emperature in Paris be 18\u00b0C on October 22?",
+  "prob": 0.054,
+  "ask": 0.009,
+  "ask_sz": 5.04,
+  "edge": 0.025
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-22",
+  "q": "emperature in Paris be 19\u00b0C on October 22?",
+  "prob": 0.007,
+  "ask": 0.003,
+  "ask_sz": 68.85,
+  "edge": -0.016
+ },
+ {
+  "city": "paris",
+  "day": "2026-10-22",
+  "q": " in Paris be 20\u00b0C or higher on October 22?",
+  "prob": 0.0,
+  "ask": 0.002,
+  "ask_sz": 244.42,
+  "edge": -0.022
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-21",
+  "q": " (Incheon) be 12\u00b0C or below on October 21?",
+  "prob": 0.02,
+  "ask": 0.02,
+  "ask_sz": 27.0,
+  "edge": -0.02
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-21",
+  "q": " in Seoul (Incheon) be 13\u00b0C on October 21?",
+  "prob": 0.097,
+  "ask": 0.001,
+  "ask_sz": 214.72,
+  "edge": 0.076
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-21",
+  "q": " in Seoul (Incheon) be 14\u00b0C on October 21?",
+  "prob": 0.255,
+  "ask": 0.007,
+  "ask_sz": 2.14,
+  "edge": 0.228
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-21",
+  "q": " in Seoul (Incheon) be 15\u00b0C on October 21?",
+  "prob": 0.333,
+  "ask": 0.001,
+  "ask_sz": 85.0,
+  "edge": 0.312
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-21",
+  "q": " in Seoul (Incheon) be 16\u00b0C on October 21?",
+  "prob": 0.215,
+  "ask": 0.007,
+  "ask_sz": 19.41,
+  "edge": 0.188
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-21",
+  "q": " in Seoul (Incheon) be 17\u00b0C on October 21?",
+  "prob": 0.068,
+  "ask": 0.997,
+  "ask_sz": 141.47,
+  "edge": -0.949
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-21",
+  "q": " in Seoul (Incheon) be 18\u00b0C on October 21?",
+  "prob": 0.011,
+  "ask": 0.03,
+  "ask_sz": 45.0,
+  "edge": -0.039
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-21",
+  "q": " in Seoul (Incheon) be 19\u00b0C on October 21?",
+  "prob": 0.001,
+  "ask": 0.001,
+  "ask_sz": 35.24,
+  "edge": -0.02
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-21",
+  "q": " in Seoul (Incheon) be 20\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.004,
+  "ask_sz": 61.69,
+  "edge": -0.024
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-21",
+  "q": " in Seoul (Incheon) be 21\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.002,
+  "ask_sz": 142.3,
+  "edge": -0.022
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-21",
+  "q": "(Incheon) be 22\u00b0C or higher on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 178.28,
+  "edge": -0.021
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-22",
+  "q": "l (Incheon) be 9\u00b0C or below on October 22?",
+  "prob": 0.0,
+  "ask": 0.016,
+  "ask_sz": 63.71,
+  "edge": -0.036
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-22",
+  "q": " in Seoul (Incheon) be 10\u00b0C on October 22?",
+  "prob": 0.003,
+  "ask": 0.002,
+  "ask_sz": 62.95,
+  "edge": -0.019
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-22",
+  "q": " in Seoul (Incheon) be 11\u00b0C on October 22?",
+  "prob": 0.021,
+  "ask": 0.003,
+  "ask_sz": 27.67,
+  "edge": -0.002
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-22",
+  "q": " in Seoul (Incheon) be 12\u00b0C on October 22?",
+  "prob": 0.092,
+  "ask": 0.005,
+  "ask_sz": 125.9,
+  "edge": 0.067
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-22",
+  "q": " in Seoul (Incheon) be 13\u00b0C on October 22?",
+  "prob": 0.227,
+  "ask": 0.054,
+  "ask_sz": 49.99,
+  "edge": 0.153
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-22",
+  "q": " in Seoul (Incheon) be 14\u00b0C on October 22?",
+  "prob": 0.308,
+  "ask": 0.52,
+  "ask_sz": 10.0,
+  "edge": -0.232
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-22",
+  "q": " in Seoul (Incheon) be 15\u00b0C on October 22?",
+  "prob": 0.23,
+  "ask": 0.4,
+  "ask_sz": 5.0,
+  "edge": -0.19
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-22",
+  "q": " in Seoul (Incheon) be 16\u00b0C on October 22?",
+  "prob": 0.095,
+  "ask": 0.059,
+  "ask_sz": 16.64,
+  "edge": 0.016
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-22",
+  "q": " in Seoul (Incheon) be 17\u00b0C on October 22?",
+  "prob": 0.021,
+  "ask": 0.039,
+  "ask_sz": 67.5,
+  "edge": -0.038
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-22",
+  "q": " in Seoul (Incheon) be 18\u00b0C on October 22?",
+  "prob": 0.003,
+  "ask": 0.016,
+  "ask_sz": 15.08,
+  "edge": -0.033
+ },
+ {
+  "city": "seoul",
+  "day": "2026-10-22",
+  "q": "(Incheon) be 19\u00b0C or higher on October 22?",
+  "prob": 0.0,
+  "ask": 0.009,
+  "ask_sz": 19.08,
+  "edge": -0.029
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-21",
+  "q": " Singapore be 28\u00b0C or below on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 73.94,
+  "edge": -0.021
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-21",
+  "q": "rature in Singapore be 29\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.002,
+  "ask_sz": 99.61,
+  "edge": -0.022
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-21",
+  "q": "rature in Singapore be 30\u00b0C on October 21?",
+  "prob": 0.001,
+  "ask": 0.002,
+  "ask_sz": 63.2,
+  "edge": -0.021
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-21",
+  "q": "rature in Singapore be 31\u00b0C on October 21?",
+  "prob": 0.019,
+  "ask": 0.01,
+  "ask_sz": 5.53,
+  "edge": -0.011
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-21",
+  "q": "rature in Singapore be 32\u00b0C on October 21?",
+  "prob": 0.132,
+  "ask": 0.998,
+  "ask_sz": 54.63,
+  "edge": -0.886
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-21",
+  "q": "rature in Singapore be 33\u00b0C on October 21?",
+  "prob": 0.348,
+  "ask": 0.003,
+  "ask_sz": 55.87,
+  "edge": 0.325
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-21",
+  "q": "rature in Singapore be 34\u00b0C on October 21?",
+  "prob": 0.348,
+  "ask": 0.003,
+  "ask_sz": 52.74,
+  "edge": 0.325
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-21",
+  "q": "rature in Singapore be 35\u00b0C on October 21?",
+  "prob": 0.132,
+  "ask": 0.002,
+  "ask_sz": 68.27,
+  "edge": 0.11
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-21",
+  "q": "rature in Singapore be 36\u00b0C on October 21?",
+  "prob": 0.019,
+  "ask": 0.001,
+  "ask_sz": 258.5,
+  "edge": -0.002
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-21",
+  "q": "rature in Singapore be 37\u00b0C on October 21?",
+  "prob": 0.001,
+  "ask": 0.001,
+  "ask_sz": 450.0,
+  "edge": -0.02
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-21",
+  "q": "Singapore be 38\u00b0C or higher on October 21?",
+  "prob": 0.0,
+  "ask": 0.002,
+  "ask_sz": 58.89,
+  "edge": -0.022
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-22",
+  "q": " Singapore be 28\u00b0C or below on October 22?",
+  "prob": 0.0,
+  "ask": 0.009,
+  "ask_sz": 5.04,
+  "edge": -0.029
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-22",
+  "q": "rature in Singapore be 29\u00b0C on October 22?",
+  "prob": 0.0,
+  "ask": 0.009,
+  "ask_sz": 62.23,
+  "edge": -0.029
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-22",
+  "q": "rature in Singapore be 30\u00b0C on October 22?",
+  "prob": 0.005,
+  "ask": 0.004,
+  "ask_sz": 149.86,
+  "edge": -0.019
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-22",
+  "q": "rature in Singapore be 31\u00b0C on October 22?",
+  "prob": 0.047,
+  "ask": 0.008,
+  "ask_sz": 70.51,
+  "edge": 0.019
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-22",
+  "q": "rature in Singapore be 32\u00b0C on October 22?",
+  "prob": 0.193,
+  "ask": 0.22,
+  "ask_sz": 135.0,
+  "edge": -0.047
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-22",
+  "q": "rature in Singapore be 33\u00b0C on October 22?",
+  "prob": 0.351,
+  "ask": 0.68,
+  "ask_sz": 120.0,
+  "edge": -0.349
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-22",
+  "q": "rature in Singapore be 34\u00b0C on October 22?",
+  "prob": 0.284,
+  "ask": 0.14,
+  "ask_sz": 156.59,
+  "edge": 0.124
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-22",
+  "q": "rature in Singapore be 35\u00b0C on October 22?",
+  "prob": 0.102,
+  "ask": 0.007,
+  "ask_sz": 55.3,
+  "edge": 0.075
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-22",
+  "q": "rature in Singapore be 36\u00b0C on October 22?",
+  "prob": 0.016,
+  "ask": 0.003,
+  "ask_sz": 119.21,
+  "edge": -0.007
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-22",
+  "q": "rature in Singapore be 37\u00b0C on October 22?",
+  "prob": 0.001,
+  "ask": 0.007,
+  "ask_sz": 156.3,
+  "edge": -0.026
+ },
+ {
+  "city": "singapore",
+  "day": "2026-10-22",
+  "q": "Singapore be 38\u00b0C or higher on October 22?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 693.52,
+  "edge": -0.021
+ },
+ {
+  "city": "taipei",
+  "day": "2026-10-22",
+  "q": " in Taipei be 19\u00b0C or below on October 22?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 74.28,
+  "edge": -0.021
+ },
+ {
+  "city": "taipei",
+  "day": "2026-10-22",
+  "q": "mperature in Taipei be 20\u00b0C on October 22?",
+  "prob": 0.001,
+  "ask": 0.001,
+  "ask_sz": 490.35,
+  "edge": -0.02
+ },
+ {
+  "city": "taipei",
+  "day": "2026-10-22",
+  "q": "mperature in Taipei be 21\u00b0C on October 22?",
+  "prob": 0.009,
+  "ask": 0.001,
+  "ask_sz": 490.35,
+  "edge": -0.012
+ },
+ {
+  "city": "taipei",
+  "day": "2026-10-22",
+  "q": "mperature in Taipei be 22\u00b0C on October 22?",
+  "prob": 0.048,
+  "ask": 0.001,
+  "ask_sz": 543.14,
+  "edge": 0.027
+ },
+ {
+  "city": "taipei",
+  "day": "2026-10-22",
+  "q": "mperature in Taipei be 23\u00b0C on October 22?",
+  "prob": 0.15,
+  "ask": 0.004,
+  "ask_sz": 276.4,
+  "edge": 0.126
+ },
+ {
+  "city": "taipei",
+  "day": "2026-10-22",
+  "q": "mperature in Taipei be 24\u00b0C on October 22?",
+  "prob": 0.271,
+  "ask": 0.008,
+  "ask_sz": 51.72,
+  "edge": 0.243
+ },
+ {
+  "city": "taipei",
+  "day": "2026-10-22",
+  "q": "mperature in Taipei be 25\u00b0C on October 22?",
+  "prob": 0.282,
+  "ask": 0.89,
+  "ask_sz": 9.09,
+  "edge": -0.628
+ },
+ {
+  "city": "taipei",
+  "day": "2026-10-22",
+  "q": "mperature in Taipei be 26\u00b0C on October 22?",
+  "prob": 0.169,
+  "ask": 0.11,
+  "ask_sz": 142.97,
+  "edge": 0.039
+ },
+ {
+  "city": "taipei",
+  "day": "2026-10-22",
+  "q": "mperature in Taipei be 27\u00b0C on October 22?",
+  "prob": 0.058,
+  "ask": 0.019,
+  "ask_sz": 152.4,
+  "edge": 0.019
+ },
+ {
+  "city": "taipei",
+  "day": "2026-10-22",
+  "q": "mperature in Taipei be 28\u00b0C on October 22?",
+  "prob": 0.011,
+  "ask": 0.011,
+  "ask_sz": 5.05,
+  "edge": -0.02
+ },
+ {
+  "city": "taipei",
+  "day": "2026-10-22",
+  "q": "in Taipei be 29\u00b0C or higher on October 22?",
+  "prob": 0.001,
+  "ask": 0.007,
+  "ask_sz": 93.07,
+  "edge": -0.026
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-21",
+  "q": "e in Tokyo be 23\u00b0C or below on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 682.92,
+  "edge": -0.021
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-21",
+  "q": "emperature in Tokyo be 24\u00b0C on October 21?",
+  "prob": 0.002,
+  "ask": 0.005,
+  "ask_sz": 205.21,
+  "edge": -0.023
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-21",
+  "q": "emperature in Tokyo be 25\u00b0C on October 21?",
+  "prob": 0.02,
+  "ask": 0.001,
+  "ask_sz": 137.51,
+  "edge": -0.001
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-21",
+  "q": "emperature in Tokyo be 26\u00b0C on October 21?",
+  "prob": 0.111,
+  "ask": 0.002,
+  "ask_sz": 174.87,
+  "edge": 0.089
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-21",
+  "q": "emperature in Tokyo be 27\u00b0C on October 21?",
+  "prob": 0.285,
+  "ask": 0.002,
+  "ask_sz": 42.66,
+  "edge": 0.263
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-21",
+  "q": "emperature in Tokyo be 28\u00b0C on October 21?",
+  "prob": 0.339,
+  "ask": 0.005,
+  "ask_sz": 30.9,
+  "edge": 0.314
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-21",
+  "q": "emperature in Tokyo be 29\u00b0C on October 21?",
+  "prob": 0.188,
+  "ask": 0.995,
+  "ask_sz": 28.18,
+  "edge": -0.827
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-21",
+  "q": "emperature in Tokyo be 30\u00b0C on October 21?",
+  "prob": 0.049,
+  "ask": 0.009,
+  "ask_sz": 40.04,
+  "edge": 0.02
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-21",
+  "q": "emperature in Tokyo be 31\u00b0C on October 21?",
+  "prob": 0.006,
+  "ask": 0.001,
+  "ask_sz": 148.08,
+  "edge": -0.015
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-21",
+  "q": "emperature in Tokyo be 32\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.005,
+  "ask_sz": 245.27,
+  "edge": -0.025
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-21",
+  "q": " in Tokyo be 33\u00b0C or higher on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 45.27,
+  "edge": -0.021
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-22",
+  "q": "e in Tokyo be 19\u00b0C or below on October 22?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 210.29,
+  "edge": -0.021
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-22",
+  "q": "emperature in Tokyo be 20\u00b0C on October 22?",
+  "prob": 0.001,
+  "ask": 0.001,
+  "ask_sz": 202.87,
+  "edge": -0.02
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-22",
+  "q": "emperature in Tokyo be 21\u00b0C on October 22?",
+  "prob": 0.012,
+  "ask": 0.001,
+  "ask_sz": 83.47,
+  "edge": -0.009
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-22",
+  "q": "emperature in Tokyo be 22\u00b0C on October 22?",
+  "prob": 0.066,
+  "ask": 0.009,
+  "ask_sz": 5.0,
+  "edge": 0.037
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-22",
+  "q": "emperature in Tokyo be 23\u00b0C on October 22?",
+  "prob": 0.195,
+  "ask": 0.005,
+  "ask_sz": 65.78,
+  "edge": 0.17
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-22",
+  "q": "emperature in Tokyo be 24\u00b0C on October 22?",
+  "prob": 0.31,
+  "ask": 0.006,
+  "ask_sz": 139.82,
+  "edge": 0.284
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-22",
+  "q": "emperature in Tokyo be 25\u00b0C on October 22?",
+  "prob": 0.263,
+  "ask": 0.009,
+  "ask_sz": 437.65,
+  "edge": 0.234
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-22",
+  "q": "emperature in Tokyo be 26\u00b0C on October 22?",
+  "prob": 0.12,
+  "ask": 0.96,
+  "ask_sz": 191.7,
+  "edge": -0.86
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-22",
+  "q": "emperature in Tokyo be 27\u00b0C on October 22?",
+  "prob": 0.029,
+  "ask": 0.065,
+  "ask_sz": 11.54,
+  "edge": -0.056
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-22",
+  "q": "emperature in Tokyo be 28\u00b0C on October 22?",
+  "prob": 0.004,
+  "ask": 0.014,
+  "ask_sz": 5.07,
+  "edge": -0.03
+ },
+ {
+  "city": "tokyo",
+  "day": "2026-10-22",
+  "q": " in Tokyo be 29\u00b0C or higher on October 22?",
+  "prob": 0.0,
+  "ask": 0.008,
+  "ask_sz": 22.15,
+  "edge": -0.028
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-21",
+  "q": " in Toronto be 9\u00b0C or below on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 168.31,
+  "edge": -0.021
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-21",
+  "q": "perature in Toronto be 10\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 299.19,
+  "edge": -0.021
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-21",
+  "q": "perature in Toronto be 11\u00b0C on October 21?",
+  "prob": 0.004,
+  "ask": 0.001,
+  "ask_sz": 202.26,
+  "edge": -0.017
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-21",
+  "q": "perature in Toronto be 12\u00b0C on October 21?",
+  "prob": 0.029,
+  "ask": 0.001,
+  "ask_sz": 51.6,
+  "edge": 0.008
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-21",
+  "q": "perature in Toronto be 13\u00b0C on October 21?",
+  "prob": 0.119,
+  "ask": 0.002,
+  "ask_sz": 68.61,
+  "edge": 0.097
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-21",
+  "q": "perature in Toronto be 14\u00b0C on October 21?",
+  "prob": 0.263,
+  "ask": 0.01,
+  "ask_sz": 25.0,
+  "edge": 0.233
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-21",
+  "q": "perature in Toronto be 15\u00b0C on October 21?",
+  "prob": 0.31,
+  "ask": 0.93,
+  "ask_sz": 14.28,
+  "edge": -0.64
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-21",
+  "q": "perature in Toronto be 16\u00b0C on October 21?",
+  "prob": 0.196,
+  "ask": 0.12,
+  "ask_sz": 61.17,
+  "edge": 0.056
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-21",
+  "q": "perature in Toronto be 17\u00b0C on October 21?",
+  "prob": 0.066,
+  "ask": 0.017,
+  "ask_sz": 10.0,
+  "edge": 0.029
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-21",
+  "q": "perature in Toronto be 18\u00b0C on October 21?",
+  "prob": 0.012,
+  "ask": 0.003,
+  "ask_sz": 34.54,
+  "edge": -0.011
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-21",
+  "q": "n Toronto be 19\u00b0C or higher on October 21?",
+  "prob": 0.001,
+  "ask": 0.017,
+  "ask_sz": 57.23,
+  "edge": -0.036
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-22",
+  "q": "in Toronto be 11\u00b0C or below on October 22?",
+  "prob": 0.0,
+  "ask": 0.003,
+  "ask_sz": 32.74,
+  "edge": -0.023
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-22",
+  "q": "perature in Toronto be 12\u00b0C on October 22?",
+  "prob": 0.0,
+  "ask": 0.003,
+  "ask_sz": 17.22,
+  "edge": -0.023
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-22",
+  "q": "perature in Toronto be 13\u00b0C on October 22?",
+  "prob": 0.003,
+  "ask": 0.008,
+  "ask_sz": 286.44,
+  "edge": -0.025
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-22",
+  "q": "perature in Toronto be 14\u00b0C on October 22?",
+  "prob": 0.019,
+  "ask": 0.009,
+  "ask_sz": 270.12,
+  "edge": -0.01
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-22",
+  "q": "perature in Toronto be 15\u00b0C on October 22?",
+  "prob": 0.073,
+  "ask": 0.014,
+  "ask_sz": 5.07,
+  "edge": 0.039
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-22",
+  "q": "perature in Toronto be 16\u00b0C on October 22?",
+  "prob": 0.176,
+  "ask": 0.078,
+  "ask_sz": 5.0,
+  "edge": 0.078
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-22",
+  "q": "perature in Toronto be 17\u00b0C on October 22?",
+  "prob": 0.266,
+  "ask": 0.31,
+  "ask_sz": 49.18,
+  "edge": -0.064
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-22",
+  "q": "perature in Toronto be 18\u00b0C on October 22?",
+  "prob": 0.25,
+  "ask": 0.49,
+  "ask_sz": 5.0,
+  "edge": -0.26
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-22",
+  "q": "perature in Toronto be 19\u00b0C on October 22?",
+  "prob": 0.146,
+  "ask": 0.18,
+  "ask_sz": 5.0,
+  "edge": -0.054
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-22",
+  "q": "perature in Toronto be 20\u00b0C on October 22?",
+  "prob": 0.053,
+  "ask": 0.018,
+  "ask_sz": 37.68,
+  "edge": 0.015
+ },
+ {
+  "city": "toronto",
+  "day": "2026-10-22",
+  "q": "n Toronto be 21\u00b0C or higher on October 22?",
+  "prob": 0.012,
+  "ask": 0.003,
+  "ask_sz": 61.08,
+  "edge": -0.011
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-21",
+  "q": " in Warsaw be 10\u00b0C or below on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 248.97,
+  "edge": -0.021
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-21",
+  "q": "mperature in Warsaw be 11\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 70.42,
+  "edge": -0.021
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-21",
+  "q": "mperature in Warsaw be 12\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.002,
+  "ask_sz": 55.42,
+  "edge": -0.022
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-21",
+  "q": "mperature in Warsaw be 13\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 155.3,
+  "edge": -0.021
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-21",
+  "q": "mperature in Warsaw be 14\u00b0C on October 21?",
+  "prob": 0.001,
+  "ask": 0.001,
+  "ask_sz": 44.25,
+  "edge": -0.02
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-21",
+  "q": "mperature in Warsaw be 15\u00b0C on October 21?",
+  "prob": 0.014,
+  "ask": 0.001,
+  "ask_sz": 86.61,
+  "edge": -0.007
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-21",
+  "q": "mperature in Warsaw be 16\u00b0C on October 21?",
+  "prob": 0.108,
+  "ask": 0.991,
+  "ask_sz": 92.52,
+  "edge": -0.903
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-21",
+  "q": "mperature in Warsaw be 17\u00b0C on October 21?",
+  "prob": 0.322,
+  "ask": 0.047,
+  "ask_sz": 9.0,
+  "edge": 0.255
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-21",
+  "q": "mperature in Warsaw be 18\u00b0C on October 21?",
+  "prob": 0.367,
+  "ask": 0.009,
+  "ask_sz": 10.0,
+  "edge": 0.338
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-21",
+  "q": "mperature in Warsaw be 19\u00b0C on October 21?",
+  "prob": 0.161,
+  "ask": 0.003,
+  "ask_sz": 69.69,
+  "edge": 0.138
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-21",
+  "q": "in Warsaw be 20\u00b0C or higher on October 21?",
+  "prob": 0.027,
+  "ask": 0.002,
+  "ask_sz": 104.69,
+  "edge": 0.005
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-22",
+  "q": "e in Warsaw be 9\u00b0C or below on October 22?",
+  "prob": 0.001,
+  "ask": 0.003,
+  "ask_sz": 7.33,
+  "edge": -0.022
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-22",
+  "q": "mperature in Warsaw be 10\u00b0C on October 22?",
+  "prob": 0.008,
+  "ask": 0.017,
+  "ask_sz": 15.08,
+  "edge": -0.029
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-22",
+  "q": "mperature in Warsaw be 11\u00b0C on October 22?",
+  "prob": 0.056,
+  "ask": 0.003,
+  "ask_sz": 43.75,
+  "edge": 0.033
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-22",
+  "q": "mperature in Warsaw be 12\u00b0C on October 22?",
+  "prob": 0.191,
+  "ask": 0.118,
+  "ask_sz": 13.89,
+  "edge": 0.053
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-22",
+  "q": "mperature in Warsaw be 13\u00b0C on October 22?",
+  "prob": 0.325,
+  "ask": 0.37,
+  "ask_sz": 8.0,
+  "edge": -0.065
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-22",
+  "q": "mperature in Warsaw be 14\u00b0C on October 22?",
+  "prob": 0.275,
+  "ask": 0.45,
+  "ask_sz": 195.33,
+  "edge": -0.195
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-22",
+  "q": "mperature in Warsaw be 15\u00b0C on October 22?",
+  "prob": 0.116,
+  "ask": 0.14,
+  "ask_sz": 136.93,
+  "edge": -0.044
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-22",
+  "q": "mperature in Warsaw be 16\u00b0C on October 22?",
+  "prob": 0.024,
+  "ask": 0.022,
+  "ask_sz": 15.0,
+  "edge": -0.018
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-22",
+  "q": "mperature in Warsaw be 17\u00b0C on October 22?",
+  "prob": 0.003,
+  "ask": 0.003,
+  "ask_sz": 43.75,
+  "edge": -0.02
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-22",
+  "q": "mperature in Warsaw be 18\u00b0C on October 22?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 380.73,
+  "edge": -0.021
+ },
+ {
+  "city": "warsaw",
+  "day": "2026-10-22",
+  "q": "in Warsaw be 19\u00b0C or higher on October 22?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 485.82,
+  "edge": -0.021
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-21",
+  "q": "Wellington be 13\u00b0C or below on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 117.05,
+  "edge": -0.021
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-21",
+  "q": "ature in Wellington be 14\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.015,
+  "ask_sz": 25.0,
+  "edge": -0.035
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-21",
+  "q": "ature in Wellington be 15\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 107.08,
+  "edge": -0.021
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-21",
+  "q": "ature in Wellington be 16\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.02,
+  "ask_sz": 5.0,
+  "edge": -0.04
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-21",
+  "q": "ature in Wellington be 17\u00b0C on October 21?",
+  "prob": 0.0,
+  "ask": 0.013,
+  "ask_sz": 47.4,
+  "edge": -0.033
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-21",
+  "q": "ature in Wellington be 18\u00b0C on October 21?",
+  "prob": 0.006,
+  "ask": 0.993,
+  "ask_sz": 52.7,
+  "edge": -1.007
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-21",
+  "q": "ature in Wellington be 19\u00b0C on October 21?",
+  "prob": 0.136,
+  "ask": 0.004,
+  "ask_sz": 78.0,
+  "edge": 0.112
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-21",
+  "q": "ature in Wellington be 20\u00b0C on October 21?",
+  "prob": 0.501,
+  "ask": 0.001,
+  "ask_sz": 53.04,
+  "edge": 0.48
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-21",
+  "q": "ature in Wellington be 21\u00b0C on October 21?",
+  "prob": 0.321,
+  "ask": 0.001,
+  "ask_sz": 203.24,
+  "edge": 0.3
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-21",
+  "q": "ature in Wellington be 22\u00b0C on October 21?",
+  "prob": 0.035,
+  "ask": 0.001,
+  "ask_sz": 10.0,
+  "edge": 0.014
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-21",
+  "q": "ellington be 23\u00b0C or higher on October 21?",
+  "prob": 0.001,
+  "ask": 0.009,
+  "ask_sz": 117.03,
+  "edge": -0.028
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-22",
+  "q": "Wellington be 13\u00b0C or below on October 22?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 354.84,
+  "edge": -0.021
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-22",
+  "q": "ature in Wellington be 14\u00b0C on October 22?",
+  "prob": 0.0,
+  "ask": 0.006,
+  "ask_sz": 133.32,
+  "edge": -0.026
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-22",
+  "q": "ature in Wellington be 15\u00b0C on October 22?",
+  "prob": 0.001,
+  "ask": 0.008,
+  "ask_sz": 308.84,
+  "edge": -0.027
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-22",
+  "q": "ature in Wellington be 16\u00b0C on October 22?",
+  "prob": 0.03,
+  "ask": 0.01,
+  "ask_sz": 26.62,
+  "edge": -0.0
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-22",
+  "q": "ature in Wellington be 17\u00b0C on October 22?",
+  "prob": 0.249,
+  "ask": 0.06,
+  "ask_sz": 6.66,
+  "edge": 0.169
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-22",
+  "q": "ature in Wellington be 18\u00b0C on October 22?",
+  "prob": 0.481,
+  "ask": 0.54,
+  "ask_sz": 89.09,
+  "edge": -0.079
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-22",
+  "q": "ature in Wellington be 19\u00b0C on October 22?",
+  "prob": 0.217,
+  "ask": 0.42,
+  "ask_sz": 5.0,
+  "edge": -0.223
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-22",
+  "q": "ature in Wellington be 20\u00b0C on October 22?",
+  "prob": 0.022,
+  "ask": 0.045,
+  "ask_sz": 15.0,
+  "edge": -0.043
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-22",
+  "q": "ature in Wellington be 21\u00b0C on October 22?",
+  "prob": 0.0,
+  "ask": 0.009,
+  "ask_sz": 70.13,
+  "edge": -0.029
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-22",
+  "q": "ature in Wellington be 22\u00b0C on October 22?",
+  "prob": 0.0,
+  "ask": 0.004,
+  "ask_sz": 99.95,
+  "edge": -0.024
+ },
+ {
+  "city": "wellington",
+  "day": "2026-10-22",
+  "q": "ellington be 23\u00b0C or higher on October 22?",
+  "prob": 0.0,
+  "ask": 0.001,
+  "ask_sz": 643.89,
+  "edge": -0.021
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-21",
+  "q": "e in Wuhan be 14\u00b0C or below on October 21?",
+  "prob": 0.371,
+  "ask": 0.001,
+  "ask_sz": 246.4,
+  "edge": 0.35
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-21",
+  "q": "emperature in Wuhan be 15\u00b0C on October 21?",
+  "prob": 0.034,
+  "ask": 0.001,
+  "ask_sz": 305.85,
+  "edge": 0.013
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-21",
+  "q": "emperature in Wuhan be 16\u00b0C on October 21?",
+  "prob": 0.035,
+  "ask": 0.002,
+  "ask_sz": 63.42,
+  "edge": 0.013
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-21",
+  "q": "emperature in Wuhan be 17\u00b0C on October 21?",
+  "prob": 0.035,
+  "ask": 0.002,
+  "ask_sz": 26.15,
+  "edge": 0.013
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-21",
+  "q": "emperature in Wuhan be 18\u00b0C on October 21?",
+  "prob": 0.036,
+  "ask": 0.016,
+  "ask_sz": 5.0,
+  "edge": -0.0
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-21",
+  "q": "emperature in Wuhan be 19\u00b0C on October 21?",
+  "prob": 0.035,
+  "ask": 0.035,
+  "ask_sz": 7.0,
+  "edge": -0.02
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-21",
+  "q": "emperature in Wuhan be 20\u00b0C on October 21?",
+  "prob": 0.035,
+  "ask": 0.02,
+  "ask_sz": 10.19,
+  "edge": -0.005
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-21",
+  "q": "emperature in Wuhan be 21\u00b0C on October 21?",
+  "prob": 0.034,
+  "ask": 0.95,
+  "ask_sz": 21.96,
+  "edge": -0.936
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-21",
+  "q": "emperature in Wuhan be 22\u00b0C on October 21?",
+  "prob": 0.034,
+  "ask": 0.01,
+  "ask_sz": 34.89,
+  "edge": 0.004
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-21",
+  "q": "emperature in Wuhan be 23\u00b0C on October 21?",
+  "prob": 0.032,
+  "ask": 0.001,
+  "ask_sz": 5.79,
+  "edge": 0.011
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-21",
+  "q": " in Wuhan be 24\u00b0C or higher on October 21?",
+  "prob": 0.031,
+  "ask": 0.001,
+  "ask_sz": 220.45,
+  "edge": 0.01
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-22",
+  "q": "e in Wuhan be 13\u00b0C or below on October 22?",
+  "prob": 0.381,
+  "ask": 0.009,
+  "ask_sz": 78.09,
+  "edge": 0.352
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-22",
+  "q": "emperature in Wuhan be 14\u00b0C on October 22?",
+  "prob": 0.033,
+  "ask": 0.002,
+  "ask_sz": 59.06,
+  "edge": 0.011
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-22",
+  "q": "emperature in Wuhan be 15\u00b0C on October 22?",
+  "prob": 0.034,
+  "ask": 0.006,
+  "ask_sz": 23.55,
+  "edge": 0.008
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-22",
+  "q": "emperature in Wuhan be 16\u00b0C on October 22?",
+  "prob": 0.034,
+  "ask": 0.009,
+  "ask_sz": 25.04,
+  "edge": 0.005
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-22",
+  "q": "emperature in Wuhan be 17\u00b0C on October 22?",
+  "prob": 0.034,
+  "ask": 0.08,
+  "ask_sz": 11.0,
+  "edge": -0.066
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-22",
+  "q": "emperature in Wuhan be 18\u00b0C on October 22?",
+  "prob": 0.034,
+  "ask": 0.26,
+  "ask_sz": 5.0,
+  "edge": -0.246
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-22",
+  "q": "emperature in Wuhan be 19\u00b0C on October 22?",
+  "prob": 0.034,
+  "ask": 0.37,
+  "ask_sz": 105.0,
+  "edge": -0.356
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-22",
+  "q": "emperature in Wuhan be 20\u00b0C on October 22?",
+  "prob": 0.033,
+  "ask": 0.28,
+  "ask_sz": 5.0,
+  "edge": -0.267
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-22",
+  "q": "emperature in Wuhan be 21\u00b0C on October 22?",
+  "prob": 0.032,
+  "ask": 0.086,
+  "ask_sz": 80.88,
+  "edge": -0.074
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-22",
+  "q": "emperature in Wuhan be 22\u00b0C on October 22?",
+  "prob": 0.031,
+  "ask": 0.018,
+  "ask_sz": 10.0,
+  "edge": -0.007
+ },
+ {
+  "city": "wuhan",
+  "day": "2026-10-22",
+  "q": " in Wuhan be 23\u00b0C or higher on October 22?",
+  "prob": 0.03,
+  "ask": 0.008,
+  "ask_sz": 444.47,
+  "edge": 0.002
+ }
+]

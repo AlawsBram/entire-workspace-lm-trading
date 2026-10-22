@@ -1,0 +1,139 @@
+
+
+
+def test_source_adapter_flattens_nearby_source_lists():
+    from web.services.observation_source_adapters import collect_observation_source
+
+    class FakeWeather:
+        def _attach_hko_obs_official_nearby(self, results, city, use_fahrenheit):
+            results["hko_obs_nearby"] = [
+                {
+                    "source": "hko_obs",
+                    "source_label": "HKO",
+                    "temperature_c": 28.1,
+                    "observation_time": "2026-06-14T01:00:00+00:00",
+                    "station_code": "LFS",
+                    "station_name": "Lau Fau Shan",
+                },
+                {
+                    "source": "hko_obs",
+                    "source_label": "HKO",
+                    "temperature_c": 27.6,
+                    "observation_time": "2026-06-14T01:00:00+00:00",
+                    "station_code": "HKO",
+                    "station_name": "Hong Kong Observatory",
+                },
+            ]
+
+    result = collect_observation_source(
+        FakeWeather(),
+        "hko_obs",
+        "shenzhen",
+        use_fahrenheit=False,
+    )
+
+    assert result.status == "ok"
+    assert [record.station_code for record in result.records] == ["LFS", "HKO"]
+    assert [record.value for record in result.records] == [28.1, 27.6]
+
+
+def test_source_adapter_collects_jma_official_nearby_rows():
+    from web.services.observation_source_adapters import collect_observation_source
+
+    calls = []
+
+    class FakeWeather:
+        def _attach_japan_official_nearby(self, results, city, use_fahrenheit):
+            calls.append((city, use_fahrenheit))
+            results["jma_current"] = {
+                "source": "jma_amedas",
+                "source_label": "JMA",
+                "temp": 23.4,
+                "obs_time": "2026-06-16T06:00:00+09:00",
+                "station_code": "44166",
+                "station_name": "Haneda",
+            }
+
+    result = collect_observation_source(
+        FakeWeather(),
+        "jma_amedas",
+        "tokyo",
+        use_fahrenheit=False,
+    )
+
+    assert calls == [("tokyo", False)]
+    assert result.status == "ok"
+    assert len(result.records) == 1
+    assert result.records[0].source == "jma_amedas"
+    assert result.records[0].value == 23.4
+    assert result.records[0].observed_at == "2026-06-16T06:00:00+09:00"
+    assert result.records[0].station_code == "44166"
+
+
+def test_source_adapter_collects_metar_for_low_frequency_cities():
+    from web.services.observation_source_adapters import collect_observation_source
+
+    calls = []
+
+    class FakeWeather:
+        def fetch_metar(self, city, use_fahrenheit=False, utc_offset=0):
+            calls.append((city, use_fahrenheit, utc_offset))
+            return {
+                "source": "metar",
+                "icao": "LEMD",
+                "station_name": "Madrid Barajas",
+                "observation_time": "2026-06-16T12:00:00.000Z",
+                "current": {"temp": 28.0},
+            }
+
+    result = collect_observation_source(
+        FakeWeather(),
+        "metar",
+        "madrid",
+        use_fahrenheit=False,
+    )
+
+    assert calls == [("madrid", False, 3600)]
+    assert result.status == "ok"
+    assert result.records[0].source == "metar"
+    assert result.records[0].value == 28.0
+    assert result.records[0].observed_at == "2026-06-16T12:00:00.000Z"
+    assert result.records[0].station_code == "LEMD"
+
+
+def test_source_adapter_reports_parse_error_for_unusable_source_rows():
+    from web.services.observation_source_adapters import collect_observation_source
+
+    class FakeWeather:
+        def _attach_israel_ims_data(self, results, city):
+            results["bad"] = {
+                "source": "ims",
+                "observation_time": "2026-06-14T01:00:00+00:00",
+                "station_id": "LLBG",
+            }
+
+    result = collect_observation_source(
+        FakeWeather(),
+        "ims",
+        "tel aviv",
+        use_fahrenheit=False,
+    )
+
+    assert result.status == "parse_error"
+    assert result.error == "source response had no usable temperature"
+    assert result.records == ()
+
+
+def test_source_adapter_reports_unsupported_source_without_calling_weather():
+    from web.services.observation_source_adapters import collect_observation_source
+
+    result = collect_observation_source(
+        object(),
+        "unknown_source",
+        "qingdao",
+        use_fahrenheit=False,
+    )
+
+    assert result.status == "unsupported"
+    assert result.error == "unsupported observation source"
+    assert result.records == ()

@@ -1,0 +1,14 @@
+[Unit]
+Description=Polymarket UI-vs-API comparator (headless browser reads the real DOM)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/ui_lab
+ExecStart=/opt/ui_lab/run_ui_lab.sh
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+[Unit]
+Description=Polymarket book + fair-value recorder (maker lab corpus)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/maker_lab
+ExecStart=/opt/maker_lab/run_recorder.sh
+Restart=always
+RestartSec=15
+
+[Install]
+WantedBy=multi-user.target

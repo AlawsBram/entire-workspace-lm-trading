@@ -1,0 +1,134 @@
+/* ──────────────────────────────────────────────────────────
+   PolyWeather Map — Premium Dark Theme
+   ────────────────────────────────────────────────────────── */
+
+.root {
+  /* ── Palette (bridged from globals.css unified tokens) ── */
+  --bg-primary: var(--color-bg-base);
+  --bg-secondary: var(--color-bg-raised);
+  --bg-card: var(--color-bg-card);
+  --bg-glass: rgba(17, 26, 46, 0.82);
+  --border-glass: var(--color-border-default);
+  --border-subtle: var(--color-border-subtle);
+
+  /* Text */
+  --text-primary: var(--color-text-primary);
+  --text-secondary: var(--color-text-secondary);
+  --text-muted: var(--color-text-muted);
+
+  /* Accent Colors */
+  --accent-cyan: var(--color-accent-primary);
+  --accent-blue: var(--color-accent-secondary);
+  --accent-green: #22C55E;
+  --accent-orange: #F59E0B;
+  --accent-red: #EF4444;
+  --accent-yellow: #F59E0B;
+  --accent-purple: var(--color-accent-tertiary);
+
+  /* Risk colors */
+  --risk-high: var(--color-risk-high);
+  --risk-medium: var(--color-risk-medium);
+  --risk-low: var(--color-risk-low);
+
+  /* Spacing — aligned with global layout tokens */
+  --panel-width: 560px;
+  --header-height: 72px;
+  --sidebar-width: 240px;
+
+  /* Effects — using global elevation tokens */
+  --glass-blur: 20px;
+  --shadow-lg: var(--shadow-elevation-3);
+  --shadow-glow-cyan: var(--shadow-glow-accent);
+  --shadow-glow-blue: var(--shadow-glow-secondary);
+  --transition: all var(--transition-base);
+}
+
+/* ── Reset & Base ── */
+.root :global(*),
+.root :global(*::before),
+.root :global(*::after) {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.root {
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow: hidden;
+  height: 100vh;
+  height: 100dvh;
+  width: 100%;
+  max-width: 100vw;
+  background-image:
+    radial-gradient(
+      circle at 18% 18%,
+      rgba(77, 163, 255, 0.09),
+      transparent 24%
+    ),
+    radial-gradient(
+      circle at 82% 12%,
+      rgba(111, 183, 255, 0.05),
+      transparent 20%
+    ),
+    linear-gradient(180deg, #0B1220 0%, #07101D 100%);
+}
+
+:global(html.light) .root {
+  --bg-primary: #F7F9FC;
+  --bg-secondary: #EEF2F7;
+  --bg-card: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.88);
+  --border-glass: #E2E8F0;
+  --border-subtle: rgba(226, 232, 240, 0.74);
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  background: #F7F9FC;
+  color: #0F172A;
+  background-image:
+    radial-gradient(
+      circle at 18% 18%,
+      rgba(59, 130, 246, 0.1),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 82% 12%,
+      rgba(22, 163, 74, 0.07),
+      transparent 22%
+    ),
+    linear-gradient(180deg, #F7F9FC 0%, #EEF2F7 100%);
+}
+
+:global(html.light) .root :global(.header),
+:global(html.light) .root :global(.city-list),
+:global(html.light) .root :global(.home-intelligence-panel.full),
+:global(html.light) .root :global(.home-opportunity-strip),
+:global(html.light) .root :global(.home-summary-card),
+:global(html.light) .root :global(.opportunity-card),
+:global(html.light) .root :global(.home-deb-card),
+:global(html.light) .root :global(.home-card-section) {
+  background: rgba(255, 255, 255, 0.86);
+  color: #0b1726;
+  border-color: rgba(48, 77, 112, 0.18);
+}
+
+:global(html.light) .root :global(.map) {
+  background: #dbeafe;
+  filter: saturate(0.95) brightness(1.12);
+}
+
+/* ── Mobile: allow vertical scrolling ── */
+@media (max-width: 768px) {
+  .root {
+    overflow: auto;
+    height: auto;
+    min-height: 100vh;
+    width: 100%;
+  }
+}

@@ -1,0 +1,442 @@
+"""Authentication API service functions."""
+
+from __future__ import annotations
+
+import os
+import threading
+import time
+from concurrent.futures import ThreadPoolExecutor
+from typing import Any, Callable, Dict, Optional, TypeVar
+
+from fastapi import HTTPException, Request
+from loguru import logger
+
+from src.database.db_manager import DBManager
+import web.routes as legacy_routes
+
+
+T = TypeVar("T")
+
+
+def _signup_trial_background_workers() -> int:
+    try:
+        return max(
+            1,
+            int(os.getenv("POLYWEATHER_SIGNUP_TRIAL_BACKGROUND_WORKERS", "2") or "2"),
+        )
+    except Exception:
+        return 2
+
+
+def _signup_trial_background_cooldown_sec() -> float:
+    try:
+        return max(
+            0.0,
+            float(
+                os.getenv("POLYWEATHER_SIGNUP_TRIAL_BACKGROUND_COOLDOWN_SEC", "300")
+                or "300"
+            ),
+        )
+    except Exception:
+        return 300.0
+
+
+_SIGNUP_TRIAL_EXECUTOR = ThreadPoolExecutor(
+    max_workers=_signup_trial_background_workers(),
+    thread_name_prefix="signup-trial",
+)
+_SIGNUP_TRIAL_INFLIGHT: set[str] = set()
+_SIGNUP_TRIAL_RECENT_ATTEMPTS: Dict[str, float] = {}
+_SIGNUP_TRIAL_INFLIGHT_LOCK = threading.Lock()
+
+
+class _AuthMeTimer:
+    def __init__(self, request: Request):
+        self.request = request
+        self.started = time.perf_counter()
+        self.timings_ms: Dict[str, float] = {}
+
+    def measure(self, stage: str, action: Callable[[], T]) -> T:
+        started = time.perf_counter()
+        try:
+            return action()
+        finally:
+            self.timings_ms[stage] = round(
+                (time.perf_counter() - started) * 1000.0,
+                1,
+            )
+
+    def finish(
+        self,
+        *,
+        authenticated: Optional[bool],
+        outcome: str,
+        status_code: int,
+        subscription_active: Optional[bool],
+    ) -> None:
+        self.timings_ms["total"] = round(
+            (time.perf_counter() - self.started) * 1000.0,
+            1,
+        )
+        server_timing = ", ".join(
+            f"backend_{stage};dur={max(0.0, duration):.1f}"
+            for stage, duration in self.timings_ms.items()
+        )
+        self.request.state.auth_me_server_timing = server_timing
+        _log_auth_me_timing(
+            authenticated=authenticated,
+            outcome=outcome,
+            status_code=status_code,
+            subscription_active=subscription_active,
+            timings_ms=self.timings_ms,
+        )
+
+
+def _log_auth_me_timing(
+    *,
+    authenticated: Optional[bool],
+    outcome: str,
+    status_code: int,
+    subscription_active: Optional[bool],
+    timings_ms: Dict[str, float],
+) -> None:
+    logger.info(
+        "auth_me_timing outcome={} status_code={} authenticated={} "
+        "subscription_active={} timings_ms={}",
+        outcome,
+        status_code,
+        authenticated,
+        subscription_active,
+        timings_ms,
+    )
+
+
+def _require_auth_identity_without_subscription_gate(request: Request) -> Dict[str, str]:
+    request.state.skip_subscription_gate = True
+    legacy_routes._assert_entitlement(request)
+    return legacy_routes._require_supabase_identity(request)
+
+
+def _subscription_row_is_trial(row: Any) -> bool:
+    if not isinstance(row, dict):
+        return False
+    plan_code = str(row.get("plan_code") or "").strip().lower()
+    source = str(row.get("source") or "").strip().lower()
+    return "trial" in plan_code or "trial" in source
+
+
+def _is_entitlement_scope(request: Request) -> bool:
+    return (
+        str(request.query_params.get("scope") or "").strip().lower()
+        == "entitlement"
+    )
+
+
+def _start_signup_trial_background(user_id: str, email: Optional[str]) -> bool:
+    user_key = str(user_id or "").strip()
+    if not user_key:
+        return False
+    now_ts = time.time()
+    with _SIGNUP_TRIAL_INFLIGHT_LOCK:
+        if user_key in _SIGNUP_TRIAL_INFLIGHT:
+            return False
+        last_attempt = _SIGNUP_TRIAL_RECENT_ATTEMPTS.get(user_key)
+        if (
+            last_attempt is not None
+            and now_ts - last_attempt < _signup_trial_background_cooldown_sec()
+        ):
+            return False
+        _SIGNUP_TRIAL_INFLIGHT.add(user_key)
+        _SIGNUP_TRIAL_RECENT_ATTEMPTS[user_key] = now_ts
+        if len(_SIGNUP_TRIAL_RECENT_ATTEMPTS) > 4096:
+            oldest_key = min(
+                _SIGNUP_TRIAL_RECENT_ATTEMPTS,
+                key=lambda item: _SIGNUP_TRIAL_RECENT_ATTEMPTS[item],
+            )
+            _SIGNUP_TRIAL_RECENT_ATTEMPTS.pop(oldest_key, None)
+
+    def _run() -> None:
+        try:
+            legacy_routes.SUPABASE_ENTITLEMENT.ensure_signup_trial(user_key, email)
+        except Exception as exc:  # pragma: no cover - defensive background guard
+            logger.warning("signup trial background grant failed user_id={}: {}", user_key, exc)
+        finally:
+            with _SIGNUP_TRIAL_INFLIGHT_LOCK:
+                _SIGNUP_TRIAL_INFLIGHT.discard(user_key)
+
+    try:
+        _SIGNUP_TRIAL_EXECUTOR.submit(_run)
+    except Exception as exc:
+        with _SIGNUP_TRIAL_INFLIGHT_LOCK:
+            _SIGNUP_TRIAL_INFLIGHT.discard(user_key)
+            _SIGNUP_TRIAL_RECENT_ATTEMPTS.pop(user_key, None)
+        logger.warning("signup trial background submit failed user_id={}: {}", user_key, exc)
+        return False
+    return True
+
+
+def _state_points(request: Request) -> int:
+    try:
+        return max(0, int(getattr(request.state, "auth_points", 0) or 0))
+    except Exception:
+        return 0
+
+
+def get_auth_me_payload(request: Request) -> Dict[str, Any]:
+    timer = _AuthMeTimer(request)
+    authenticated_for_log: Optional[bool] = None
+    outcome = "ok"
+    status_code = 200
+    subscription_active_for_log: Optional[bool] = None
+    entitlement_scope = _is_entitlement_scope(request)
+
+    try:
+        request.state.skip_subscription_gate = True
+        timer.measure("assert_entitlement", lambda: legacy_routes._assert_entitlement(request))
+        if not str(getattr(request.state, "auth_user_id", "") or "").strip():
+            timer.measure(
+                "bind_identity",
+                lambda: legacy_routes._bind_optional_supabase_identity(request),
+            )
+
+        user_id = getattr(request.state, "auth_user_id", None)
+        email = getattr(request.state, "auth_email", None)
+        authenticated_for_log = bool(user_id)
+        subscription_required = bool(
+            legacy_routes.SUPABASE_ENTITLEMENT.enabled
+            and legacy_routes.SUPABASE_ENTITLEMENT.require_subscription
+        )
+        subscription_active = None
+        subscription_plan_code = None
+        subscription_source = None
+        subscription_is_trial = False
+        subscription_starts_at = None
+        subscription_expires_at = None
+        subscription_total_expires_at = None
+        subscription_queued_days = 0
+        subscription_queued_count = 0
+
+        if legacy_routes.SUPABASE_ENTITLEMENT.enabled and user_id:
+            try:
+                if not entitlement_scope:
+                    timer.measure(
+                        "ensure_signup_trial",
+                        lambda: legacy_routes.SUPABASE_ENTITLEMENT.ensure_signup_trial(
+                            user_id,
+                            email,
+                        ),
+                    )
+                try:
+                    if entitlement_scope and hasattr(
+                        legacy_routes.SUPABASE_ENTITLEMENT,
+                        "get_subscription_access_window",
+                    ):
+                        subscription_window = timer.measure(
+                            "subscription_window",
+                            lambda: legacy_routes.SUPABASE_ENTITLEMENT.get_subscription_access_window(
+                                user_id,
+                                respect_requirement=False,
+                                unknown_on_error=True,
+                            ),
+                        )
+                    else:
+                        subscription_window = timer.measure(
+                            "subscription_window",
+                            lambda: legacy_routes.SUPABASE_ENTITLEMENT.get_subscription_window(
+                                user_id,
+                                respect_requirement=False,
+                                bypass_cache=False,
+                                unknown_on_error=True,
+                            ),
+                        )
+                except TypeError:
+                    subscription_window = timer.measure(
+                        "subscription_window",
+                        lambda: legacy_routes.SUPABASE_ENTITLEMENT.get_subscription_window(
+                            user_id,
+                            respect_requirement=False,
+                        ),
+                    )
+                latest_subscription = None
+                latest_known_subscription = None
+                subscription_window_unknown = (
+                    isinstance(subscription_window, dict)
+                    and subscription_window.get("unknown") is True
+                )
+                subscription_window_known = (
+                    isinstance(subscription_window, dict)
+                    and not subscription_window_unknown
+                )
+                if subscription_window_known:
+                    current_subscription = subscription_window.get("current")
+                    if isinstance(current_subscription, dict):
+                        latest_subscription = current_subscription
+                    rows = subscription_window.get("rows")
+                    if not latest_subscription and isinstance(rows, list):
+                        latest_known_subscription = next(
+                            (row for row in rows if isinstance(row, dict)),
+                            None,
+                        )
+                if (
+                    not latest_subscription
+                    and not latest_known_subscription
+                    and not subscription_window_unknown
+                    and not subscription_window_known
+                    and not subscription_required
+                ):
+                    latest_subscription = timer.measure(
+                        "latest_active_subscription",
+                        lambda: legacy_routes.SUPABASE_ENTITLEMENT.get_latest_active_subscription(
+                            user_id,
+                            respect_requirement=False,
+                        ),
+                    )
+
+                subscription_active = (
+                    None if subscription_window_unknown else bool(latest_subscription)
+                )
+                subscription_active_for_log = subscription_active
+                if entitlement_scope and subscription_active is not True:
+                    trial_grant_started = timer.measure(
+                        "schedule_signup_trial",
+                        lambda: _start_signup_trial_background(user_id, email),
+                    )
+                    if trial_grant_started and subscription_active is False:
+                        subscription_active = None
+                        subscription_active_for_log = None
+                if subscription_required and subscription_active is False:
+                    raise HTTPException(status_code=403, detail="Subscription required")
+
+                if not subscription_window_unknown and not latest_known_subscription:
+                    latest_known_subscription = latest_subscription
+                if not subscription_window_unknown and not latest_known_subscription:
+                    latest_known_subscription = timer.measure(
+                        "latest_subscription_history",
+                        lambda: legacy_routes.SUPABASE_ENTITLEMENT.get_latest_subscription_any_status(
+                            user_id
+                        ),
+                    )
+                if isinstance(latest_subscription, dict):
+                    subscription_plan_code = latest_subscription.get("plan_code")
+                    subscription_source = latest_subscription.get("source")
+                    subscription_is_trial = _subscription_row_is_trial(
+                        latest_subscription
+                    )
+                    subscription_starts_at = latest_subscription.get("starts_at")
+                    subscription_expires_at = latest_subscription.get("expires_at")
+                elif isinstance(latest_known_subscription, dict):
+                    subscription_plan_code = latest_known_subscription.get("plan_code")
+                    subscription_source = latest_known_subscription.get("source")
+                    subscription_is_trial = _subscription_row_is_trial(
+                        latest_known_subscription
+                    )
+                    subscription_starts_at = latest_known_subscription.get("starts_at")
+                    subscription_expires_at = latest_known_subscription.get("expires_at")
+                if subscription_window_known:
+                    subscription_total_expires_at = subscription_window.get(
+                        "total_expires_at"
+                    )
+                    subscription_queued_days = int(
+                        subscription_window.get("queued_days") or 0
+                    )
+                    subscription_queued_count = int(
+                        subscription_window.get("queued_count") or 0
+                    )
+            except HTTPException:
+                raise
+            except Exception:
+                if subscription_required:
+                    raise HTTPException(status_code=403, detail="Subscription required")
+                subscription_active = None
+                subscription_active_for_log = None
+                subscription_plan_code = None
+                subscription_source = None
+                subscription_is_trial = False
+                subscription_starts_at = None
+                subscription_expires_at = None
+                subscription_total_expires_at = None
+                subscription_queued_days = 0
+                subscription_queued_count = 0
+
+        if entitlement_scope:
+            points = _state_points(request)
+        else:
+            points = timer.measure(
+                "auth_points",
+                lambda: legacy_routes._resolve_auth_points(request),
+            )
+        points_ledger = {
+            "balance": points,
+            "recent": [],
+            "by_source": {},
+        }
+        if user_id and not entitlement_scope:
+            try:
+                points_ledger = timer.measure(
+                    "points_ledger",
+                    lambda: DBManager().get_points_ledger_summary(
+                        supabase_user_id=str(user_id or ""),
+                        supabase_email=str(email or ""),
+                        limit=8,
+                    ),
+                )
+            except Exception:
+                points_ledger = {
+                    "balance": points,
+                    "recent": [],
+                    "by_source": {},
+                }
+
+        payload = {
+            "authenticated": bool(user_id),
+            "user_id": user_id,
+            "email": email,
+            "points": points,
+            "points_ledger": points_ledger,
+            "entitlement_mode": (
+                "supabase_required"
+                if legacy_routes.SUPABASE_ENTITLEMENT.enabled
+                and legacy_routes._SUPABASE_AUTH_REQUIRED
+                else "supabase_optional"
+                if legacy_routes.SUPABASE_ENTITLEMENT.enabled
+                else "legacy_token"
+                if legacy_routes._ENTITLEMENT_GUARD_ENABLED
+                else "disabled"
+            ),
+            "auth_required": bool(
+                legacy_routes.SUPABASE_ENTITLEMENT.enabled
+                and legacy_routes._SUPABASE_AUTH_REQUIRED
+            ),
+            "subscription_required": subscription_required,
+            "subscription_active": subscription_active,
+            "subscription_plan_code": subscription_plan_code,
+            "subscription_source": subscription_source,
+            "subscription_is_trial": subscription_is_trial,
+            "subscription_starts_at": subscription_starts_at,
+            "subscription_expires_at": subscription_expires_at,
+            "subscription_total_expires_at": subscription_total_expires_at,
+            "subscription_queued_days": subscription_queued_days,
+            "subscription_queued_count": subscription_queued_count,
+        }
+        authenticated_for_log = bool(payload["authenticated"])
+        subscription_active_for_log = (
+            payload["subscription_active"]
+            if isinstance(payload["subscription_active"], bool)
+            else None
+        )
+        return payload
+    except HTTPException as exc:
+        outcome = f"http_{exc.status_code}"
+        status_code = exc.status_code
+        raise
+    except Exception:
+        outcome = "exception"
+        status_code = 500
+        raise
+    finally:
+        timer.finish(
+            authenticated=authenticated_for_log,
+            outcome=outcome,
+            status_code=status_code,
+            subscription_active=subscription_active_for_log,
+        )

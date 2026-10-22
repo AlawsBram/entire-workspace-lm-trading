@@ -1,0 +1,14 @@
+[Unit]
+Description=Polymarket maker quoting simulator (paper mode, never places orders)
+After=network-online.target maker-recorder.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/maker_lab
+ExecStart=/opt/maker_lab/run_sim.sh
+Restart=always
+RestartSec=15
+
+[Install]
+WantedBy=multi-user.target

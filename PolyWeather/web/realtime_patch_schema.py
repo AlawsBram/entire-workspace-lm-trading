@@ -1,0 +1,283 @@
+"""Versioned realtime observation patch normalization."""
+
+from __future__ import annotations
+
+import time
+from datetime import datetime, timedelta, timezone
+from typing import Any, Dict, Optional
+
+from src.data_collection.city_time import (
+    city_local_datetime,
+    get_city_timezone_name,
+    get_city_utc_offset_seconds,
+)
+
+
+SCHEMA_TYPE = "city_observation_patch"
+SCHEMA_VERSION = 1
+EVENT_TYPE = "city_observation_patch.v1"
+DERIVED_SCAN_NUMBER_FIELDS = (
+    "signed_gap",
+    "gap_to_target",
+    "touch_distance",
+    "current_reference",
+    "edge",
+    "edge_percent",
+    "deb_prediction",
+)
+SOURCE_CADENCE_SECONDS = {
+    "cowin_obs": 60,
+    "hko_obs": 600,
+    "singapore_mss": 60,
+    "madis_hfmetar": 300,
+    "jma_amedas": 600,
+    "fmi": 600,
+    "knmi": 600,
+    "ims": 600,
+    "ncm": 600,
+    "aeroweb": 900,
+    "metar": 1800,
+}
+
+
+class PatchValidationError(ValueError):
+    """Raised when a collector patch cannot become a replayable observation event."""
+
+
+def _normalize_city(value: Any) -> str:
+    return str(value or "").strip().lower()
+
+
+def _normalize_source(value: Any) -> str:
+    source = str(value or "").strip().lower()
+    return source or "weather"
+
+
+def _finite_number(value: Any) -> Optional[float]:
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return None
+    if number != number or number in {float("inf"), float("-inf")}:
+        return None
+    return round(number, 2)
+
+
+def _first_number(*values: Any) -> Optional[float]:
+    for value in values:
+        number = _finite_number(value)
+        if number is not None:
+            return number
+    return None
+
+
+def _format_utc_iso(value: datetime) -> str:
+    return value.astimezone(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def _parse_datetime(value: Any) -> Optional[datetime]:
+    raw = str(value or "").strip()
+    if not raw:
+        return None
+    try:
+        return datetime.fromisoformat(raw.replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        return None
+
+
+def _latency_seconds(received_at: datetime, observed_at: Optional[str]) -> Optional[int]:
+    observed = _parse_datetime(observed_at)
+    if observed is None:
+        return None
+    if observed.tzinfo is None:
+        observed = observed.replace(tzinfo=timezone.utc)
+    return max(0, int((received_at.astimezone(timezone.utc) - observed.astimezone(timezone.utc)).total_seconds()))
+
+
+def _normalize_observation_time_contract(city: str, source: str, obs_time: Optional[str]) -> Dict[str, Any]:
+    parsed = _parse_datetime(obs_time)
+    if parsed is None:
+        contract: Dict[str, Any] = {}
+        tz_name = get_city_timezone_name(city)
+        if tz_name:
+            contract["city_timezone"] = tz_name
+        cadence = SOURCE_CADENCE_SECONDS.get(source)
+        if cadence is not None:
+            contract["source_cadence_sec"] = cadence
+        return contract
+
+    if parsed.tzinfo is None:
+        offset = get_city_utc_offset_seconds(city, parsed.replace(tzinfo=timezone.utc))
+        local_dt = parsed.replace(tzinfo=timezone(timedelta(seconds=offset)))
+        observed_utc = (parsed - timedelta(seconds=offset)).replace(tzinfo=timezone.utc)
+    else:
+        observed_utc = parsed.astimezone(timezone.utc)
+        local_dt = city_local_datetime(city, observed_utc)
+        offset = int(local_dt.utcoffset().total_seconds()) if local_dt.utcoffset() else 0
+
+    contract = {
+        "observed_at_utc": _format_utc_iso(observed_utc),
+        "observed_at_local": local_dt.replace(microsecond=0).isoformat(),
+        "city_local_date": local_dt.strftime("%Y-%m-%d"),
+        "city_utc_offset_seconds": offset,
+    }
+    tz_name = get_city_timezone_name(city)
+    if tz_name:
+        contract["city_timezone"] = tz_name
+    cadence = SOURCE_CADENCE_SECONDS.get(source)
+    if cadence is not None:
+        contract["source_cadence_sec"] = cadence
+    return contract
+
+
+def _legacy_changes(patch: Dict[str, Any]) -> Dict[str, Any]:
+    changes = patch.get("changes")
+    return changes if isinstance(changes, dict) else {}
+
+
+def _payload_from_legacy(changes: Dict[str, Any]) -> Dict[str, Any]:
+    payload: Dict[str, Any] = {}
+    temp = _finite_number(changes.get("temp"))
+    if temp is not None:
+        payload["temp"] = temp
+    max_so_far = _first_number(changes.get("max_so_far"), changes.get("current_max_so_far"))
+    if max_so_far is not None:
+        payload["max_so_far"] = max_so_far
+    for key in DERIVED_SCAN_NUMBER_FIELDS:
+        value = _finite_number(changes.get(key))
+        if value is not None:
+            payload[key] = value
+
+    station_code = str(
+        changes.get("station_code")
+        or changes.get("icao")
+        or ""
+    ).strip().upper()
+    if station_code:
+        payload["station_code"] = station_code
+
+    station_label = str(
+        changes.get("station_label")
+        or ""
+    ).strip()
+    if station_label:
+        payload["station_label"] = station_label
+
+    series_key = str(changes.get("series_key") or "").strip()
+    if series_key:
+        payload["series_key"] = series_key
+    payload["unit"] = str(changes.get("unit") or "celsius").strip().lower() or "celsius"
+
+    hourly = changes.get("hourly")
+    if isinstance(hourly, dict):
+        payload["hourly"] = hourly
+
+    return payload
+
+
+def _payload_from_v1(raw_payload: Any) -> Dict[str, Any]:
+    if not isinstance(raw_payload, dict):
+        return {}
+
+    payload: Dict[str, Any] = {}
+    temp = _finite_number(raw_payload.get("temp"))
+    if temp is not None:
+        payload["temp"] = temp
+    max_so_far = _finite_number(raw_payload.get("max_so_far"))
+    if max_so_far is not None:
+        payload["max_so_far"] = max_so_far
+    for key in DERIVED_SCAN_NUMBER_FIELDS:
+        value = _finite_number(raw_payload.get(key))
+        if value is not None:
+            payload[key] = value
+
+    for key in ("station_code", "station_label", "series_key", "unit"):
+        value = raw_payload.get(key)
+        if isinstance(value, str) and value.strip():
+            payload[key] = value.strip()
+    if "unit" not in payload:
+        payload["unit"] = "celsius"
+
+    if isinstance(raw_payload.get("hourly"), dict):
+        payload["hourly"] = raw_payload["hourly"]
+    for key in ("freshness_status", "source_role"):
+        value = raw_payload.get(key)
+        if isinstance(value, str) and value.strip():
+            payload[key] = value.strip()
+    for key in ("freshness_sec", "confidence"):
+        value = _finite_number(raw_payload.get(key))
+        if value is not None:
+            payload[key] = int(value) if key == "freshness_sec" else value
+    return payload
+
+
+def _has_observation(payload: Dict[str, Any]) -> bool:
+    return any(
+        key in payload
+        for key in ("temp", "max_so_far", "hourly")
+    )
+
+
+def normalize_observation_patch(patch: Dict[str, Any]) -> Dict[str, Any]:
+    if not isinstance(patch, dict):
+        raise PatchValidationError("patch must be an object")
+
+    if patch.get("type") == EVENT_TYPE:
+        city = _normalize_city(patch.get("city"))
+        source = _normalize_source(patch.get("source"))
+        obs_time = str(patch.get("obs_time") or "").strip() or None
+        payload = _payload_from_v1(patch.get("payload"))
+    else:
+        changes = _legacy_changes(patch)
+        city = _normalize_city(patch.get("city"))
+        source = _normalize_source(changes.get("source") or patch.get("source"))
+        obs_time = str(changes.get("obs_time") or patch.get("obs_time") or "").strip() or None
+        payload = _payload_from_legacy(changes)
+
+    if not city:
+        raise PatchValidationError("city is required")
+    if not _has_observation(payload):
+        raise PatchValidationError("patch must include temperature, max, or hourly data")
+
+    time_contract = _normalize_observation_time_contract(city, source, obs_time)
+    if time_contract:
+        payload = {
+            **payload,
+            **{
+                key: value
+                for key, value in time_contract.items()
+                if key in {
+                    "observed_at_utc",
+                    "observed_at_local",
+                    "city_local_date",
+                    "city_utc_offset_seconds",
+                    "city_timezone",
+                    "source_cadence_sec",
+                }
+            },
+        }
+        obs_time = str(time_contract.get("observed_at_utc") or obs_time or "").strip() or None
+
+    received_at = datetime.fromtimestamp(time.time(), tz=timezone.utc).replace(microsecond=0)
+    received_at_utc = _format_utc_iso(received_at)
+    latency_sec = _latency_seconds(received_at, obs_time)
+    received_contract: Dict[str, Any] = {
+        "received_at_utc": received_at_utc,
+    }
+    if latency_sec is not None:
+        received_contract["latency_sec"] = latency_sec
+    if received_contract:
+        payload = {**payload, **received_contract}
+
+    return {
+        "type": EVENT_TYPE,
+        "schema_type": SCHEMA_TYPE,
+        "schema_version": SCHEMA_VERSION,
+        "city": city,
+        "source": source,
+        "obs_time": obs_time,
+        **time_contract,
+        **received_contract,
+        "ts": int(received_at.timestamp() * 1000),
+        "payload": payload,
+    }

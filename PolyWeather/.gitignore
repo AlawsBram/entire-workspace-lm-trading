@@ -1,0 +1,92 @@
+# Secrets
+.env
+secrets/
+*.service-account.json
+gcp-sa.json
+
+# Scratch / temp scripts
+scratch/
+
+# Private trading layer (never commit strategy/bot execution code here)
+private-trading/
+trading-private/
+polyweather-trading-private/
+internal-trading/
+ops-trading-private/
+
+# Data and Logs
+data/*.db
+data/*.db-*
+data/*.db.*
+data/*.json
+!data/city_thread_ids.json
+data/*backtest*.csv
+data/logs/
+data/historical/
+data/cache/
+data/models/
+logs/
+artifacts/probability_calibration/auto_retrain_report.json
+artifacts/probability_calibration/candidates/
+artifacts/probability_calibration/default.backup-*.json
+artifacts/probability_calibration/default.local-backup-*.json
+artifacts/local_runtime/probability_calibration/auto_retrain_report.json
+artifacts/local_runtime/probability_calibration/candidates/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.history/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Next.js frontend
+frontend/node_modules/
+frontend/.next/
+frontend/.vercel/
+frontend/.env
+frontend/.env.local
+frontend/.env.production
+frontend/.env.*
+!frontend/.env.example
+frontend/*.tsbuildinfo
+frontend/.codex-next-dev*.log
+frontend/.codex-next-start*.log
+frontend/.next-dev.log
+frontend/.next-start.log
+.codex-backend-*.log
+
+.npm-cache/
+.codex-tmp/
+.env.local
+.vercel/
+
+# Browser extension build artifacts
+/extension.zip
+/extension-*.zip
+.omx/
+.codex/*
+!.codex/agents/
+!.codex/agents/**
+!.codex/skills/
+!.codex/skills/**
+.codex/skills/.system/**
+!.codex/prompts/
+!.codex/prompts/**
+tmp_apikey.js
+tmp_obs.js
+tmp_rctp.html
+.codex-backend-*.log
+frontend-next-*.log
+*.stackdump
+.omo/

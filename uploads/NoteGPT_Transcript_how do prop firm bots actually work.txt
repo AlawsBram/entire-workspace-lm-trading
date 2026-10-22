@@ -1,0 +1,188 @@
+00:00:00 - 00:00:57
+On December 12th, 2025, I was watching a whale on HyperLiquid. He had like a hundred million dollar position with 40X leverage. And the price the price was moving straight towards his liquidation. And in my mind, I'd spent years backtesting liquidations. In my mind, it's like, "Okay, every single big position gets liquidated. The market makers move them that way." And it all told me that I That's the only idea I could think of. It's like, "Okay, he's got a hundred million dollar position.
+
+00:00:29 - 00:01:28
+Boom, he's going to get licked." I was 100% sure that he was absolutely cooked. But instead, I watched him not get liquidated. No, he didn't get liquidated the next week either. Not the 21st, not multiple weeks after that either. He actually closed in profit on his terms. So, that inspired me to build something, and that's what I'm going to build here today. Whales don't get liquidated. They just simply trim, and you better hope you're not sitting in front of that liquidation
+
+00:00:58 - 00:02:00
+because they will trim and liquidate you. Every single time they sell or close part of their position, they're moving their liquidation price down. And if you're in between that whale and he has his price being sent the price is being sent towards him, he can liquidate you. And then he'll never get liquidated. He just keeps increasing his room sell by sell or buy by buy if he's in a short. And you can see this chart here. All of these guys are going to get liquidated because in front they're in
+
+00:01:29 - 00:02:36
+front of this major liquidation. This is live data right now, by the way. So, this 7.66 million position is live here on October 13th. I had this realization almost a year ago. And what's interesting about this is that I was talking like 50, 70, 100 million the position I was watching in December. But now all the positions are like at the largest is 7, 10 million. And I think that's a story within itself. If we over here to BTC, that just tells you what type of market we're in, right?
+
+00:02:02 - 00:02:55
+You can see a $7.7 million position and 1.1% away he would get liquidated. I don't see anything in the 10s. I don't see anything in the 20s. But what inspired me to build what I'm building here today, you're going to see the whole build, it's just it's not here anymore. So, the whales are much smaller, but I think the premise stays the same. All these guys in front of this whale, he is in control of all of them because all he has to do is close a portion of his position,
+
+00:02:29 - 00:03:29
+liquidate that guy, liquidate that liquidate that guy, and his position keeps moving down. Like his liquidation level. You see what I'm saying? So, to me that was a big aha moment that happened almost a year ago. Is I still believe everybody gets liquidated, but the major major whales you see in the market, and it's all relative, right? Because right now $7.66 million is technically kind of small, but compared to all of the other positions, he's in control of these guys. Because all he
+
+00:02:59 - 00:03:55
+has to do is trim his position down to 5 million. That's 2 million sent into the market and liquidates everybody in front of them. So, I think what I'm going to build to I know what I'm going to build today, but another idea behind this is this. Identify the biggest whale, okay? It's very clear on my screen here, right? There's a guy up here on short 1.2 million, but down here the whale is at 7.7 million, 1.1% away. All he has to do is start trimming his position, and he can kill all of these players. It's a
+
+00:03:27 - 00:04:19
+very interesting way of thinking. And I've got a position on that I would like to Now, I'm not trading the same size, but I want to trade the same idea. Trim. And yeah, that's what I'm going to build. So, that's what I'm going to build right now, actually. Is it's going to watch the distance to liquidation, and then sell like 10% when it gets like close to liquidation, and it's just going to continuously trim. Maybe I'll build in something that looks at the other people's positions as well, and
+
+00:03:53 - 00:05:03
+maybe trim right before they get liquidated. For example, okay, that's enough of this slide. You saw everything. I'm going to go build it now. For example here, hash cat, my liquidations at like 0.081 cents, which is behind this guy. There's this guy here that's in 7%, which is for 343k. All of these positions are bigger than mine, so I'm not the whale I just gave you the example of, but that learning still stands. Where would that whale be in cash cat right now? Relatively, probably this
+
+00:04:28 - 00:05:28
+guy, 343 on the long side. Yeah, there's not many whales because I've been watching this I have this um liquidation bot right here that has been trying to fire, and it's been watching until 70% of the players get liquidated in cash cat before enters. Okay, so I'm here now. I'm here now. 70% has been wiped out. That's why there's not like huge liquidations on the long side. But on the short side, you can see the whale like here, 3.4 million. He could do this play. 1 million could probably
+
+00:04:58 - 00:05:57
+do this play, where he he's able to kind of control all of these guys in front of them. Maybe this is a better example because this is super this 700% away. That's not a very good example, but this guy here, cash cat at 84% away, he's kind of in control of these two people if you're understanding the premise I just tried to show you. Anyways, let's go ahead and just build that because um I think it's time. I think it's time. You already have the road map and all the things that you um need here, so I
+
+00:05:28 - 00:06:24
+can close that. And the first thing I'm going to do here is I'm just going to go over to my Claudia body of Claudia, Claudia. All right, let's go ahead and say clear here, and I'm watching all of these liquidations here uh because this will actually kind of drive what I build. All of these guys are at risk. I mean, everybody long is always is risk, right? I'm at risk. Let's go here and say GitHub desktop. I'm going to go ahead and grab cross exchange arbitrage copy path. I'm
+
+00:05:55 - 00:07:02
+also going to grab extended. I have a bunch of files for extended. I started working on something like this, but not for hyperliquid. Can you go ahead and look through both of these bots here and or both of these GitHubs. And I'm looking for a bot that's called like never liquidated or something like that. Essentially, the premise is it will watch your liquidation price and when it gets close to that liquidation, it sells X%. Now, I want to go ahead and build this for hyperliquid on the account
+
+00:06:29 - 00:07:40
+that you can see there's actually a position on. And that was from the lick What's it called? Lick hunt account. Also, the quick trader account. Those two will kind of show what this is. And um I essentially want to build a a bot that will sit there and monitor the live position and look at the actual liquidation price. And when it gets within the start with 1%, but that's a parameter we should be able to change. Then it's going to start selling the selling It's going to sell X% of the
+
+00:07:05 - 00:08:04
+position. Now, I don't want you to put any orders in right now because I don't want you to this up the current live position. But let's say 5% of the position it closes. So, if it's in a short, it would close by reduce only long. If it's in a long, it would be reduce only short. So, try to find that bot. There's There is a bot in there that says never liquidated. And it has this sort of functionality. And then go ahead and put it in the hyperliquid bot section. Not the Not the
+
+00:07:35 - 00:08:31
+one that was already built, but the new one that we're building for hyperliquid. Put it in this GitHub. And then we'll call it trimmer.py. I don't want it be to be called never liquidated because then we're like guaranteeing stuff. This is kind of like a public GitHub. So, yeah. Let's go ahead and build that up. See, this right here, dude, is just magical. Number one, I've already built something similar. So, it's for a different exchange. Um So, I'm compounding and a lot of people
+
+00:08:03 - 00:09:02
+are not compounding if you're trading by hand. You're just sitting there just like gambling. And you don't get any of yesterday's benefit today. Did you find it already? Because I don't think you found I don't see it here. Oh, yeah, never lick. Found it here never liquidated.py. Now, checking the live HL account. Beautiful. So, cash cat here. Um I'm going to try to run this play here and let's see if I can pull it off. You know, the consequence is that you lose some of your position. So, it works
+
+00:08:32 - 00:09:28
+way better if you have like a a major position. Like I don't have that big of a position. So, it will trim my position down. Like if I get close to liquidation, but the ideal is that I never get liquidated on this. And this is something I've been wanting to build for hyper liquid for so so long. But it only really makes sense if you have a big position on. So, today is the day. Today is the day. Now, I want to dive deeper into this based off of your knowledge. What do you think their strategy is? Is this like a market maker
+
+00:09:00 - 00:10:00
+that is loading up on, for example, I think he was on BTC. Is he loading up on alts, trading the opposite direction, and then having this hedge that he can just trim off? What do you think the true strategy is behind this trimmer? And again, the the whole story started with me seeing this like 80 hundred million dollar position. And he kept that position open for months. He kept just trimming and then eventually took profit. It might have been weeks, but then I see another one and another one. Like this is a pattern.
+
+00:09:30 - 00:10:26
+This is a type of trading style that I just personally wasn't aware of. Do you get Yeah, what do you think he's doing here? Okay, so is she if she's done already, I'm actually going to cry, bro. Jesus, dude. Bro, that would have taken me what how long how long have I been I even did a three I even did a three-slide presentation. She's done already, dude. Like, we are so cooked as humans. That would have taken me 4 days to build. >> [laughter] >> It would have [snorts] taken me 4 days
+
+00:09:58 - 00:11:06
+to build. Moon dev, hyperliquid trim it out by Y is built. It hasn't sent any orders. Live equals false. Okay. It's set in the code. So, it only prints what it would do. Okay. Until it changes to true. Nice. I like that. What it What I What I found is the old bot never liquidated. It runs on extended account three. Okay. Live position read only. I got a bunch of cash cat. How it works, it uses the same account setup as lick hunt and quick trader. Every 3 seconds it reads the lick price hyperliquid reports. It measures the
+
+00:10:31 - 00:11:43
+distance from whichever of mark and mid book is closer to lick because the book mid moves before mark. Once inside 1%, it trims 5% of the current position with an order that only fills right away and can only shrink the position. A long gets trimmed by selling. A short by buying. I wrote it the other way. A long gets trimmed by selling. Yes. A short by buying. Okay, that makes sense. I may have said it the other way. Then it reads the new lick price and trims only again if it's still inside the zone. It
+
+00:11:12 - 00:12:11
+never cancels orders. So, it runs alongside lick hunt and quick trader. Settings at the top. Okay, so yeah, make sure it's very clear of the current position, how far in percentage wise it is from liquidation, what that liquidation price is, and how much it will sell in both Yeah, how much it will sell when it gets there. I know it's a percentage, but also the amount. There was another idea I had here that I wanted to update. I just want it to be very clear printed so I can see exactly what's going on. I
+
+00:11:41 - 00:12:35
+must have got it. I mean, spread through this again I don't have that idea again. So, open up the door. I want to see what is going on here. Moon Dawg, I can't know his strategy from the outside, but his fields history can tell us a lot. Here's how I'd rank the possibilities. I'm reading 8,000 million is 80 million. Yes. It might not be him trimming at all. Hybrid Liquid's liquidation engine closes big position in pieces. If I remember the docs right, it market sells a chunk about 20% waits, then does it
+
+00:12:08 - 00:13:14
+again. Trims near the lick price. It could be It could be, but I don't think it is because I did backtrack that. I was watching it. So, usually they would sell bigger portions. I need to confirm the exact rules in the HL's docs. He's head somewhere else. My top guess if he trims where where his. He's long on HL and short the same size on Binance or another exchange or he holds spot. His real risk is near zero, so the HL leg is just a margin problem. When it nears lick, trimming is
+
+00:12:40 - 00:13:54
+cheaper than wiring collateral over. Months of holding fits this. So does earning funding when HL pays more than other exchanges. Your alt hedge idea is weaker if the hedge sits in the same account. Yeah, I didn't see anything in the same account. He's harvesting liquidation wicks. He sells a slice near lick, the smaller longs get liquidated. Price wicks down, and then he buys back cheaper. His size goes down and back up while his entry improves. >> [snorts] >> This is the in control story you described. It's
+
+00:13:17 - 00:14:20
+testable. Does his size go up after each cascade? Conviction plus soft stops. He's a big directional trader who de-risks in steps instead of using one hard stop. This is real, but it doesn't need any edge from the small position. Yeah, can you confirm that these will be market order closes with reduce only? Because we got to be quick with it. Also, another thing I need you to look into the docs for, I think we're using mid price right now, but isn't it technically mark price that you get
+
+00:13:49 - 00:14:48
+liquidated on? Now, that might be a little tricky to do, and mid price might just be better because it'll be quicker, and since it's a your trim, it's not like you're losing the whole position, so I kind of lean towards mid, but I do want you to confirm if it's they're they're liquidating based off mark. Thank you. Okay, so [snorts] he could be a big directional trader. Yeah, you remember the whales that lived? The ones who got liquidated vanished from the feed. Yeah, your position watcher logs
+
+00:14:18 - 00:15:15
+liquidated events, so we can count how often near liquid whales trim versus die. Okay, well, she has some ideas, but I think this is a little bit of a mystery of what exactly they're doing, but I feel like the best way to do it to learn is just test it, so I'll just test it. How about that? I don't mind I've been waiting for months for this position, so I don't mind, like I don't mind. It's just is what it is. Literally, it's been 2 months. Haha. Crypto or what? Yeah, crypto. Uh
+
+00:14:46 - 00:15:52
+Axcel says, "Do you offer any service?" Um I got the $5 Zoom calls. Everybody's in that right now, so if you have questions or anything, let me know in that Zoom call. Um you get the API as well as a bonus, the replay, all that good stuff. Yo, Rico 777 rank, hello. Okay, both are Both answers are below. I didn't change any code, so order type, yes, market speed, and reduce only, perfect. Each trim is IOC limit order with reduce only. So, an SDK, okay, so the one difference is ours
+
+00:15:19 - 00:16:25
+is capped at 1%. SDK default is 5%. If the book is thin and the sell runs more than 1% down, part of that trim won't fill. On a coin as thin as KAS a crash can move more than 1%. Liquidations use mark. Okay, that's what I was thinking. Confirmed by Hyperliquid docs, the liquidation page says liquidations use mark price, which combines external gexes. Mark is the median of three prices plus 150 second average of the gap between Hyperliquid mid. I kind of like mid though. Mark updates every 3 seconds. What the bot does
+
+00:15:52 - 00:16:56
+today, it already uses whichever of mark and mid whichever of mark and mid is hm? The docs also warn that mark can be far from the book price. What the bot does today, it already uses whichever of mark is closer to lick. Okay. That's the price route, beautiful. So I yeah, I just want to I want it to be as the more at risk one I I would say because it's only 5% you know? Like that's the whole idea that came from watching these whales is they don't get liquidated number one and number two,
+
+00:16:25 - 00:17:22
+they keep their positions until the market turns. Now eventually they either take profit or blow up but it's interesting idea. Interesting idea. I'd keep it this way. Using only mid could could miss a case where the Binance/OKX prices drag the Hyperliquid down. Okay, that's good. That's good. One more thing from the docs, Hyperliquid only liquidates parts of the position 20% of the time when it's over 100,000. Yours is 47,000. So if it gets hit, the whole position goes at once.
+
+00:16:53 - 00:17:56
+That's why trimming early matters. Okay, so I didn't know that. That's cool. So if it's over 100 rocks, it's 20% of the time. So let's go ahead and try to run it and see what happens. Yolo, bro bro. Python bots Hyperliquid trimmer.py Tflow, bro. Python bots Hyperliquid trimmer.py. Okay, so we can see it's running here. That was so fast, dude. It was so fast. God. Okay, liquidation is at 0.081 cents. I shouldn't be telling people this, but whatever. I show you guys
+
+00:17:25 - 00:18:44
+everything. It's probably the the stupidest thing I could possibly do here is show you my liquidation prices. All right, so you can see here that the price is 0.1042. Lick is at 0.01198, 22% to the liquidation. So, I'm 2 cents away. Trim at 0.0821 0.082018. That would be 1% from liquidation. It'd be selling 22,000 cash got. It goes 5%. And then, okay, what risk do you see here? What risk do you see here? I mean, maybe we should increase it to 2% away. Don't do that right away, but yeah, I
+
+00:18:05 - 00:19:07
+want I want to kind of analyze the risk here because the way I look at this is if we get within 2%, okay, it trims 5%. And then it looks again in 3 seconds to see did that move the liquidation price down? And are we outside of that 2% range? If yes, chill. If no, another 5%. Right? So, I kind of want to look through all the risks here. Obviously, the market moving fast, but we are looking every 3 seconds, right? Maybe we can increase the look speed when um Yeah, maybe we should just change it to 1 second. Yeah, it's not a
+
+00:18:35 - 00:19:26
+get-rich-quick. Rawr rawr. Rawr rawr. Welcome in though. It's not a get-rich-quick. You're not going to make a million dollars overnight. If you're a trader, you understand why. Um it really depends on your size. Like I had the luxury of having some good size, so I've been trading a long time. And if you're a trader, then, you know, you understand the um like how to make money as a trader as a trader. Like if you got 10 bucks, you're not going to make any money. Like what can you return on the percentage of
+
+00:19:01 - 00:19:56
+your assets is the question. But yeah, it's not something to like I I don't even look at it like a side income. You're not going to make it, unfortunately. Cuz you're competing against people that are focused on this all day, 24/7. Not 24/7, but all day, right? I'm focused on this industry all day. So, if you've got a job at Wendy's and you're you're competing against somebody else on a side, it's tough, right? And that's the interesting thing about trading is like you get introduced to
+
+00:19:28 - 00:20:18
+trading a lot of people pitch it as like a get rich quick or something to make money or a side income, but you're literally thrown into the NBA of trading immediately. You're trading on the open market, you know? You're trading against the best traders in the world. So, if you're going to take this as like a side thing, you you're just going to get cooked and just on the side lose all your money. That's I mean, you want my opinion. I don't look at this as a side income
+
+00:19:54 - 00:20:58
+um or a way to go from like zero to a million. If you've got some money, you can absolutely out trade yourself with trading bots. Like I know that. I see the stats. I I live that. But if you got $0, would I become a trader? No. No, no, no. You got to go make money. You have a great year of trading, you return 100% on 1,000 bucks. Like I'm not that excited about that. Moon dev, short answer here is go with 2% and a 1-second loop. The bigger risk isn't the trigger, though. If I play with throttles or errors, the bot
+
+00:20:26 - 00:21:33
+shuts down. What I measured here, okay, maintenance margin is 16.7% on Cash Cat. That's high and it's why the trim helps a lot. Cutting 5% of the size, okay, how fast Cash Cat falls, uh 1-minute candles, seven 1-minute candles drop of 1% or more per day. That's okay. I can handle that. Worst 1-minute drop is 1.82%. Worst 5-minute drop, book depth here, 14K of bids. Yeah, I did answer your question in depthly, too. Fudge. But yeah, just catch it on the replay here. Long story short, you're not going zero
+
+00:20:59 - 00:21:48
+to 100 you're not going zero to a million trading, in my opinion. No worries, bro. No worries. You're not going zero to a million with trading. Maybe with meme coins, maybe, but I don't want to ever promise that. It's hard work and I I personally don't think approaching it as a side income is the way. If you want to tinker with your bots and trading systems on the side, that's fine. But just don't approach it as like, "Hey, I'm trying to make some side income off trading." because you're
+
+00:21:24 - 00:22:07
+literally thrown into the NBA of trading day one, and that's the unique thing. That's why I'm like, "Wall Street's against us, bro." Like, they're trying to tell you that you can trade, but you're literally They're literally saying, "Hey, brand new trader, come trade against Michael Jordan day one." It's like those three-card monte people up on the on the street. You walk by and they're all like, "Oh, yeah, I win it all. You want to play? I'm winning. I've
+
+00:21:45 - 00:22:39
+been winning." And then boom. They'll let you win a couple times and boom, take all your money. So, it's just like It's interesting. It's interesting concept because there's no other professional league that you can get into day zero. You can't just join the NFL. You can't just join the MLB. You can't just be a professional race car driver. But you can literally compete against the most vicious, best players in the world day zero of trading. Why it's like I always recommend if
+
+00:22:12 - 00:22:54
+you're if you have to become a trader, become an automated trader because if you follow a framework like the one I show, research, backtest, incubate, you're going to be spending your time on researching and backtesting the majority of the time. And then if things pass, okay, automate that. You see what I'm saying? That's way less risky and you put $10 behind it. That's way less risky than saying, "Hey, I'm going to become a trader." and then buying a $500 prop
+
+00:22:33 - 00:23:37
+firm account or putting $10,000 on the line against Michael Jordan of trading. People that focus their entire day, their entire lives on this industry. And you see me, I'm locked every single day. So, it's just like I'm just one person. They got companies that are full of people that are locked all day. It's interesting. Okay, so these are the short answers here. Um book depth here. 14K of bids verse 0.23% of the best bid. A 5% trim is about 2.3 K. So, it fills easily today. Okay.
+
+00:23:05 - 00:24:27
+In a crash, the book will be thinner. My pleasure, dude. My pleasure. I went a little more in-depth there um on the replay, but what one trim does to the lick. Simulate with HyperLiquid's lick formula and the live numbers. So, trigger is 1% lick distance right after one trim is 2%. Okay. Further drop for next trim 1.1%. Gap left to absorb a fast move. Okay. Trigger at 2% here. One cell would move us to 3.1%. Further drop 1.1. Gap left. So, your mental model is correct. In a normal move, one trim pushes you back
+
+00:23:46 - 00:25:06
+outside the zone. Okay, good. And the bot goes to doing nothing. It's just watching. One small correction. After a trim, it waits 2 seconds. Not 3 seconds. And then checks right away. Both triggers cost about the same size for the same fall. After a 35% drop, you'd have about 36% of your position left either way. 2% just starts about 1% sooner. 2% is much safer against a gap. After a trim at 2%, lick is 3.14% away. That's more than the worst full minute in the data. 1.82%. At 1%, a single fast minute could
+
+00:24:25 - 00:25:32
+jump from just outside the zone straight to lick. My simulated liquidation 0.0833 is 2.6% off HyperLiquid's 0.0812. Trust the shape of these numbers, not the exact price. The bot itself reads HyperLiquid's real lick. So, this doesn't affect it. Okay, that's good. Risks. Worst first. The bot dies when HyperLiquid throttles it. Well, I mean, what's the call rate per minute that we can have here? Because if it gets throttled, then that's no good. And also, I think you can go ahead and Yeah,
+
+00:24:59 - 00:25:54
+you could get the position use hyperliquid and if it throttles, use moondab.com/docs. I can see everybody's positions there, including my own. You know, use the position as a backup. Because yeah, that's I think that's our biggest risk right now is if they throttle. So, look at the docs, how many calls per minute, and then use the moon dab API as the backup. Check to make sure it works for this so we get the liquidation data, all that good stuff. Like what liquidation price I get, like that.
+
+00:25:26 - 00:26:28
+Okay, so moves faster than one trim per check here. It trims 5% once per check. If price falls more than 1.1% between checks, trims fall behind. A 1-second loop fixes most of this. So, wick trims are permanent. Let's go ahead and have her start going on this. Wick trims are permanent. It reacts to the live mid with the no smoothing. So, wick that reverses can still sell 5%. That's okay. Like if I'm getting close to liquidation, I need to take risk off. So, it's about having a bot do it
+
+00:25:58 - 00:26:58
+unemotionally. Like I can't execute this strategy. As a human being, I cannot execute this strategy because I will be asleep one of the times. And that's the reason that I I preach this stuff, dude. It's like I like it's it's not a fair match. Me versus a bot, the strategy I'm building right now is impossible for me to execute. I can't sit there and wait till I'm 2% away and then sell 5%. Stop it. The fill cap is 1% in a thin fast book. The account is shared. Liquidity has no buy orders resting
+
+00:26:28 - 00:27:27
+right now. That's okay. Your existing stop is below the lick. Okay, well, I don't I don't have a stop. That is why I'm building this for. This is my stop, bro, bro. This is my stop. Okay, both match hyperliquid exactly, size, entry, lick price, and value. Checking how fresh moon dab's copy is and testing the book backup for cash cap. All right, so that's really what I need to think through is just risk to this trade. And I think that's an obvious one is when I get throttled. So, hopefully
+
+00:26:57 - 00:27:57
+this is a good backup. If not, you know, then just have to pray, you know? All right, cool. So, we got it. So, we got a a Moomoo API backup in the trimmer. Live is still false, okay. Hyperliquid's rate limit is 1,200 per minute. We should be fine. 240 per minute, okay. Quick trader and SCZ are heavy users. I might just go ahead and kill them then and just run this instead. For now. So, let's go do that because that makes more sense. Don't need this running here anymore. Python, run it, okay. Oh, okay, I got to
+
+00:27:28 - 00:28:28
+get all the way in there. Just do one at a time. Trimmer. All right, so I'm not going to run the quick trader then during this position. Um go ahead and make sure to have the attributes some of the attributes from the quick trader of like what is the position's current P&L percentage and dollar amount. You can just have that running at the last thing. Um we don't need to print out the No, that's good. So, just add that there. And now the one time per second should be no problem since I only have
+
+00:27:58 - 00:29:09
+this one running. All right, perfect. So, I think this is actually pretty Gucci. Let's go ahead to change it to .01% sell amount and then let's go ahead and put the variable of how close to liquidation be 23%. So, it will trigger right away. Don't run it, but set it to live and I'll run it. And this way I can test to make sure that the mechanism works and it triple-check before you do any of this that it will only sell, you know, that amount .01% or something. >> [snorts] >> Let's try it with like a 22 something
+
+00:28:33 - 00:29:31
+small, 22 cash got sell. I want to just be very, very sure before we launch this that it's not going to just close the whole position here, but it's just a small percentage so we can kind of beta test it. And then once I see that it it then I can switch it back and say this is done and chill. Okay, let's go ahead and open this browser up. Let's see if I can get the hyperliquid app.hyperliquid.cashcat. Okay, then I'm going to try to um fake it, sell a little bit. Oh, okay. I see what's going to happen. It's going
+
+00:29:02 - 00:30:00
+to keep trimming though. Mhm, how do we do that? I can just kill it. And I know it's going to keep trimming over and over again, so that's okay. I just want to see it trim a couple times. And then I'll just kill the bot. I just want to make sure that it's all working. Okay, thank you. I'll sell a little bit here. Setting max trims to three, so you can see a couple of trims, $33 each. Okay, I see the max trims to the three here. Um let's just make sure that it's not real for the real live
+
+00:29:31 - 00:30:30
+bot once I test this because we got to keep trimming until it's um we're in, you know, outside of the zone. So, let's go ahead and switch back all of the things to the regular parameters and then tell me what those parameters are. Thank you. Okay, so I'm going to run it and it should sell a little bit. Okay, I'm just double-checking here. Trim 106 cashcat. Reduce only. Um okay, perfect. So, this is it. Cashcat long. This is my liquidation. I'm 21% away from liquidation and it
+
+00:30:00 - 00:30:59
+sold. It sold perfectly. So, let's go to trade history here. You can see I lost 23 cents on that. Okay, let's see if it double sells here. Cuz remember, it's got to keep selling until I'm out. 107 selling, okay. And it's fast. Another 107, beautiful, beautiful, okay. I verified everything works, so I consider this bot done. And now it's just going to it's switch back to the old parameters. Let me know what those parameters are. And we have successfully completed this entirely.
+
+00:30:30 - 00:31:12
+The last thing I want to do is I want to get this on GitHub because this is a interesting idea. I mean, I explained the idea. If you think it's interesting, then it's going to be on GitHub. You know, I don't [snorts] I don't it's interesting to you. It's interesting to me, but that's what this whole place is always been, you know? It's just like I'm just cooking and I'll show you everything along the way. I believe code is great equalizer. Might as well show it all.
+
+00:30:51 - 00:31:54
+So live is now true, cash cat symbol, trigger percent uh is No, dude, I want it to 2%. We want the trigger percent to be 2%, not 1%. Thank you. This will be a little safer. Slippage percentage is one. Let's increase the slippage percentage to 2% just in case. I'd rather lose a little bit on slippage than not then get liquidated. Yeah. So trigger percent here uh max trims, loop seconds, okay, trim weight seconds, percentage. I think we're good. So let me go ahead and keep it keen eye on this. I'm going to hit a
+
+00:31:23 - 00:32:14
+quick sell here. P&L, okay, we're good. We're good. So we built it. We built it all. Let me go ahead and get it on GitHub and that's the last thing I need to do. Get add dot get commit {slash} m um trimmer for hyper liquid. This is actually fire, dude. I love this iteration. I just keep posting here. Feel free to jump in the Zoom next time. I'll give you a bunch of free goodies, the road map, API key, all that.

@@ -1,0 +1,12 @@
+2026-09-25 06:15:54 --- watcher status ---
+2026-09-25 06:15:54   docs-full          hash=205a909abfc18898 changes=0 last_ok=2026-09-25 06:15:53
+2026-09-25 06:15:54   docs-toc           hash=8163d16616822e35 changes=0 last_ok=2026-09-25 06:15:53
+2026-09-25 06:15:54   sentinel-15m       hash=b098595436ce1e48 changes=0 last_ok=2026-09-25 06:15:54
+2026-09-25 06:15:54   sentinel-1h        hash=- changes=0 last_ok=-
+2026-09-25 06:15:54   sentinel-5m        hash=e145588a9e4f8c86 changes=0 last_ok=2026-09-25 06:15:53
+2026-09-25 06:15:54   sentinel-60m       hash=- changes=0 last_ok=-
+2026-09-25 06:15:54 baseline written to /home/user/regime_watch/regime_state.json
+2026-09-25 06:16:00 cycle done — no regime changes
+2026-09-25 06:16:01 REGIME-CHANGE source=sentinel-5m (1th change)
+(content changed; 565B -> 565B)
+2026-09-25 06:16:01 cycle done — CHANGES: sentinel-5m

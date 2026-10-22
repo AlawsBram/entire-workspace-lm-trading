@@ -1,0 +1,38 @@
+{
+ "docs-full": {
+  "fails": 0,
+  "hash": "205a909abfc18898",
+  "baseline_ts": "2026-09-25 06:15:53",
+  "last_ok": "2026-09-25 06:16:00",
+  "last_snapshot": "/home/user/regime_watch/snapshots/docs-full/1790316960.txt"
+ },
+ "docs-toc": {
+  "fails": 0,
+  "hash": "8163d16616822e35",
+  "baseline_ts": "2026-09-25 06:15:53",
+  "last_ok": "2026-09-25 06:16:00",
+  "last_snapshot": "/home/user/regime_watch/snapshots/docs-toc/1790316960.txt"
+ },
+ "sentinel-5m": {
+  "fails": 0,
+  "hash": "e145588a9e4f8c86",
+  "baseline_ts": "2026-09-25 06:15:53",
+  "last_ok": "2026-09-25 06:16:01",
+  "last_snapshot": "/home/user/regime_watch/snapshots/sentinel-5m/1790316961.txt",
+  "last_change": "2026-09-25 06:16:01",
+  "changes": 1
+ },
+ "sentinel-15m": {
+  "fails": 0,
+  "hash": "b098595436ce1e48",
+  "baseline_ts": "2026-09-25 06:15:54",
+  "last_ok": "2026-09-25 06:16:01",
+  "last_snapshot": "/home/user/regime_watch/snapshots/sentinel-15m/1790316961.txt"
+ },
+ "sentinel-1h": {
+  "nores": 3
+ },
+ "sentinel-60m": {
+  "nores": 3
+ }
+}

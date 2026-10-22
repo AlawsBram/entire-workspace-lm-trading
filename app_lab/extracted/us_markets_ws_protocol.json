@@ -1,0 +1,15 @@
+{
+  "endpoint": "wss://gateway-ws-markets.polymarket.us/v1/ws/subscriptions",
+  "auth": "none required for market channels (anonymous connect verified)",
+  "envelope_request": {
+    "subscribe": {"requestId": "uuid", "subscriptionType": "SUBSCRIPTION_TYPE_*", "marketSlugs": ["slug"], "responsesDebounced": "bool?"},
+    "unsubscribe": {"requestId": "uuid"}
+  },
+  "subscription_types_markets_ws": ["SUBSCRIPTION_TYPE_MARKET_DATA", "SUBSCRIPTION_TYPE_MARKET_DATA_LITE", "SUBSCRIPTION_TYPE_TRADE"],
+  "subscription_types_users_ws": ["SUBSCRIPTION_TYPE_ORDER", "SUBSCRIPTION_TYPE_ORDER_SNAPSHOT", "SUBSCRIPTION_TYPE_POSITION", "SUBSCRIPTION_TYPE_ACCOUNT_BALANCE", "SUBSCRIPTION_TYPE_RFQ"],
+  "response_oneof_fields": ["marketData", "marketDataLite", "trade", "eventVolume", "unsubscribed"],
+  "users_ws_response_oneof": ["heartbeat", "account_balances_snapshot", "account_balances_update", "order_subscription_snapshot", "order_subscription_update", "position_subscription", "rfq_event"],
+  "sample_market_data_lite": {"marketSlug": "aec-atp-adrman-densha-2026-09-27", "currentPx": "0.2650", "lastTradePx": "0.2800", "settlementPx": null, "sharesTraded": "232476.57", "openInterest": "86649.32", "bestAsk": "0.2700", "bestBid": "0.2600", "askDepth": 47, "bidDepth": 26, "bidShares": "76000", "askShares": "76000", "longQuote": "0.27", "shortQuote": "0.74", "state": "MARKET_STATE_OPEN", "lastPriceSample": {"longPx": "0.28", "shortPx": "0.72", "ts": "ns-precision"}},
+  "sample_trade": {"marketSlug": "aec-atp-adrman-densha-2026-09-27", "price": "0.2700", "quantity": "3.0000", "tradeTime": "ns-precision", "maker": {"side": "ORDER_SIDE_SELL", "intent": "ORDER_INTENT_SELL_LONG"}},
+  "notes": "schema recovered by disassembling libUSLive.so Swift symbols (AppData.WSMarketsUSRequest / PolymarketGatewayUS.Ws_Markets_V1_*), then verified with a single live session per channel; prices are USD strings, timestamps nanosecond ISO"
+}

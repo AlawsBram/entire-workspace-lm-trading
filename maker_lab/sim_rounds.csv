@@ -1,0 +1,6 @@
+mode,label,round_start,n_quotes,n_fills,buys,sells,net_shares,avg_buy,avg_sell,fair_mean_at_fill,settled,pnl_usd,adv_sel_edge,model_cert_hit,model_cert_n
+replay,5m,1790339400,14,5,4,1,600.0,0.6388,0.707,0.6883,Up,230.4000,0.2304,4,5
+replay,5m,1790339700,28,7,4,3,200.0,0.7768,0.4247,0.639,Up,-166.6000,-0.1190,7,7
+replay,5m,1790340000,51,12,5,7,-400.0,0.6466,0.3123,0.4445,Down,-209.4000,-0.0872,10,12
+live,5m,1790339700,0,1,1,0,200,0.55,,0.6,Up,90.0000,0.4500,0,0
+live,5m,1790341500,8,2,2,0,400.0,0.7805,,0.7972,Down,-312.2000,-0.7805,2,2

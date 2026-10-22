@@ -1,0 +1,5 @@
+[
+ "wss://ws-live-data.polymarket.com/",
+ "wss://ws-subscriptions-frontend-clob.polymarket.com/ws/market",
+ "wss://nexus-websocket-a.intercom.io/pubsub/5-5fJwQLJ8lOSnN0IV6LOjaCB1Qyl7-iThESYzHEfpCNkqlV50rBpRukbFY3XNa3oDn-C4Wock5drLJ1a2hWHuOLLEyejwOPjFWcCz?X-Nexus-New-Client=true&X-Nexus-Version=0.20.0&user_role=visitor"
+]

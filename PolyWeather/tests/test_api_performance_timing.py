@@ -1,0 +1,138 @@
+from pathlib import Path
+
+from fastapi.testclient import TestClient
+
+from web.app import app
+import web.services.city_api as city_api
+
+
+ROOT = Path(__file__).resolve().parents[1]
+client = TestClient(app)
+
+
+def test_backend_shared_timing_helper_avoids_sensitive_identity_fields():
+    source = (ROOT / "web" / "services" / "request_timing.py").read_text(
+        encoding="utf-8"
+    )
+
+    assert "ServerTimingRecorder" in source
+    assert "server_timing_value" in source
+    assert "user_id" not in source
+    assert "email" not in source
+
+
+def test_server_timing_recorder_warns_on_slow_stages(monkeypatch):
+    import web.services.request_timing as request_timing
+
+    warnings = []
+    monkeypatch.setenv("POLYWEATHER_SLOW_STAGE_LOG_MS", "0")
+    monkeypatch.setattr(
+        request_timing.logger,
+        "warning",
+        lambda *args, **kwargs: warnings.append(args),
+    )
+
+    recorder = request_timing.ServerTimingRecorder(
+        None,
+        log_name="unit_timing",
+        prefix="unit",
+        state_attr="unit_server_timing",
+    )
+    recorder.measure("sqlite_query", lambda: None)
+    recorder.finish(outcome="ok", status_code=200)
+
+    assert warnings
+    assert warnings[0][0] == "slow_request_timing log_name={} outcome={} status_code={} slow_stages={}"
+    assert warnings[0][1] == "unit_timing"
+    assert "sqlite_query" in warnings[0][4]
+
+
+def test_city_detail_batch_response_includes_backend_server_timing(monkeypatch):
+    city_api._CITY_DETAIL_BATCH_RESPONSE_CACHE.clear()
+    city_api._CITY_DETAIL_BATCH_RESPONSE_CACHE_TS.clear()
+    city_api._CITY_DETAIL_BATCH_RESPONSE_INFLIGHT.clear()
+
+    class FakeCache:
+        def get_city_cache(self, kind, city):
+            assert kind == "full"
+            return {"payload": {"city": city, "hourly": {"times": [], "temps": []}}}
+
+    def build_detail(data, market_slug, target_date, resolution):
+        return {"city": data["city"], "resolution": resolution}
+
+    monkeypatch.setattr(city_api.legacy_routes, "_assert_entitlement", lambda request: None)
+    monkeypatch.setattr(
+        city_api.legacy_routes,
+        "_normalize_city_or_404",
+        lambda name: name.strip().lower(),
+    )
+    monkeypatch.setattr(city_api.legacy_routes, "_city_cache_is_fresh", lambda entry, ttl: True)
+    async def _noop_overlay(city, payload):
+        return payload
+    monkeypatch.setattr(
+        city_api,
+        "_overlay_cached_observations",
+        _noop_overlay,
+    )
+    monkeypatch.setattr(city_api.legacy_routes, "_CACHE_DB", FakeCache())
+    monkeypatch.setattr(city_api.legacy_routes, "_build_city_detail_payload", build_detail)
+
+    response = client.get("/api/cities/detail-batch?cities=Paris&resolution=10m")
+
+    assert response.status_code == 200
+    server_timing = response.headers["server-timing"]
+    assert "city_detail_batch_assert_entitlement" in server_timing
+    assert "city_detail_batch_full_data_paris" in server_timing
+    assert "city_detail_batch_detail_payload_paris" in server_timing
+    assert "city_detail_batch_total" in server_timing
+    assert response.headers["cache-control"] == (
+        "public, max-age=30, s-maxage=60, stale-while-revalidate=300"
+    )
+    assert response.headers["cloudflare-cdn-cache-control"] == response.headers["cache-control"]
+
+
+def test_city_detail_response_includes_backend_server_timing(monkeypatch):
+    class FakeCache:
+        def get_city_cache(self, kind, city):
+            assert kind == "full"
+            return {"payload": {"city": city, "hourly": {"times": [], "temps": []}}}
+
+    def build_detail(data, market_slug, target_date, resolution):
+        return {"city": data["city"], "resolution": resolution}
+
+    monkeypatch.setattr(city_api.legacy_routes, "_assert_entitlement", lambda request: None)
+    monkeypatch.setattr(
+        city_api.legacy_routes,
+        "_normalize_city_or_404",
+        lambda name: name.strip().lower(),
+    )
+    monkeypatch.setattr(city_api.legacy_routes, "_city_cache_is_fresh", lambda entry, ttl: True)
+    async def _noop_overlay(city, payload):
+        return payload
+    monkeypatch.setattr(
+        city_api,
+        "_overlay_cached_observations",
+        _noop_overlay,
+    )
+    monkeypatch.setattr(city_api.legacy_routes, "_CACHE_DB", FakeCache())
+    monkeypatch.setattr(city_api.legacy_routes, "_build_city_detail_payload", build_detail)
+
+    response = client.get("/api/city/Paris/detail?resolution=10m")
+
+    assert response.status_code == 200
+    server_timing = response.headers["server-timing"]
+    assert "city_detail_assert_entitlement" in server_timing
+    assert "city_detail_full_data" in server_timing
+    assert "city_detail_detail_payload" in server_timing
+    assert "city_detail_total" in server_timing
+
+
+
+
+def test_online_users_response_includes_backend_server_timing():
+    response = client.get("/api/ops/online-users")
+
+    assert response.status_code == 200
+    server_timing = response.headers["server-timing"]
+    assert "ops_online_users_online_count" in server_timing
+    assert "ops_online_users_total" in server_timing

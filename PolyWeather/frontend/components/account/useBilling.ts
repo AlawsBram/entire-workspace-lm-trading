@@ -1,0 +1,336 @@
+"use client";
+
+import { useCallback, useEffect, useMemo, useState } from "react";
+import type { User } from "@supabase/supabase-js";
+import {
+  getAllowedPaymentHosts,
+  getCurrentPaymentHost,
+  isPaymentHostAllowed,
+} from "@/lib/payment-host";
+import type {
+  AuthMeResponse,
+  PaymentConfig,
+  PaymentRecoveryState,
+} from "./types";
+import {
+  PAYMENT_RECOVERY_STORAGE_KEY,
+  PAYMENT_RECOVERY_TTL_MS,
+} from "./constants";
+import { clearStoredPaymentRecovery, shortAddress } from "./formatters";
+
+// ============================================================
+export interface UseBillingParams {
+  isEn: boolean;
+  copy: Record<string, string>;
+  backend: AuthMeResponse | null;
+  supabaseReady: boolean;
+
+  // Shared state from master
+  paymentConfig: PaymentConfig | null;
+  authUserId: string;
+  authIsAuthenticated: boolean;
+  usePoints: boolean;
+  setUsePoints: (v: boolean) => void;
+
+  // Payment UI state from usePaymentState
+  lastIntentId: string;
+  lastTxHash: string;
+  lastPaymentStartedAt: number;
+  setLastIntentId: (v: string) => void;
+  setLastTxHash: (v: string) => void;
+  setLastPaymentStartedAt: (v: number) => void;
+  setPaymentBusy: (v: boolean) => void;
+  setPaymentInfo: (v: string) => void;
+  setPaymentError: (v: string) => void;
+  clearPaymentState: () => void;
+
+  // Derived / callbacks from master
+  selectedPlan?: { plan_code?: string; amount_usdc?: string } | undefined;
+  getValidAccessToken: () => Promise<string>;
+  buildAuthedHeaders: (withJson?: boolean, requireAuth?: boolean) => Promise<Record<string, string>>;
+  loadSnapshot: () => Promise<void>;
+  refreshEntitlementAfterPayment: () => Promise<void>;
+  loadPaymentSnapshot: () => Promise<void>;
+
+  // User for metadata points
+  user: User | null;
+}
+
+// ============================================================
+export function useBilling(params: UseBillingParams) {
+  const {
+    isEn,
+    copy,
+    backend,
+    supabaseReady,
+    paymentConfig,
+    authUserId,
+    authIsAuthenticated,
+    usePoints,
+    setUsePoints,
+    lastIntentId,
+    lastTxHash,
+    lastPaymentStartedAt,
+    setLastIntentId,
+    setLastTxHash,
+    setLastPaymentStartedAt,
+    setPaymentBusy,
+    setPaymentInfo,
+    setPaymentError,
+    clearPaymentState,
+    selectedPlan,
+    getValidAccessToken,
+    buildAuthedHeaders,
+    loadSnapshot,
+    refreshEntitlementAfterPayment,
+    loadPaymentSnapshot,
+    user,
+  } = params;
+
+  // ── Billing-specific state ────────────────────────────────
+  const [reconcileBusy, setReconcileBusy] = useState(false);
+
+  // ── Derived values ──────────────────────────────────────
+  const paymentReadyForRecovery = Boolean(paymentConfig?.enabled && paymentConfig?.configured);
+  const hasRecentPaymentRecovery =
+    Boolean(lastIntentId && lastTxHash && authUserId && lastPaymentStartedAt) &&
+    Date.now() - lastPaymentStartedAt <= PAYMENT_RECOVERY_TTL_MS;
+  const allowedPaymentHosts = useMemo(() => getAllowedPaymentHosts(), []);
+  const currentPaymentHost = useMemo(() => getCurrentPaymentHost(), []);
+  const paymentHostAllowed = useMemo(() => isPaymentHostAllowed(currentPaymentHost), [currentPaymentHost]);
+
+  // ── Points computation ──────────────────────────────────
+  const backendPointsRaw = Number(backend?.points);
+  const metadataPointsRaw = Number(
+    user?.user_metadata?.points ?? user?.user_metadata?.total_points ?? 0,
+  );
+  const metadataPointsSafe = Number.isFinite(metadataPointsRaw) ? metadataPointsRaw : 0;
+  const pointsRaw = Number.isFinite(backendPointsRaw)
+    ? Math.max(backendPointsRaw, metadataPointsSafe)
+    : metadataPointsSafe;
+  const totalPoints = Number.isFinite(pointsRaw) ? Math.max(0, pointsRaw) : 0;
+
+  // ── Billing ──────────────────────────────────────────────
+  const billing = useMemo(() => {
+  const listAmountRaw = Number(selectedPlan?.amount_usdc ?? 9.9);
+    const listAmount =
+      Number.isFinite(listAmountRaw) && listAmountRaw > 0 ? listAmountRaw : 9.9;
+    const selectedPlanCode = String(selectedPlan?.plan_code || "").toLowerCase();
+    const planAmount = listAmount;
+
+    const pointsCfg = paymentConfig?.points_redemption || {};
+    const pointsEnabled = pointsCfg.enabled !== false;
+    const pointsPerUsdcRaw = Number(pointsCfg.points_per_usdc ?? 500);
+    const pointsPerUsdc =
+      Number.isFinite(pointsPerUsdcRaw) && pointsPerUsdcRaw > 0 ? Math.floor(pointsPerUsdcRaw) : 500;
+
+    const maxDiscountByPlan = pointsCfg.max_discount_usdc_by_plan || {};
+    const planMaxDiscountRaw =
+      maxDiscountByPlan[selectedPlanCode] ?? pointsCfg.max_discount_usdc ?? 3;
+    const maxDiscountRaw = Number(planMaxDiscountRaw);
+    const maxDiscountUsdc = Math.max(
+      0,
+      Math.min(
+        Math.floor(Number.isFinite(maxDiscountRaw) ? maxDiscountRaw : 3),
+        Math.floor(planAmount),
+      ),
+    );
+
+    const maxRedeemablePoints = pointsPerUsdc * maxDiscountUsdc;
+    const pointsCanApply = pointsEnabled;
+    const actualRedeem = pointsCanApply ? Math.min(totalPoints, maxRedeemablePoints) : 0;
+    const discountUnits = Math.floor(actualRedeem / pointsPerUsdc);
+    const pointsUsed = discountUnits * pointsPerUsdc;
+    const canRedeem = pointsCanApply && maxDiscountUsdc > 0 && totalPoints >= pointsPerUsdc;
+    const applyDiscount = usePoints && canRedeem && pointsUsed > 0;
+
+    return {
+      planAmount,
+      listAmount,
+      pointsEnabled,
+      pointsPerUsdc,
+      maxDiscountUsdc,
+      pointsUsed,
+      discountAmount: discountUnits,
+      payAmount: planAmount - (applyDiscount ? discountUnits : 0),
+      canRedeem,
+    };
+  }, [
+    paymentConfig?.points_redemption,
+    selectedPlan?.plan_code,
+    selectedPlan?.amount_usdc,
+    totalPoints,
+    usePoints,
+  ]);
+
+  // ── reconcileLatestPayment ──────────────────────────────
+  const reconcileLatestPayment = useCallback(async (txHash?: string) => {
+    if (!authIsAuthenticated || reconcileBusy) return false;
+    setReconcileBusy(true);
+    try {
+      const headers = await buildAuthedHeaders(true, true);
+      const query = txHash ? `?tx_hash=${encodeURIComponent(txHash)}` : "";
+      const res = await fetch(`/api/payments/reconcile-latest${query}`, {
+        method: "POST", headers,
+      });
+      if (!res.ok) return false;
+      const json = (await res.json()) as {
+        ok?: boolean; action?: string; subscription?: { plan_code?: string | null } | null;
+      };
+      if (json.ok) {
+        setPaymentInfo(copy.walletRecoveryDone);
+        setPaymentError("");
+        await refreshEntitlementAfterPayment();
+        await loadPaymentSnapshot();
+        return true;
+      }
+      return false;
+    } catch {
+      return false;
+    } finally {
+      setReconcileBusy(false);
+    }
+  }, [
+    authIsAuthenticated, buildAuthedHeaders, copy.walletRecoveryDone,
+    loadPaymentSnapshot, refreshEntitlementAfterPayment, reconcileBusy,
+  ]);
+
+  // ── handleSubmit409 ────────────────────────────────────
+  const handleSubmit409 = useCallback(
+    async (intentId: string, txHashNorm: string, raw: string, submitStatus = 409) => {
+      const lowerRaw = raw.toLowerCase();
+      if (submitStatus >= 500 || lowerRaw.includes("tx_hash already used by another payment intent")) {
+        const ok = await reconcileLatestPayment(txHashNorm);
+        if (ok) return;
+        throw new Error(copy.submitTxFailed.replace("{raw}", raw));
+      }
+      if (lowerRaw.includes("已支付") || lowerRaw.includes("already confirmed") || lowerRaw.includes("already paid")) {
+        const ok = await reconcileLatestPayment();
+        if (ok) return;
+        setPaymentInfo(copy.orderAlreadyPaid);
+        await refreshEntitlementAfterPayment();
+        await loadPaymentSnapshot();
+        return;
+      }
+      if (lowerRaw.includes("expired")) {
+        throw new Error(copy.orderExpired);
+      }
+      try {
+        const headers = await buildAuthedHeaders(true, false);
+        const intentRes = await fetch(`/api/payments/intents/${intentId}`, { headers, cache: "no-store" });
+        if (intentRes.ok) {
+          const intentJson = (await intentRes.json()) as {
+            intent?: { status?: string; tx_hash?: string };
+          };
+          const status = intentJson.intent?.status;
+          if (status === "confirmed") {
+            await reconcileLatestPayment();
+            const txHash = intentJson.intent?.tx_hash || txHashNorm;
+            setPaymentInfo(`支付已确认，交易: ${shortAddress(txHash)}`);
+            setPaymentError("");
+            await refreshEntitlementAfterPayment();
+            await loadPaymentSnapshot();
+            return;
+          }
+          if (status === "expired") throw new Error(copy.orderExpired);
+        }
+      } catch (e) {
+        if (e instanceof Error && e.message !== raw) throw e;
+      }
+      throw new Error(copy.submitTxFailed.replace("{raw}", raw));
+    },
+    [buildAuthedHeaders, copy, loadPaymentSnapshot, refreshEntitlementAfterPayment, reconcileLatestPayment],
+  );
+
+  // ── loadPaymentSnapshot effect ────────────────────────────
+  useEffect(() => {
+    void loadPaymentSnapshot();
+  }, [loadPaymentSnapshot]);
+
+  // ── Recovery save effect ────────────────────────────────
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!(lastIntentId && lastTxHash && authUserId && lastPaymentStartedAt)) {
+      clearStoredPaymentRecovery();
+      return;
+    }
+    const payload: PaymentRecoveryState = {
+      intentId: lastIntentId,
+      txHash: lastTxHash,
+      userId: authUserId,
+      createdAt: lastPaymentStartedAt,
+    };
+    window.sessionStorage.setItem(PAYMENT_RECOVERY_STORAGE_KEY, JSON.stringify(payload));
+  }, [authUserId, lastIntentId, lastPaymentStartedAt, lastTxHash]);
+
+  // ── Recovery restore effect ──────────────────────────────
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!authUserId) return;
+    if (lastIntentId && lastTxHash && lastPaymentStartedAt) return;
+    const raw = window.sessionStorage.getItem(PAYMENT_RECOVERY_STORAGE_KEY);
+    if (!raw) return;
+    try {
+      const parsed = JSON.parse(raw) as PaymentRecoveryState;
+      const userId = String(parsed?.userId || "").trim();
+      const intentId = String(parsed?.intentId || "").trim();
+      const txHash = String(parsed?.txHash || "").trim().toLowerCase();
+      const createdAt = Number(parsed?.createdAt || 0);
+      const expired = !createdAt || Date.now() - createdAt > PAYMENT_RECOVERY_TTL_MS;
+      if (expired || !intentId || !txHash || !userId || userId !== authUserId) {
+        clearStoredPaymentRecovery();
+        return;
+      }
+      setLastIntentId(intentId);
+      setLastTxHash(txHash);
+      setLastPaymentStartedAt(createdAt);
+    } catch {
+      clearStoredPaymentRecovery();
+    }
+  }, [authUserId, lastIntentId, lastPaymentStartedAt, lastTxHash]);
+
+  // ── Subscription cleanup effect ──────────────────────────
+  useEffect(() => {
+    if (!backend?.subscription_active) return;
+    clearPaymentState();
+    clearStoredPaymentRecovery();
+  }, [backend?.subscription_active]);
+
+  // ── Auto-reconcile effect ──────────────────────────────
+  useEffect(() => {
+    if (!authIsAuthenticated) return;
+    if (backend?.subscription_active) return;
+    if (!paymentReadyForRecovery) return;
+    if (!hasRecentPaymentRecovery) return;
+    let cancelled = false;
+    const run = async () => {
+      setPaymentInfo(copy.walletRecoveryBusy);
+      const repaired = await reconcileLatestPayment();
+      if (cancelled) return;
+      if (!repaired && !backend?.subscription_active) {
+        setPaymentInfo("");
+        setPaymentError(copy.walletRecoveryFailed);
+      }
+    };
+    void run();
+    return () => { cancelled = true; };
+  }, [
+    backend?.subscription_active, authIsAuthenticated, copy.walletRecoveryBusy,
+    copy.walletRecoveryFailed, hasRecentPaymentRecovery,
+    paymentReadyForRecovery, reconcileLatestPayment,
+  ]);
+
+  // ==========================================================
+  return {
+    reconcileBusy,
+    reconcileLatestPayment,
+    handleSubmit409,
+    paymentReadyForRecovery,
+    hasRecentPaymentRecovery,
+    allowedPaymentHosts,
+    currentPaymentHost,
+    paymentHostAllowed,
+    totalPoints,
+    billing,
+  };
+}

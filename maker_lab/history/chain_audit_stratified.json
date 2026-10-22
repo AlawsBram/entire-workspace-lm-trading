@@ -1,0 +1,47 @@
+{
+ "1-2bp": {
+  "n": 40,
+  "pr_wrong": 40,
+  "long_wrong": 40,
+  "gamma_fresh_wrong": 40,
+  "pr_eq_long": [
+   0
+  ]
+ },
+ "2-4bp": {
+  "n": 40,
+  "pr_wrong": 40,
+  "long_wrong": 40,
+  "gamma_fresh_wrong": 40,
+  "pr_eq_long": [
+   0
+  ]
+ },
+ "4-8bp": {
+  "n": 40,
+  "pr_wrong": 40,
+  "long_wrong": 40,
+  "gamma_fresh_wrong": 40,
+  "pr_eq_long": [
+   0
+  ]
+ },
+ "<1bp": {
+  "n": 40,
+  "pr_wrong": 40,
+  "long_wrong": 40,
+  "gamma_fresh_wrong": 40,
+  "pr_eq_long": [
+   0
+  ]
+ },
+ ">8bp": {
+  "n": 40,
+  "pr_wrong": 40,
+  "long_wrong": 40,
+  "gamma_fresh_wrong": 40,
+  "pr_eq_long": [
+   0
+  ]
+ }
+}

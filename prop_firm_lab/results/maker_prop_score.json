@@ -1,0 +1,29 @@
+{
+  "summary": {
+    "strategy": "OPEN-BOOK-MAKER (sim_rounds.csv)",
+    "attempts": 1,
+    "passes": 0,
+    "deaths": 0,
+    "stalls": 1,
+    "pass_rate_pct": null,
+    "cost_per_attempt_usd": 245.0,
+    "cost_n_buy_usd": 1225.0,
+    "p_at_least_one_pass_in_n": null,
+    "worst_daily_loss_pct": 1.18,
+    "worst_drawdown_pct": 1.18,
+    "rounds_total": 5
+  },
+  "attempts": [
+    {
+      "start_idx": 0,
+      "equity": 49408.55715444426,
+      "day": "2026-09-25",
+      "day_start": 50000.0,
+      "peak": 50000.0,
+      "worst_daily": 1.1828856911114853,
+      "worst_dd": 1.1828856911114853,
+      "rounds": 5,
+      "result": "STALL"
+    }
+  ]
+}

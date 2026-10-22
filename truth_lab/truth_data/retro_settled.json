@@ -1,0 +1,17 @@
+[
+ {
+  "start": 1791982200,
+  "condition_id": "0xe117b8dcddd7918b8ff2d9abd20863c24eb8cbca5e25a97f38881a021178495f",
+  "chain": "Down"
+ },
+ {
+  "start": 1791982500,
+  "condition_id": "0x60dec26d7c3beaa58fb41f78f5f6e816529f5f9c761d8f548442b403332d2cc0",
+  "chain": "Down"
+ },
+ {
+  "start": 1791982800,
+  "condition_id": "0x7aa7690958e44102d0a6e2d4c49c526ee6cd308c377ce11b15e97e953f48240e",
+  "chain": "Up"
+ }
+]

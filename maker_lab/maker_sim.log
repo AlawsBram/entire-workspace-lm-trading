@@ -1,0 +1,263 @@
+[12:17:39Z] maker_sim LIVE (paper) starting: half_spread=0.015 fill_prob=0.5 size=200.0
+[12:17:40Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:17:40Z] RTDS connected
+[12:17:41Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:17:42Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:17:43Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:17:44Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:17:46Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:17:47Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:17:48Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:17:49Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:17:50Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:17:51Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:17:53Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:17:54Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:17:55Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:17:56Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:17:57Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:17:59Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:00Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:01Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:02Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:03Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:05Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:06Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:07Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:08Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:09Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:10Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:12Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:13Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:14Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:15Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:16Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:18Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:19Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:20Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:21Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:22Z] WARN live tick: 'NoneType' object is not subscriptable
+[12:18:27Z] maker_sim LIVE (paper) starting: half_spread=0.015 fill_prob=0.5 size=200.0
+[12:18:28Z] RTDS connected
+[12:26:25Z] maker_sim LIVE (paper) starting: half_spread=0.015 fill_prob=0.5 size=200.0
+[12:26:26Z] RTDS connected
+[12:30:01Z] 5m 1790339400: open ref snapped twap=84371.82
+[12:30:01Z] 15m 1790339400: open ref snapped twap=84371.82
+[12:30:04Z] FILL live 5m 1790339400 t=5s BUY 200@0.533 fair=0.549
+[12:30:05Z] FILL live 15m 1790339400 t=5s BUY 200@0.513 fair=0.528
+[12:30:06Z] FILL live 5m 1790339400 t=6s BUY 200@0.534 fair=0.598
+[12:30:06Z] FILL live 15m 1790339400 t=6s SELL 200@0.543 fair=0.557
+[12:30:09Z] FILL live 15m 1790339400 t=9s BUY 200@0.562 fair=0.578
+[12:30:10Z] FILL live 15m 1790339400 t=10s BUY 200@0.563 fair=0.598
+[12:30:12Z] FILL live 15m 1790339400 t=12s BUY 200@0.583 fair=0.613
+[12:30:13Z] FILL live 5m 1790339400 t=13s SELL 200@0.709 fair=0.695
+[12:30:17Z] FILL live 5m 1790339400 t=17s BUY 200@0.736 fair=0.777
+[12:30:18Z] FILL live 5m 1790339400 t=19s BUY 200@0.762 fair=0.815
+[12:35:00Z] 5m 1790339700: open ref snapped twap=84453.99
+[12:35:05Z] FILL live 5m 1790339700 t=5s SELL 200@0.450 fair=0.409
+[12:35:09Z] FILL live 5m 1790339700 t=9s SELL 200@0.403 fair=0.374
+[12:35:11Z] FILL live 5m 1790339700 t=11s SELL 200@0.389 fair=0.370
+[12:35:32Z] FILL live 5m 1790339700 t=32s BUY 200@0.661 fair=0.722
+[12:35:36Z] FILL live 5m 1790339700 t=36s BUY 200@0.775 fair=0.831
+[12:35:41Z] FILL live 5m 1790339700 t=42s BUY 200@0.897 fair=0.949
+[12:40:00Z] 5m 1790340000: open ref snapped twap=84484.27
+[12:40:04Z] FILL live 5m 1790340000 t=5s BUY 200@0.516 fair=0.537
+[12:40:06Z] FILL live 5m 1790340000 t=6s BUY 200@0.522 fair=0.533
+[12:40:07Z] FILL live 5m 1790340000 t=7s SELL 200@0.548 fair=0.532
+[12:40:08Z] FILL live 5m 1790340000 t=9s SELL 200@0.547 fair=0.531
+[12:40:21Z] FILL live 5m 1790340000 t=21s BUY 200@0.691 fair=0.738
+[12:40:22Z] FILL live 5m 1790340000 t=23s BUY 200@0.723 fair=0.797
+[12:40:24Z] FILL live 5m 1790340000 t=24s BUY 200@0.782 fair=0.822
+[12:41:04Z] FILL live 5m 1790340000 t=64s SELL 200@0.356 fair=0.312
+[12:41:06Z] FILL live 5m 1790340000 t=67s SELL 200@0.291 fair=0.270
+[12:41:13Z] FILL live 5m 1790340000 t=73s SELL 200@0.184 fair=0.128
+[12:41:14Z] FILL live 5m 1790340000 t=75s SELL 200@0.143 fair=0.081
+[12:41:16Z] FILL live 5m 1790340000 t=76s SELL 200@0.096 fair=0.054
+[12:45:00Z] 5m 1790340300: open ref snapped twap=84419.32
+[12:45:00Z] 15m 1790340300: open ref snapped twap=84419.32
+[12:45:05Z] FILL live 5m 1790340300 t=5s BUY 200@0.520 fair=0.586
+[12:45:05Z] FILL live 15m 1790340300 t=5s BUY 200@0.505 fair=0.550
+[12:45:10Z] FILL live 5m 1790340300 t=11s BUY 200@0.675 fair=0.709
+[12:45:11Z] FILL live 15m 1790340300 t=11s BUY 200@0.596 fair=0.623
+[12:45:12Z] FILL live 5m 1790340300 t=12s BUY 200@0.694 fair=0.732
+[12:45:12Z] FILL live 15m 1790340300 t=12s BUY 200@0.608 fair=0.637
+[12:45:30Z] FILL live 5m 1790340300 t=30s SELL 200@0.406 fair=0.337
+[12:45:30Z] FILL live 15m 1790340300 t=30s SELL 200@0.448 fair=0.402
+[12:45:31Z] FILL live 5m 1790340300 t=32s SELL 200@0.352 fair=0.231
+[12:45:31Z] FILL live 15m 1790340300 t=32s SELL 200@0.417 fair=0.337
+[12:45:33Z] FILL live 5m 1790340300 t=33s SELL 200@0.246 fair=0.178
+[12:45:33Z] FILL live 15m 1790340300 t=33s SELL 200@0.352 fair=0.300
+[12:45:34Z] FILL live 5m 1790340300 t=34s SELL 200@0.193 fair=0.121
+[12:45:34Z] FILL live 15m 1790340300 t=34s SELL 200@0.315 fair=0.256
+[12:45:38Z] FILL live 15m 1790340300 t=39s SELL 200@0.230 fair=0.200
+[12:45:40Z] FILL live 15m 1790340300 t=40s SELL 200@0.215 fair=0.182
+[12:46:10Z] replay: 1403 records from 1 file(s)
+[12:46:10Z] FILL replay 15m 1790339400 t=5s BUY 200@0.512 fair=0.527
+[12:46:10Z] FILL replay 15m 1790339400 t=6s SELL 200@0.542 fair=0.555
+[12:46:10Z] FILL replay 15m 1790339400 t=9s BUY 200@0.560 fair=0.577
+[12:46:10Z] FILL replay 15m 1790339400 t=10s BUY 200@0.562 fair=0.597
+[12:46:10Z] FILL replay 15m 1790339400 t=12s BUY 200@0.582 fair=0.611
+[12:46:10Z] FILL replay 15m 1790340300 t=5s BUY 200@0.505 fair=0.549
+[12:46:10Z] FILL replay 15m 1790340300 t=11s BUY 200@0.596 fair=0.623
+[12:46:10Z] FILL replay 15m 1790340300 t=12s BUY 200@0.608 fair=0.637
+[12:46:10Z] FILL replay 15m 1790340300 t=30s SELL 200@0.448 fair=0.402
+[12:46:10Z] FILL replay 15m 1790340300 t=31s SELL 200@0.417 fair=0.338
+[12:46:10Z] FILL replay 15m 1790340300 t=33s SELL 200@0.353 fair=0.300
+[12:46:10Z] FILL replay 15m 1790340300 t=34s SELL 200@0.315 fair=0.255
+[12:46:10Z] FILL replay 15m 1790340300 t=38s SELL 200@0.230 fair=0.200
+[12:46:10Z] FILL replay 15m 1790340300 t=40s SELL 200@0.215 fair=0.182
+[12:46:10Z] FILL replay 5m 1790339400 t=5s BUY 200@0.532 fair=0.548
+[12:46:10Z] FILL replay 5m 1790339400 t=6s BUY 200@0.533 fair=0.596
+[12:46:10Z] FILL replay 5m 1790339400 t=13s SELL 200@0.707 fair=0.715
+[12:46:10Z] FILL replay 5m 1790339400 t=17s BUY 200@0.733 fair=0.772
+[12:46:10Z] FILL replay 5m 1790339400 t=19s BUY 200@0.757 fair=0.811
+[12:46:10Z] FILL replay 5m 1790339700 t=4s SELL 200@0.467 fair=0.435
+[12:46:10Z] FILL replay 5m 1790339700 t=8s SELL 200@0.404 fair=0.388
+[12:46:10Z] FILL replay 5m 1790339700 t=10s SELL 200@0.403 fair=0.373
+[12:46:10Z] FILL replay 5m 1790339700 t=29s BUY 200@0.602 fair=0.625
+[12:46:10Z] FILL replay 5m 1790339700 t=35s BUY 200@0.731 fair=0.790
+[12:46:10Z] FILL replay 5m 1790339700 t=40s BUY 200@0.877 fair=0.912
+[12:46:10Z] FILL replay 5m 1790339700 t=42s BUY 200@0.897 fair=0.949
+[12:46:10Z] FILL replay 5m 1790340000 t=4s BUY 200@0.516 fair=0.541
+[12:46:10Z] FILL replay 5m 1790340000 t=6s BUY 200@0.526 fair=0.533
+[12:46:10Z] FILL replay 5m 1790340000 t=7s SELL 200@0.548 fair=0.532
+[12:46:10Z] FILL replay 5m 1790340000 t=8s SELL 200@0.547 fair=0.532
+[12:46:10Z] FILL replay 5m 1790340000 t=21s BUY 200@0.688 fair=0.738
+[12:46:10Z] FILL replay 5m 1790340000 t=22s BUY 200@0.723 fair=0.795
+[12:46:10Z] FILL replay 5m 1790340000 t=23s BUY 200@0.780 fair=0.797
+[12:46:10Z] FILL replay 5m 1790340000 t=64s SELL 200@0.356 fair=0.312
+[12:46:10Z] FILL replay 5m 1790340000 t=66s SELL 200@0.291 fair=0.270
+[12:46:10Z] FILL replay 5m 1790340000 t=73s SELL 200@0.184 fair=0.128
+[12:46:10Z] FILL replay 5m 1790340000 t=75s SELL 200@0.143 fair=0.102
+[12:46:10Z] FILL replay 5m 1790340000 t=76s SELL 200@0.117 fair=0.054
+[12:46:10Z] FILL replay 5m 1790340300 t=5s BUY 200@0.520 fair=0.586
+[12:46:10Z] FILL replay 5m 1790340300 t=11s BUY 200@0.675 fair=0.709
+[12:46:10Z] FILL replay 5m 1790340300 t=12s BUY 200@0.694 fair=0.732
+[12:46:10Z] FILL replay 5m 1790340300 t=30s SELL 200@0.406 fair=0.337
+[12:46:10Z] FILL replay 5m 1790340300 t=31s SELL 200@0.352 fair=0.231
+[12:46:10Z] FILL replay 5m 1790340300 t=33s SELL 200@0.246 fair=0.178
+[12:46:10Z] FILL replay 5m 1790340300 t=34s SELL 200@0.193 fair=0.119
+[12:46:10Z] replay: settling 6 round(s) via gamma...
+[12:46:10Z] ROUND-SETTLED replay 5m 1790339400: settled=Up quotes=14 fills=5 net=+600sh pnl=+230.40USDC adv_sel=+0.2304 cert=4/5
+[12:46:10Z] ROUND-SETTLED replay 5m 1790339700: settled=Up quotes=28 fills=7 net=+200sh pnl=-166.60USDC adv_sel=-0.1190 cert=7/7
+[12:46:21Z] FILL live 5m 1790340300 t=81s SELL 200@0.107 fair=0.118
+[12:46:22Z] FILL live 5m 1790340300 t=83s SELL 200@0.133 fair=0.146
+[12:46:36Z] FILL live 15m 1790340300 t=96s BUY 200@0.648 fair=0.674
+[12:46:37Z] FILL live 5m 1790340300 t=98s BUY 200@0.718 fair=0.772
+[12:46:38Z] FILL live 15m 1790340300 t=98s BUY 200@0.659 fair=0.695
+[12:46:39Z] FILL live 5m 1790340300 t=99s BUY 200@0.757 fair=0.781
+[12:46:42Z] FILL live 15m 1790340300 t=102s BUY 200@0.689 fair=0.712
+[12:46:43Z] FILL live 5m 1790340300 t=103s BUY 200@0.790 fair=0.813
+[12:46:43Z] FILL live 15m 1790340300 t=103s BUY 200@0.697 fair=0.716
+[12:46:44Z] FILL live 5m 1790340300 t=104s BUY 200@0.798 fair=0.830
+[12:46:46Z] FILL live 15m 1790340300 t=106s BUY 200@0.711 fair=0.729
+[12:46:47Z] FILL live 5m 1790340300 t=107s BUY 200@0.820 fair=0.836
+[12:46:47Z] FILL live 15m 1790340300 t=107s BUY 200@0.714 fair=0.728
+[12:46:48Z] FILL live 5m 1790340300 t=109s BUY 200@0.821 fair=0.830
+[12:47:24Z] FILL live 5m 1790340300 t=144s SELL 200@0.585 fair=0.552
+[12:47:25Z] FILL live 5m 1790340300 t=146s SELL 200@0.567 fair=0.513
+[12:47:27Z] FILL live 15m 1790340300 t=147s SELL 200@0.548 fair=0.526
+[12:47:28Z] FILL live 5m 1790340300 t=148s SELL 200@0.512 fair=0.478
+[12:47:29Z] FILL live 5m 1790340300 t=150s SELL 200@0.493 fair=0.469
+[12:47:30Z] FILL live 15m 1790340300 t=150s SELL 200@0.532 fair=0.513
+[12:47:31Z] FILL live 5m 1790340300 t=151s SELL 200@0.484 fair=0.459
+[12:47:32Z] FILL live 5m 1790340300 t=153s SELL 200@0.474 fair=0.451
+[12:47:32Z] FILL live 15m 1790340300 t=153s SELL 200@0.524 fair=0.506
+[12:47:34Z] FILL live 15m 1790340300 t=154s SELL 200@0.521 fair=0.504
+[12:47:38Z] FILL live 15m 1790340300 t=158s BUY 200@0.495 fair=0.515
+[12:47:39Z] FILL live 15m 1790340300 t=159s BUY 200@0.500 fair=0.527
+[12:47:43Z] FILL live 15m 1790340300 t=163s SELL 200@0.544 fair=0.535
+[12:47:46Z] FILL live 15m 1790340300 t=166s SELL 200@0.556 fair=0.560
+[12:47:50Z] FILL live 15m 1790340300 t=170s SELL 200@0.616 fair=0.647
+[12:47:52Z] FILL live 15m 1790340300 t=172s SELL 200@0.662 fair=0.676
+[12:47:55Z] FILL live 15m 1790340300 t=175s BUY 200@0.692 fair=0.756
+[12:47:56Z] FILL live 15m 1790340300 t=176s BUY 200@0.741 fair=0.797
+[12:47:57Z] FILL live 15m 1790340300 t=177s BUY 200@0.782 fair=0.819
+[12:47:59Z] FILL live 15m 1790340300 t=179s BUY 200@0.804 fair=0.819
+[12:48:01Z] FILL live 15m 1790340300 t=181s BUY 200@0.841 fair=0.857
+[12:48:10Z] ROUND-SETTLED replay 5m 1790340000: settled=Down quotes=51 fills=12 net=-400sh pnl=-209.40USDC adv_sel=-0.0872 cert=10/12
+[12:50:00Z] 5m 1790340600: open ref snapped twap=84404.98
+[12:50:02Z] FILL live 15m 1790340300 t=302s SELL 200@0.438 fair=0.413
+[12:50:03Z] FILL live 15m 1790340300 t=304s SELL 200@0.428 fair=0.401
+[12:50:06Z] FILL live 5m 1790340600 t=6s SELL 200@0.459 fair=0.434
+[12:50:06Z] FILL live 15m 1790340300 t=306s SELL 200@0.396 fair=0.373
+[12:50:07Z] FILL live 5m 1790340600 t=8s SELL 200@0.449 fair=0.427
+[12:50:08Z] FILL live 15m 1790340300 t=308s SELL 200@0.388 fair=0.368
+[12:50:09Z] FILL live 5m 1790340600 t=9s SELL 200@0.442 fair=0.422
+[12:50:09Z] FILL live 15m 1790340300 t=309s SELL 200@0.383 fair=0.363
+[12:50:10Z] 15m 1790339400: resolution not final, round dropped
+[12:50:10Z] 15m 1790340300: resolution not final, round dropped
+[12:50:10Z] 5m 1790340300: resolution not final, round dropped
+[12:50:10Z] replay done
+[12:51:15Z] FILL live 5m 1790340600 t=75s BUY 200@0.659 fair=0.696
+[12:51:15Z] FILL live 15m 1790340300 t=375s BUY 200@0.470 fair=0.491
+[12:51:16Z] FILL live 5m 1790340600 t=77s BUY 200@0.681 fair=0.705
+[12:51:16Z] FILL live 15m 1790340300 t=377s BUY 200@0.476 fair=0.496
+[12:51:18Z] FILL live 15m 1790340300 t=378s BUY 200@0.481 fair=0.511
+[12:51:19Z] FILL live 5m 1790340600 t=79s BUY 200@0.717 fair=0.747
+[12:51:20Z] FILL live 5m 1790340600 t=81s BUY 200@0.732 fair=0.774
+[12:51:23Z] FILL live 5m 1790340600 t=83s BUY 200@0.785 fair=0.801
+[12:51:24Z] FILL live 5m 1790340600 t=85s BUY 200@0.786 fair=0.803
+[12:51:29Z] FILL live 15m 1790340300 t=389s SELL 200@0.557 fair=0.551
+[12:51:35Z] maker_sim LIVE (paper) starting: half_spread=0.015 fill_prob=0.5 size=200.0
+[12:51:36Z] RTDS connected
+[12:55:00Z] 5m 1790340900: open ref snapped twap=84420.79
+[12:55:04Z] FILL live 5m 1790340900 t=4s SELL 200@0.530 fair=0.532
+[12:55:05Z] FILL live 5m 1790340900 t=6s SELL 200@0.547 fair=0.542
+[12:55:06Z] FILL live 5m 1790340900 t=7s SELL 200@0.557 fair=0.552
+[12:55:09Z] FILL live 5m 1790340900 t=9s BUY 200@0.545 fair=0.569
+[12:55:14Z] FILL live 5m 1790340900 t=14s BUY 200@0.581 fair=0.601
+[12:55:15Z] FILL live 5m 1790340900 t=15s BUY 200@0.586 fair=0.605
+[12:55:16Z] FILL live 5m 1790340900 t=16s BUY 200@0.590 fair=0.604
+[12:55:17Z] FILL live 5m 1790340900 t=17s BUY 200@0.589 fair=0.607
+[12:55:18Z] FILL live 5m 1790340900 t=19s BUY 200@0.592 fair=0.607
+[12:59:35Z] ROUND-SETTLED live 5m 1790339700: settled=Up quotes=0 fills=1 net=+200sh pnl=+90.00USDC adv_sel=+0.4500 cert=0/0
+[12:59:57Z] maker_sim LIVE (paper) starting: half_spread=0.015 fill_prob=0.5 size=200.0
+[12:59:59Z] RTDS connected
+[13:00:00Z] 5m 1790341200: open ref snapped twap=84468.97
+[13:00:00Z] 15m 1790341200: open ref snapped twap=84468.97
+[13:00:05Z] FILL live 15m 1790341200 t=5s SELL 200@0.395 fair=0.345
+[13:00:06Z] FILL live 5m 1790341200 t=7s SELL 200@0.258 fair=0.195
+[13:00:06Z] FILL live 15m 1790341200 t=7s SELL 200@0.360 fair=0.311
+[13:00:08Z] FILL live 5m 1790341200 t=8s SELL 200@0.210 fair=0.114
+[13:00:08Z] FILL live 15m 1790341200 t=8s SELL 200@0.326 fair=0.246
+[13:00:09Z] FILL live 5m 1790341200 t=9s SELL 200@0.129 fair=0.081
+[13:00:58Z] HEARTBEAT twap=84400.7 feed_age=0s rounds_tracked=4
+[13:01:59Z] HEARTBEAT twap=84339.9 feed_age=1s rounds_tracked=4
+[13:02:59Z] HEARTBEAT twap=84415.7 feed_age=5s rounds_tracked=4
+[13:03:59Z] HEARTBEAT twap=84431.8 feed_age=0s rounds_tracked=4
+[13:04:02Z] 5m 1790340900: resolution not final, round dropped
+[13:04:02Z] 15m 1790340300: resolution not final, round dropped
+[13:04:59Z] HEARTBEAT twap=84451.3 feed_age=0s rounds_tracked=4
+[13:05:00Z] 5m 1790341500: open ref snapped twap=84451.69
+[13:05:09Z] FILL live 5m 1790341500 t=9s BUY 200@0.723 fair=0.740
+[13:05:12Z] FILL live 5m 1790341500 t=12s BUY 200@0.838 fair=0.854
+[13:06:00Z] HEARTBEAT twap=84501.8 feed_age=0s rounds_tracked=5
+[13:06:11Z] FILL live 15m 1790341200 t=371s BUY 200@0.771 fair=0.816
+[13:06:14Z] FILL live 15m 1790341200 t=374s BUY 200@0.851 fair=0.884
+[13:06:17Z] FILL live 15m 1790341200 t=377s BUY 200@0.898 fair=0.925
+[13:07:01Z] HEARTBEAT twap=84536.2 feed_age=0s rounds_tracked=5
+[13:07:20Z] FILL live 15m 1790341200 t=440s BUY 200@0.860 fair=0.811
+[13:07:23Z] FILL live 15m 1790341200 t=443s BUY 200@0.797 fair=0.750
+[13:07:35Z] FILL live 15m 1790341200 t=456s SELL 200@0.384 fair=0.337
+[13:07:38Z] FILL live 15m 1790341200 t=458s SELL 200@0.290 fair=0.247
+[13:07:41Z] FILL live 15m 1790341200 t=461s SELL 200@0.211 fair=0.174
+[13:07:44Z] FILL live 15m 1790341200 t=464s SELL 200@0.168 fair=0.124
+[13:07:45Z] FILL live 15m 1790341200 t=465s SELL 200@0.139 fair=0.097
+[13:08:01Z] HEARTBEAT twap=84446.6 feed_age=1s rounds_tracked=5
+[13:09:01Z] HEARTBEAT twap=84466.3 feed_age=0s rounds_tracked=5
+[13:09:02Z] 5m 1790341200: resolution not final, round dropped
+[13:10:00Z] 5m 1790341800: open ref snapped twap=84434.03
+[13:10:02Z] HEARTBEAT twap=84434.0 feed_age=0s rounds_tracked=6
+[13:10:04Z] FILL live 5m 1790341800 t=5s BUY 200@0.482 fair=0.495
+[13:10:06Z] FILL live 5m 1790341800 t=6s BUY 200@0.480 fair=0.493
+[13:10:07Z] FILL live 5m 1790341800 t=7s BUY 200@0.478 fair=0.487
+[13:10:26Z] FILL live 5m 1790341800 t=27s SELL 200@0.455 fair=0.437
+[13:10:29Z] FILL live 5m 1790341800 t=29s SELL 200@0.448 fair=0.427
+[13:10:30Z] FILL live 5m 1790341800 t=31s SELL 200@0.442 fair=0.421
+[13:10:33Z] FILL live 5m 1790341800 t=33s SELL 200@0.419 fair=0.392
+[13:10:41Z] FILL live 5m 1790341800 t=42s SELL 200@0.354 fair=0.308
+[13:11:02Z] HEARTBEAT twap=84424.3 feed_age=0s rounds_tracked=6
+[13:12:03Z] HEARTBEAT twap=84418.0 feed_age=0s rounds_tracked=6
+[13:12:41Z] ROUND-SETTLED live 5m 1790341500: settled=Down quotes=8 fills=2 net=+400sh pnl=-312.20USDC adv_sel=-0.7805 cert=2/2
+[13:13:03Z] HEARTBEAT twap=84418.5 feed_age=1s rounds_tracked=6

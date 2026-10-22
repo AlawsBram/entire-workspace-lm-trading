@@ -1,0 +1,662 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ══════════════════════════════════════════════════════════════
+   PolyWeather — Unified Design Token System
+   ══════════════════════════════════════════════════════════════ */
+
+@layer base {
+  :root {
+    /* ── Background Scale ── */
+    --color-bg-base: #f4f7fb;
+    --color-bg-raised: #ffffff;
+    --color-bg-overlay: #ffffff;
+    --color-bg-card: rgba(255, 255, 255, 0.95);
+    --color-bg-input: rgba(241, 245, 249, 0.88);
+
+    /* ── Text Scale ── */
+    --color-text-primary: #0F172A;
+    --color-text-secondary: #334155;
+    --color-text-muted: #475569;
+    --color-text-disabled: #94A3B8;
+
+    /* ── Accent Colors ── */
+    --color-accent-primary: #2563EB;
+    --color-accent-secondary: #3B82F6;
+    --color-accent-tertiary: #60A5FA;
+
+    /* ── Signal / Semantic Colors ── */
+    --color-signal-success: #00897b;
+    --color-signal-warning: #d97706;
+    --color-signal-danger: #dc2626;
+    --color-signal-info: #2563eb;
+
+    /* ── Risk Colors (aliased from signal) ── */
+    --color-risk-high: var(--color-signal-danger);
+    --color-risk-medium: var(--color-signal-warning);
+    --color-risk-low: var(--color-signal-success);
+
+    /* ── Border ── */
+    --color-border-default: #d8e0ec;
+    --color-border-hover: #b8c4d6;
+    --color-border-subtle: #e8edf5;
+
+    /* ── Shadow / Elevation ── */
+    --shadow-elevation-1: 0 1px 3px rgba(15, 23, 42, 0.05);
+    --shadow-elevation-2: 0 8px 24px rgba(15, 23, 42, 0.06);
+    --shadow-elevation-3: 0 20px 60px rgba(15, 23, 42, 0.08);
+    --shadow-glow-accent: 0 0 20px rgba(37, 99, 235, 0.08);
+    --shadow-glow-secondary: 0 0 20px rgba(96, 165, 250, 0.08);
+
+    /* ── Typography ── */
+    --font-data: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-display: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono: var(--font-jetbrains-mono), "Fira Code", "SF Mono", monospace;
+
+    /* ── Spacing (4px grid) ── */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+
+    /* ── Border Radius ── */
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 10px;
+    --radius-xl: 14px;
+    --radius-full: 9999px;
+
+    /* ── Glass / Blur ── */
+    --glass-blur-1: blur(10px);
+    --glass-blur-2: blur(16px);
+    --glass-blur-3: blur(24px);
+    --glass-opacity-1: 0.86;
+    --glass-opacity-2: 0.92;
+    --glass-opacity-3: 0.96;
+
+    /* ── Layout ── */
+    --header-height: 52px;
+    --sidebar-width: 260px;
+    --panel-width: 560px;
+
+    /* ── Motion ── */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+    --transition: var(--transition-base);
+
+    /* ── Legacy Variable Aliases ── */
+    --accent-cyan:    var(--color-accent-primary);
+    --accent-blue:    var(--color-accent-secondary);
+    --accent-green:   var(--color-signal-success);
+    --bg-primary:     var(--color-bg-base);
+    --bg-secondary:   var(--color-bg-raised);
+    --bg-card:        var(--color-bg-card);
+    --bg-glass:       var(--color-bg-card);
+    --border-glass:   var(--color-border-default);
+    --border-subtle:  var(--color-border-subtle);
+    --text-primary:   var(--color-text-primary);
+    --text-secondary: var(--color-text-secondary);
+    --text-muted:     var(--color-text-muted);
+    --risk-high:      var(--color-risk-high);
+    --risk-medium:    var(--color-risk-medium);
+    --risk-low:       var(--color-risk-low);
+    --shadow-lg:      var(--shadow-elevation-2);
+    --glass-blur:     10px;
+
+    /* ── shadcn/ui Tokens ── */
+    --background: 210 40% 98%;
+    --foreground: 222 47% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 12%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 12%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 12%;
+    --border: 214 32% 91%;
+  }
+
+  /* ── Monospaced numbers & data globally for professional feel ── */
+  .font-mono,
+  .nearby-temp,
+  .nearby-wind,
+  .nearby-time,
+  .nearby-marker,
+  .marker-bubble,
+  .map-pill,
+  [class*="temp"],
+  [class*="value"],
+  [class*="price"],
+  [class*="number"],
+  [class*="stat"],
+  [class*="score"],
+  [class*="time-"] {
+    font-family: var(--font-mono) !important;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  /* ── Skip-to-content link ── */
+  .skip-to-content {
+    position: absolute;
+    top: -100%;
+    left: 8px;
+    z-index: 9999;
+    padding: 10px 18px;
+    border-radius: var(--radius-md);
+    background: var(--color-accent-primary);
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+    transition: top 0.18s ease;
+  }
+
+  .skip-to-content:focus {
+    top: 8px;
+  }
+
+  /* ── Global focus-visible ring (keyboard navigation) ── */
+  :focus-visible {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  body {
+    font-family: var(--font-data);
+    font-size: 15px;
+    background: var(--color-bg-base);
+    color: var(--color-text-primary);
+  }
+
+  /* Global font-size bump for data-dense terminal panels */
+  .text-\[9px\] { font-size: 10px; }
+  .text-\[10px\] { font-size: 11px; }
+  .text-\[11px\] { font-size: 12px; }
+  .text-xs { font-size: 0.8rem; line-height: 1.35rem; }
+  .text-sm { font-size: 0.9rem; line-height: 1.45rem; }
+  table { font-size: inherit; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Map Components (Leaflet overrides + map markers)
+   ══════════════════════════════════════════════════════════════ */
+
+@layer components {
+  .leaflet-container {
+    width: 100%;
+    height: 100%;
+    font-family: inherit;
+  }
+
+  .leaflet-control-zoom a {
+    background: rgba(8, 12, 20, 0.85) !important;
+    border-color: var(--color-border-default) !important;
+    color: var(--color-text-primary) !important;
+  }
+
+  .leaflet-control-zoom a:hover {
+    background: rgba(13, 19, 33, 0.95) !important;
+    border-color: var(--color-border-hover) !important;
+  }
+
+  /* ── Map Pill (temperature labels on map) ── */
+  .map-pill {
+    min-width: 52px;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 5px 10px;
+    color: var(--color-text-primary);
+    font-size: 11px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    backdrop-filter: var(--glass-blur-1);
+    box-shadow:
+      0 2px 14px rgba(2, 6, 23, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  .map-pill.high {
+    background: linear-gradient(135deg, var(--color-signal-danger), #b91c1c);
+  }
+
+  .map-pill.medium {
+    background: linear-gradient(135deg, var(--color-signal-warning), #b45309);
+  }
+
+  .map-pill.low {
+    background: linear-gradient(135deg, #22C55E, #047857);
+  }
+
+  .map-pill.active {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow:
+      0 8px 24px rgba(0, 224, 164, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  }
+
+  /* ── Glass utility ── */
+  .glass {
+    background: linear-gradient(
+      180deg,
+      rgba(13, 19, 33, 0.88) 0%,
+      rgba(8, 12, 20, 0.75) 100%
+    );
+    backdrop-filter: var(--glass-blur-1);
+  }
+
+  /* ── Fade-up entrance ── */
+  .fade-up {
+    animation: fadeUp 400ms var(--transition-slow);
+  }
+}
+
+@layer utilities {
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes pulse-pending {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+  }
+
+  @keyframes landingRise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes landingFloat {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    50% {
+      translate: 0 -10px;
+    }
+  }
+
+  @keyframes landingScan {
+    0% {
+      transform: translateY(-120%);
+      opacity: 0;
+    }
+    18%,
+    72% {
+      opacity: 0.48;
+    }
+    100% {
+      transform: translateY(120%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes landingPulseDot {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.22);
+      transform: scale(1);
+    }
+    50% {
+      box-shadow: 0 0 0 7px rgba(37, 99, 235, 0);
+      transform: scale(1.08);
+    }
+  }
+
+  .landing-rise {
+    opacity: 0;
+    animation: landingRise 720ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .landing-delay-1 {
+    animation-delay: 100ms;
+  }
+
+  .landing-delay-2 {
+    animation-delay: 190ms;
+  }
+
+  .landing-delay-3 {
+    animation-delay: 280ms;
+  }
+
+  .landing-float {
+    animation: landingFloat 7s ease-in-out infinite;
+  }
+
+  .landing-float-slow {
+    animation: landingFloat 9s ease-in-out infinite;
+  }
+
+  .landing-hover-lift {
+    transition:
+      transform 220ms ease,
+      border-color 220ms ease,
+      box-shadow 220ms ease;
+  }
+
+  .landing-hover-lift:hover {
+    transform: translateY(-4px);
+    border-color: rgba(148, 163, 184, 0.78);
+    box-shadow: 0 18px 44px rgba(15, 23, 42, 0.1);
+  }
+
+  .landing-screen-glow {
+    position: relative;
+  }
+
+  .landing-screen-glow::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 44px 8px 8px;
+    border-radius: 6px;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(37, 99, 235, 0.12) 48%,
+      transparent 100%
+    );
+    mix-blend-mode: multiply;
+    opacity: 0;
+    animation: landingScan 5.6s ease-in-out infinite;
+  }
+
+  .landing-pulse-dot {
+    animation: landingPulseDot 2.6s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .landing-rise,
+    .landing-float,
+    .landing-float-slow,
+    .landing-screen-glow::after,
+    .landing-pulse-dot {
+      opacity: 1;
+      animation: none;
+    }
+
+    .landing-hover-lift,
+    .landing-hover-lift:hover {
+      transform: none;
+    }
+  }
+}
+
+/* ── Reduced motion: disable all animations and transitions ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Extreme temperature emphasis ── */
+.temp-extreme-hot {
+  color: #f97316;
+  text-shadow: 0 0 12px rgba(249, 115, 22, 0.35);
+}
+
+.temp-extreme-cold {
+  color: #38bdf8;
+  text-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Map Marker Components (nearby stations, city bubbles)
+   ══════════════════════════════════════════════════════════════ */
+
+@layer components {
+  .nearby-marker {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: rgba(13, 19, 33, 0.9);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-1) var(--space-3);
+    font-size: 11px;
+    font-weight: 600;
+    box-shadow: var(--shadow-elevation-2);
+    backdrop-filter: var(--glass-blur-1);
+    white-space: nowrap;
+  }
+
+  .nearby-name {
+    color: var(--color-text-secondary);
+  }
+
+  .nearby-temp {
+    color: #fff;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .nearby-unit {
+    color: var(--color-text-muted);
+    font-size: 9px;
+  }
+
+  .wind-info {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-left: var(--space-1);
+    padding-left: var(--space-2);
+    border-left: 1px solid var(--color-border-subtle);
+    color: var(--color-accent-primary);
+    font-size: 10px;
+    opacity: 0.9;
+  }
+
+  .wind-arrow {
+    display: inline-block;
+    transform-origin: center;
+  }
+
+  /* ── City Marker (bubble on map) ── */
+  .city-marker {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .marker-bubble {
+    position: relative;
+    min-width: 46px;
+    padding: 5px 10px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+    color: white;
+    border: 1px solid transparent;
+    box-shadow: var(--shadow-elevation-2);
+  }
+
+  .marker-bubble::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid transparent;
+  }
+
+  .marker-bubble.risk-high {
+    background: linear-gradient(135deg, #dc2626, var(--color-signal-danger));
+    border-color: rgba(239, 68, 68, 0.5);
+  }
+
+  .marker-bubble.risk-high::after {
+    border-top-color: var(--color-signal-danger);
+  }
+
+  .marker-bubble.risk-medium {
+    background: linear-gradient(135deg, #d97706, var(--color-signal-warning));
+    border-color: rgba(245, 158, 11, 0.5);
+  }
+
+  .marker-bubble.risk-medium::after {
+    border-top-color: var(--color-signal-warning);
+  }
+
+  .marker-bubble.risk-low {
+    background: linear-gradient(135deg, #059669, #22C55E);
+    border-color: rgba(16, 185, 129, 0.5);
+  }
+
+  .marker-bubble.risk-low::after {
+    border-top-color: #22C55E;
+  }
+
+  .marker-name {
+    margin-top: var(--space-2);
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.88);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  }
+
+  .city-marker.selected .marker-bubble {
+    animation: markerGlow 2s ease-in-out infinite;
+  }
+
+  .peak-glow-card {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .peak-glow-card::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    border-radius: inherit;
+  }
+
+  .peak-glow-watch::after {
+    box-shadow:
+      inset 0 0 0 1px rgba(245, 158, 11, 0.42),
+      inset 0 0 18px rgba(245, 158, 11, 0.12);
+  }
+
+  .peak-glow-near::after {
+    animation: peakGlowNear 3.2s ease-in-out infinite;
+  }
+
+  .peak-glow-breakout::after {
+    animation: peakGlowBreakout 2.4s ease-in-out infinite;
+  }
+
+  .peak-glow-cooling::after {
+    box-shadow:
+      inset 0 0 0 1px rgba(100, 116, 139, 0.38),
+      inset 0 0 18px rgba(148, 163, 184, 0.16);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .peak-glow-near::after,
+    .peak-glow-breakout::after {
+      animation: none;
+    }
+  }
+
+  /* ── Scrollbar ── */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(123, 97, 255, 0.2);
+    border-radius: var(--radius-full);
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(123, 97, 255, 0.35);
+  }
+}
+
+@keyframes markerGlow {
+  0%,
+  100% {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 10px 26px rgba(0, 224, 164, 0.3);
+  }
+}
+
+@keyframes peakGlowNear {
+  0%,
+  100% {
+    box-shadow:
+      inset 0 0 0 1px rgba(249, 115, 22, 0.48),
+      inset 0 0 18px rgba(249, 115, 22, 0.12),
+      0 0 0 rgba(249, 115, 22, 0);
+  }
+  50% {
+    box-shadow:
+      inset 0 0 0 1px rgba(249, 115, 22, 0.7),
+      inset 0 0 28px rgba(249, 115, 22, 0.22),
+      0 0 22px rgba(249, 115, 22, 0.18);
+  }
+}
+
+@keyframes peakGlowBreakout {
+  0%,
+  100% {
+    box-shadow:
+      inset 0 0 0 1px rgba(244, 63, 94, 0.54),
+      inset 0 0 22px rgba(244, 63, 94, 0.16),
+      0 0 0 rgba(244, 63, 94, 0);
+  }
+  50% {
+    box-shadow:
+      inset 0 0 0 1px rgba(244, 63, 94, 0.78),
+      inset 0 0 32px rgba(244, 63, 94, 0.26),
+      0 0 24px rgba(244, 63, 94, 0.2);
+  }
+}

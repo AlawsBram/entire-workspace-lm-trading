@@ -1,0 +1,23 @@
+{
+ "AMP_diagnostics_4572e28e5c": {
+  "counters": 0,
+  "events": 0,
+  "histograms": 0,
+  "internal": 1,
+  "tags": 0
+ },
+ "MagicAuthLocalStorageDB": {
+  "MagicAuthLocalStorage": 2,
+  "local-forage-detect-blob-support": 0
+ },
+ "WALLET_CONNECT_V2_INDEXED_DB": {
+  "keyvaluestorage": 1
+ },
+ "mmconnect-kv-store": {
+  "key-value-pairs": 0,
+  "sdk-kv-store": 1
+ },
+ "sunbreak-kv": {
+  "kv": 5
+ }
+}

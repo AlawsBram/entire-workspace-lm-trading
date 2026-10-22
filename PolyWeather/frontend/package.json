@@ -1,0 +1,42 @@
+{
+  "name": "polyweather-frontend",
+  "version": "1.9.1",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/sync-next-server-chunks.mjs --clean-root && next dev",
+    "build": "next build && node scripts/sync-next-server-chunks.mjs",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test:business": "node scripts/run-business-state-tests.mjs"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.1.2",
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.57.2",
+    "@walletconnect/ethereum-provider": "^2.23.8",
+    "chart.js": "^4.5.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.511.0",
+    "next": "16.3.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "recharts": "^3.8.1",
+    "tailwind-merge": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@types/trusted-types": "^2.0.7",
+    "autoprefixer": "^10.4.20",
+    "playwright": "^1.59.1",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.3"
+  },
+  "overrides": {
+    "axios": "1.19.0"
+  }
+}
